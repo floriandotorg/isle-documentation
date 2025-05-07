@@ -1,0 +1,26 @@
+/**
+ * @mainpage Isle Decompilation Documentation
+ * 
+ * @section overview Overview
+ * 
+ * This is a functionally complete decompilation of the construction block game Isle (Version 1.1, English).
+ * It aims to be as accurate as possible, matching the recompiled instructions to the original machine code.
+ * The goal is to provide a workable codebase that can be modified, improved, and ported to other platforms.
+ * 
+ * Both `ISLE.EXE` and `LEGO1.DLL` are completely decompiled and are functionally identical to the originals.
+ * Work is ongoing to improve the accuracy, naming, documentation, and structure of the source code.
+ * 
+ * @section navigation Documentation Navigation
+ * 
+ * - <a href="annotated.html">Class List</a>: Browse all classes in the codebase
+ * - <a href="files.html">File List</a>: Browse source files
+ * - <a href="namespacemembers.html">Namespace Members</a>: All documented namespace members
+ * - <a href="functions.html">Class Members</a>: All documented class members
+ * 
+ * @section building Building
+ * 
+ * This project uses the CMake build system. For the most accurate results,
+ * Microsoft Visual C++ 4.20 (the same compiler used to build the original game) is recommended.
+ * 
+ * Refer to the README.md file for detailed build instructions.
+ */ 
