@@ -3,200 +3,235 @@
 #ifndef COPTER_ACTIONS_H
 #define COPTER_ACTIONS_H
 
+/// @namespace CopterScript
+/// @brief [AI] Namespace containing script identifiers for helicopter/copter-related game actions and resources. These enums map to script/action ids in script or SI files used to control game logic and assets (bitmaps, sounds, animations).
+/// @details [AI] Each enumerator in the Script enum represents a distinct resource, logic controller, animation, state, or bitmap asset corresponding to elements of the helicopter/copter gameplay—such as actor logic, user controls, visual assets for user interface, in-game states, effects, sound triggers, animation states, and more.
+/// Most identifiers correspond to a resource or triggerable action, frequently referenced when executing scripted copter activities or UI updates.
+/// Negative value is reserved for an invalid or uninitialized state.
+/// Non-contiguous values may reflect logical grouping or reserved ranges.
+///
 namespace CopterScript
 {
 #if __cplusplus >= 201103L
+
+/// @enum Script
+/// @brief [AI] Unique integer identifiers for all helicopter/copter scriptable resources, actions, UI controls, sounds, bitmap and animation resources available in the copter subsystem of the game.
+/// @details [AI] Used by the scripting/logic engine to associate script actions, interface elements, animation triggers, and asset lookups to numeric IDs for performance and data lookup.
+///
 enum Script : int {
 #else
+
+/// @enum Script
+/// @brief [AI] Unique integer identifiers for all helicopter/copter scriptable resources, actions, UI controls, sounds, bitmap and animation resources available in the copter subsystem of the game.
+/// @details [AI] Used by the scripting/logic engine to associate script actions, interface elements, animation triggers, and asset lookups to numeric IDs for performance and data lookup.
+///
 enum Script {
 #endif
-	c_noneCopter = -1,
+	c_noneCopter = -1,        ///< [AI] Indicates no action/resource; special marker for unassigned or invalid script id.
 
-	c__StartUp = 0,
-	c_Helicopter_Actor = 1,
+	c__StartUp = 0,           ///< [AI] Start-up/initialization logic for the copter script context.
+	c_Helicopter_Actor = 1,   ///< [AI] Main helicopter actor logic entry/action.
 
-	c_Info_Ctl = 5,
-	c_Exit_Ctl = 6,
-	c_ShelfUp_Ctl = 7,
-	c_Platform_Ctl = 8,
+	// UI and control script sections (Actors/Control)
+	c_Info_Ctl = 5,           ///< [AI] "Info" button or UI control handler for the copter UI.
+	c_Exit_Ctl = 6,           ///< [AI] "Exit" button or UI control handler.
+	c_ShelfUp_Ctl = 7,        ///< [AI] "Shelf up" UI control, possibly for toggling/animating a shelf.
+	c_Platform_Ctl = 8,       ///< [AI] "Platform" control - possibly for animation/location logic.
 
-	c_Background = 64,
-	c_ColorBook_Bitmap = 65,
-	c_ShelfUp_Up = 66,
-	c_ShelfUp_Up_Bitmap = 67,
-	c_ShelfUp_Down = 68,
-	c_ShelfUp_Down_Bitmap = 69,
-	c_PlatformUp_Bitmap = 70,
-	c_PlatformLeft = 71,
-	c_PlatformLeft_Bitmap = 72,
-	c_Rotate_Sound = 73,
-	c_Yellow_Ctl = 74,
-	c_Yellow_Up_Bitmap = 75,
-	c_Yellow_Down_Bitmap = 76,
-	c_Red_Ctl = 77,
-	c_Red_Up_Bitmap = 78,
-	c_Red_Down_Bitmap = 79,
-	c_Blue_Ctl = 80,
-	c_Blue_Up_Bitmap = 81,
-	c_Blue_Down_Bitmap = 82,
-	c_Green_Ctl = 83,
-	c_Green_Up_Bitmap = 84,
-	c_Green_Down_Bitmap = 85,
-	c_Gray_Ctl = 86,
-	c_Gray_Up_Bitmap = 87,
-	c_Gray_Down_Bitmap = 88,
-	c_Black_Ctl = 89,
-	c_Black_Up_Bitmap = 90,
-	c_Black_Down_Bitmap = 91,
-	c_Decals_Ctl = 92,
-	c_CHWIND_State_0 = 93,
-	c_CHWIND_State_0_Bitmap = 94,
-	c_CHWIND_State_1 = 95,
-	c_CHWIND_State_1_Bitmap = 96,
-	c_CHWIND_Texture_1 = 97,
-	c_CHWIND_State_3 = 98,
-	c_CHWIND_State_3_Bitmap = 99,
-	c_CHWIND_Texture_3 = 100,
-	c_CHWIND_State_2 = 101,
-	c_CHWIND_State_2_Bitmap = 102,
-	c_CHWIND_Texture_2 = 103,
-	c_CHWIND_State_4 = 104,
-	c_CHWIND_State_4_Bitmap = 105,
-	c_CHWIND_Texture_4 = 106,
-	c_Decals_Ctl1 = 107,
-	c_CHJETL_State_0 = 108,
-	c_CHJETL_State_0_Bitmap = 109,
-	c_CHJETL_State_1 = 110,
-	c_CHJETL_State_1_Bitmap = 111,
-	c_CHJETL_Texture_1 = 112,
-	c_CHJETL_State_3 = 113,
-	c_CHJETL_State_3_Bitmap = 114,
-	c_CHJETL_Texture_3 = 115,
-	c_CHJETL_State_2 = 116,
-	c_CHJETL_State_2_Bitmap = 117,
-	c_CHJETL_Texture_2 = 118,
-	c_CHJETL_State_4 = 119,
-	c_CHJETL_State_4_Bitmap = 120,
-	c_CHJETL_Texture_4 = 121,
-	c_Decals_Ctl2 = 122,
-	c_CHJETR_State_0 = 123,
-	c_CHJETR_State_0_Bitmap = 124,
-	c_CHJETR_State_1 = 125,
-	c_CHJETR_State_1_Bitmap = 126,
-	c_CHJETR_Texture_1 = 127,
-	c_CHJETR_State_3 = 128,
-	c_CHJETR_State_3_Bitmap = 129,
-	c_CHJETR_Texture_3 = 130,
-	c_CHJETR_State_2 = 131,
-	c_CHJETR_State_2_Bitmap = 132,
-	c_CHJETR_Texture_2 = 133,
-	c_CHJETR_State_4 = 134,
-	c_CHJETR_State_4_Bitmap = 135,
-	c_CHJETR_Texture_4 = 136,
-	c_Info_Up_Bitmap = 137,
-	c_Info_Down_Bitmap = 138,
-	c_Exit_Up_Bitmap = 139,
-	c_Exit_Down_Bitmap = 140,
-	c_Shelf_Sound = 141,
-	c_PlaceBrick_Sound = 142,
-	c_GetBrick_Sound = 143,
-	c_Paint_Sound = 144,
-	c_Decal_Sound = 145,
-	c_Build_Animation = 146,
-	c_Build_Anim0 = 147,
-	c_Build_Anim1 = 148,
-	c_Build_Anim2 = 149,
-	c_Chptr_Model = 150,
-	c_IPS001D2_Wav_500 = 151,
-	c_IPS001D2_Pho_500 = 152,
-	c_ips001d2_0_sfx = 153,
-	c_ips001d2_1_sfx = 154,
-	c_ips001d2_2_sfx = 155,
-	c_ips001d2_3_sfx = 156,
-	c_ips001d2_4_sfx = 157,
-	c_ips001d2_5_sfx = 158,
-	c_ips001d2_6_sfx = 159,
-	c_ips001d2_7_sfx = 160,
-	c_ips001d2_8_sfx = 161,
-	c_ips001d2_9_sfx = 162,
-	c_ips001d2_10_sfx = 163,
-	c_ips001d2_11_sfx = 164,
-	c_ips001d2_12_sfx = 165,
-	c_ips001d2_13_sfx = 166,
-	c_ips001d2_14_sfx = 167,
-	c_ips001d2_15_sfx = 168,
-	c_ips001d2_16_sfx = 169,
-	c_ips001d2_17_sfx = 170,
-	c_ips001d2_18_sfx = 171,
-	c_ips001d2_Anim = 172,
-	c_IPSxx1D2_Wav_501 = 173,
-	c_IPSxx1D2_Pho_501 = 174,
-	c_ipsxx1d2_0_sfx = 175,
-	c_ipsxx1d2_1_sfx = 176,
-	c_ipsxx1d2_2_sfx = 177,
-	c_ipsxx1d2_3_sfx = 178,
-	c_ipsxx1d2_Anim = 179,
-	c_IPS002D2_Wav_502 = 180,
-	c_IPS002D2_Pho_502 = 181,
-	c_ips002d2_0_sfx = 182,
-	c_ips002d2_1_sfx = 183,
-	c_ips002d2_2_sfx = 184,
-	c_ips002d2_3_sfx = 185,
-	c_ips002d2_Anim = 186,
-	c_IPS003D2_Wav_503 = 187,
-	c_IPS003D2_Pho_503 = 188,
-	c_ips003d2_0_sfx = 189,
-	c_ips003d2_1_sfx = 190,
-	c_ips003d2_2_sfx = 191,
-	c_ips003d2_3_sfx = 192,
-	c_ips003d2_4_sfx = 193,
-	c_ips003d2_5_sfx = 194,
-	c_ips003d2_Anim = 195,
-	c_IPS004D2_Wav_504 = 196,
-	c_IPS004D2_Pho_504 = 197,
-	c_ips004d2_0_sfx = 198,
-	c_ips004d2_1_sfx = 199,
-	c_ips004d2_2_sfx = 200,
-	c_ips004d2_3_sfx = 201,
-	c_ips004d2_4_sfx = 202,
-	c_ips004d2_Anim = 203,
-	c_IPS005D2_Wav_505 = 204,
-	c_IPS005D2_Pho_505 = 205,
-	c_ips005d2_0_sfx = 206,
-	c_ips005d2_1_sfx = 207,
-	c_ips005d2_2_sfx = 208,
-	c_ips005d2_3_sfx = 209,
-	c_ips005d2_4_sfx = 210,
-	c_ips005d2_5_sfx = 211,
-	c_ips005d2_6_sfx = 212,
-	c_ips005d2_7_sfx = 213,
-	c_ips005d2_Anim = 214,
-	c_IPS006D2_Wav_506 = 215,
-	c_IPS006D2_Pho_506 = 216,
-	c_ips006d2_0_sfx = 217,
-	c_ips006d2_1_sfx = 218,
-	c_ips006d2_2_sfx = 219,
-	c_ips006d2_3_sfx = 220,
-	c_ips006d2_4_sfx = 221,
-	c_ips006d2_5_sfx = 222,
-	c_ips006d2_Anim = 223,
-	c_SLP01XD2_Wav_507 = 224,
-	c_SLP01XD2_Pho_507 = 225,
-	c_slp01xd2_0_sfx = 226,
-	c_slp01xd2_1_sfx = 227,
-	c_slp01xd2_2_sfx = 228,
-	c_slp01xd2_3_sfx = 229,
-	c_slp01xd2_Anim = 230,
+	// Resource IDs for visuals, sound, and logic below (grouped logically by feature)
+	c_Background = 64,        ///< [AI] Background bitmap or scene asset.
+	c_ColorBook_Bitmap = 65,  ///< [AI] Bitmap resource for a color selection book or palette UI.
+	c_ShelfUp_Up = 66,        ///< [AI] State/action for "shelf up".
+	c_ShelfUp_Up_Bitmap = 67, ///< [AI] Bitmap for the "shelf up" visual.
+	c_ShelfUp_Down = 68,      ///< [AI] State/action for "shelf down".
+	c_ShelfUp_Down_Bitmap = 69, ///< [AI] Bitmap for the "shelf down" visual.
+	c_PlatformUp_Bitmap = 70, ///< [AI] Bitmap for platform up visual element.
+	c_PlatformLeft = 71,      ///< [AI] State/action for left platform.
+	c_PlatformLeft_Bitmap = 72, ///< [AI] Bitmap for the left platform visual.
+	c_Rotate_Sound = 73,      ///< [AI] Sound resource for rotate action.
+	c_Yellow_Ctl = 74,        ///< [AI] "Yellow" color selection control.
+	c_Yellow_Up_Bitmap = 75,  ///< [AI] Bitmap for "yellow" up control visual.
+	c_Yellow_Down_Bitmap = 76,///< [AI] Bitmap for "yellow" down control visual.
+	c_Red_Ctl = 77,           ///< [AI] "Red" color selection control.
+	c_Red_Up_Bitmap = 78,     ///< [AI] Bitmap for "red" up control visual.
+	c_Red_Down_Bitmap = 79,   ///< [AI] Bitmap for "red" down control visual.
+	c_Blue_Ctl = 80,          ///< [AI] "Blue" color selection control.
+	c_Blue_Up_Bitmap = 81,    ///< [AI] Bitmap for "blue" up control visual.
+	c_Blue_Down_Bitmap = 82,  ///< [AI] Bitmap for "blue" down control visual.
+	c_Green_Ctl = 83,         ///< [AI] "Green" color selection control.
+	c_Green_Up_Bitmap = 84,   ///< [AI] Bitmap for "green" up control visual.
+	c_Green_Down_Bitmap = 85, ///< [AI] Bitmap for "green" down control visual.
+	c_Gray_Ctl = 86,          ///< [AI] "Gray" color selection control.
+	c_Gray_Up_Bitmap = 87,    ///< [AI] Bitmap for "gray" up control visual.
+	c_Gray_Down_Bitmap = 88,  ///< [AI] Bitmap for "gray" down control visual.
+	c_Black_Ctl = 89,         ///< [AI] "Black" color selection control.
+	c_Black_Up_Bitmap = 90,   ///< [AI] Bitmap for "black" up control visual.
+	c_Black_Down_Bitmap = 91, ///< [AI] Bitmap for "black" down control visual.
+	c_Decals_Ctl = 92,        ///< [AI] "Decals" UI control handler.
+	c_CHWIND_State_0 = 93,    ///< [AI] CHWIND actor state 0 (possibly wind-related animation state).
+	c_CHWIND_State_0_Bitmap = 94, ///< [AI] Bitmap for CHWIND state 0.
+	c_CHWIND_State_1 = 95,    ///< [AI] CHWIND actor state 1.
+	c_CHWIND_State_1_Bitmap = 96, ///< [AI] Bitmap for CHWIND state 1.
+	c_CHWIND_Texture_1 = 97,  ///< [AI] Texture for CHWIND state 1.
+	c_CHWIND_State_3 = 98,    ///< [AI] CHWIND actor state 3.
+	c_CHWIND_State_3_Bitmap = 99, ///< [AI] Bitmap for CHWIND state 3.
+	c_CHWIND_Texture_3 = 100, ///< [AI] Texture for CHWIND state 3.
+	c_CHWIND_State_2 = 101,   ///< [AI] CHWIND actor state 2.
+	c_CHWIND_State_2_Bitmap = 102, ///< [AI] Bitmap for CHWIND state 2.
+	c_CHWIND_Texture_2 = 103, ///< [AI] Texture for CHWIND state 2.
+	c_CHWIND_State_4 = 104,   ///< [AI] CHWIND actor state 4.
+	c_CHWIND_State_4_Bitmap = 105, ///< [AI] Bitmap for CHWIND state 4.
+	c_CHWIND_Texture_4 = 106, ///< [AI] Texture for CHWIND state 4.
 
-	c_ips001d2_RunAnim = 500,
-	c_ipsxx1d2_RunAnim = 501,
-	c_ips002d2_RunAnim = 502,
-	c_ips003d2_RunAnim = 503,
-	c_ips004d2_RunAnim = 504,
-	c_ips005d2_RunAnim = 505,
-	c_ips006d2_RunAnim = 506,
-	c_slp01xd2_RunAnim = 507
+	c_Decals_Ctl1 = 107,      ///< [AI] "Decals" UI control variant 1.
+	// Jet left animation/states
+	c_CHJETL_State_0 = 108,   ///< [AI] CHJETL (jet left) state 0.
+	c_CHJETL_State_0_Bitmap = 109, ///< [AI] Bitmap for CHJETL state 0.
+	c_CHJETL_State_1 = 110,   ///< [AI] CHJETL state 1.
+	c_CHJETL_State_1_Bitmap = 111, ///< [AI] Bitmap for CHJETL state 1.
+	c_CHJETL_Texture_1 = 112, ///< [AI] Texture for CHJETL state 1.
+	c_CHJETL_State_3 = 113,   ///< [AI] CHJETL state 3.
+	c_CHJETL_State_3_Bitmap = 114, ///< [AI] Bitmap for CHJETL state 3.
+	c_CHJETL_Texture_3 = 115, ///< [AI] Texture for CHJETL state 3.
+	c_CHJETL_State_2 = 116,   ///< [AI] CHJETL state 2.
+	c_CHJETL_State_2_Bitmap = 117, ///< [AI] Bitmap for CHJETL state 2.
+	c_CHJETL_Texture_2 = 118, ///< [AI] Texture for CHJETL state 2.
+	c_CHJETL_State_4 = 119,   ///< [AI] CHJETL state 4.
+	c_CHJETL_State_4_Bitmap = 120, ///< [AI] Bitmap for CHJETL state 4.
+	c_CHJETL_Texture_4 = 121, ///< [AI] Texture for CHJETL state 4.
+
+	c_Decals_Ctl2 = 122,      ///< [AI] "Decals" UI control variant 2.
+	// Jet right animation/states
+	c_CHJETR_State_0 = 123,   ///< [AI] CHJETR (jet right) state 0.
+	c_CHJETR_State_0_Bitmap = 124, ///< [AI] Bitmap for CHJETR state 0.
+	c_CHJETR_State_1 = 125,   ///< [AI] CHJETR state 1.
+	c_CHJETR_State_1_Bitmap = 126, ///< [AI] Bitmap for CHJETR state 1.
+	c_CHJETR_Texture_1 = 127, ///< [AI] Texture for CHJETR state 1.
+	c_CHJETR_State_3 = 128,   ///< [AI] CHJETR state 3.
+	c_CHJETR_State_3_Bitmap = 129, ///< [AI] Bitmap for CHJETR state 3.
+	c_CHJETR_Texture_3 = 130, ///< [AI] Texture for CHJETR state 3.
+	c_CHJETR_State_2 = 131,   ///< [AI] CHJETR state 2.
+	c_CHJETR_State_2_Bitmap = 132, ///< [AI] Bitmap for CHJETR state 2.
+	c_CHJETR_Texture_2 = 133, ///< [AI] Texture for CHJETR state 2.
+	c_CHJETR_State_4 = 134,   ///< [AI] CHJETR state 4.
+	c_CHJETR_State_4_Bitmap = 135, ///< [AI] Bitmap for CHJETR state 4.
+	c_CHJETR_Texture_4 = 136, ///< [AI] Texture for CHJETR state 4.
+
+	// Misc UI/Info/Exit bitmaps
+	c_Info_Up_Bitmap = 137,   ///< [AI] Bitmap for info button "up" visual state.
+	c_Info_Down_Bitmap = 138, ///< [AI] Bitmap for info button "down" visual state.
+	c_Exit_Up_Bitmap = 139,   ///< [AI] Bitmap for exit button "up" visual state.
+	c_Exit_Down_Bitmap = 140, ///< [AI] Bitmap for exit button "down" visual state.
+
+	// Sound and animation triggers
+	c_Shelf_Sound = 141,      ///< [AI] Sound for shelf movement/interaction.
+	c_PlaceBrick_Sound = 142, ///< [AI] Sound for placing a brick.
+	c_GetBrick_Sound = 143,   ///< [AI] Sound for getting/picking up a brick.
+	c_Paint_Sound = 144,      ///< [AI] Sound for painting action.
+	c_Decal_Sound = 145,      ///< [AI] Sound for decal placement/action.
+	c_Build_Animation = 146,  ///< [AI] Animation resource for building.
+	c_Build_Anim0 = 147,      ///< [AI] Build animation variation 0.
+	c_Build_Anim1 = 148,      ///< [AI] Build animation variation 1.
+	c_Build_Anim2 = 149,      ///< [AI] Build animation variation 2.
+
+	// Helicopter asset/model reference
+	c_Chptr_Model = 150,      ///< [AI] Model or resource for main helicopter object.
+
+	// A series of sequences (WAV, photo, sfx, animations) specific to copter scripts
+	c_IPS001D2_Wav_500 = 151,     ///< [AI] Sound resource IPS001D2, index 500.
+	c_IPS001D2_Pho_500 = 152,     ///< [AI] Photo/image resource IPS001D2, index 500.
+	c_ips001d2_0_sfx = 153,       ///< [AI] SFX/animation 0 for IPS001D2 sequence.
+	c_ips001d2_1_sfx = 154,       ///< [AI] SFX/animation 1 for IPS001D2 sequence.
+	c_ips001d2_2_sfx = 155,       ///< [AI] SFX/animation 2 for IPS001D2 sequence.
+	c_ips001d2_3_sfx = 156,       ///< [AI] SFX/animation 3 for IPS001D2 sequence.
+	c_ips001d2_4_sfx = 157,       ///< [AI] SFX/animation 4 for IPS001D2 sequence.
+	c_ips001d2_5_sfx = 158,       ///< [AI] SFX/animation 5 for IPS001D2 sequence.
+	c_ips001d2_6_sfx = 159,       ///< [AI] SFX/animation 6 for IPS001D2 sequence.
+	c_ips001d2_7_sfx = 160,       ///< [AI] SFX/animation 7 for IPS001D2 sequence.
+	c_ips001d2_8_sfx = 161,       ///< [AI] SFX/animation 8 for IPS001D2 sequence.
+	c_ips001d2_9_sfx = 162,       ///< [AI] SFX/animation 9 for IPS001D2 sequence.
+	c_ips001d2_10_sfx = 163,      ///< [AI] SFX/animation 10 for IPS001D2 sequence.
+	c_ips001d2_11_sfx = 164,      ///< [AI] SFX/animation 11 for IPS001D2 sequence.
+	c_ips001d2_12_sfx = 165,      ///< [AI] SFX/animation 12 for IPS001D2 sequence.
+	c_ips001d2_13_sfx = 166,      ///< [AI] SFX/animation 13 for IPS001D2 sequence.
+	c_ips001d2_14_sfx = 167,      ///< [AI] SFX/animation 14 for IPS001D2 sequence.
+	c_ips001d2_15_sfx = 168,      ///< [AI] SFX/animation 15 for IPS001D2 sequence.
+	c_ips001d2_16_sfx = 169,      ///< [AI] SFX/animation 16 for IPS001D2 sequence.
+	c_ips001d2_17_sfx = 170,      ///< [AI] SFX/animation 17 for IPS001D2 sequence.
+	c_ips001d2_18_sfx = 171,      ///< [AI] SFX/animation 18 for IPS001D2 sequence.
+	c_ips001d2_Anim = 172,        ///< [AI] Full animation resource for ips001d2 series.
+	c_IPSxx1D2_Wav_501 = 173,     ///< [AI] Sound resource IPSxx1D2, index 501.
+	c_IPSxx1D2_Pho_501 = 174,     ///< [AI] Photo/image resource IPSxx1D2, index 501.
+	c_ipsxx1d2_0_sfx = 175,       ///< [AI] SFX/animation 0 for IPSxx1D2 sequence.
+	c_ipsxx1d2_1_sfx = 176,       ///< [AI] SFX/animation 1 for IPSxx1D2 sequence.
+	c_ipsxx1d2_2_sfx = 177,       ///< [AI] SFX/animation 2 for IPSxx1D2 sequence.
+	c_ipsxx1d2_3_sfx = 178,       ///< [AI] SFX/animation 3 for IPSxx1D2 sequence.
+	c_ipsxx1d2_Anim = 179,        ///< [AI] Full animation resource for ipsxx1d2 series.
+	c_IPS002D2_Wav_502 = 180,     ///< [AI] Sound resource IPS002D2, index 502.
+	c_IPS002D2_Pho_502 = 181,     ///< [AI] Photo/image resource IPS002D2, index 502.
+	c_ips002d2_0_sfx = 182,       ///< [AI] SFX/animation 0 for IPS002D2 sequence.
+	c_ips002d2_1_sfx = 183,       ///< [AI] SFX/animation 1 for IPS002D2 sequence.
+	c_ips002d2_2_sfx = 184,       ///< [AI] SFX/animation 2 for IPS002D2 sequence.
+	c_ips002d2_3_sfx = 185,       ///< [AI] SFX/animation 3 for IPS002D2 sequence.
+	c_ips002d2_Anim = 186,        ///< [AI] Full animation resource for ips002d2 series.
+	c_IPS003D2_Wav_503 = 187,     ///< [AI] Sound resource IPS003D2, index 503.
+	c_IPS003D2_Pho_503 = 188,     ///< [AI] Photo/image resource IPS003D2, index 503.
+	c_ips003d2_0_sfx = 189,       ///< [AI] SFX/animation 0 for IPS003D2 sequence.
+	c_ips003d2_1_sfx = 190,       ///< [AI] SFX/animation 1 for IPS003D2 sequence.
+	c_ips003d2_2_sfx = 191,       ///< [AI] SFX/animation 2 for IPS003D2 sequence.
+	c_ips003d2_3_sfx = 192,       ///< [AI] SFX/animation 3 for IPS003D2 sequence.
+	c_ips003d2_4_sfx = 193,       ///< [AI] SFX/animation 4 for IPS003D2 sequence.
+	c_ips003d2_5_sfx = 194,       ///< [AI] SFX/animation 5 for IPS003D2 sequence.
+	c_ips003d2_Anim = 195,        ///< [AI] Full animation resource for ips003d2 series.
+	c_IPS004D2_Wav_504 = 196,     ///< [AI] Sound resource IPS004D2, index 504.
+	c_IPS004D2_Pho_504 = 197,     ///< [AI] Photo/image resource IPS004D2, index 504.
+	c_ips004d2_0_sfx = 198,       ///< [AI] SFX/animation 0 for IPS004D2 sequence.
+	c_ips004d2_1_sfx = 199,       ///< [AI] SFX/animation 1 for IPS004D2 sequence.
+	c_ips004d2_2_sfx = 200,       ///< [AI] SFX/animation 2 for IPS004D2 sequence.
+	c_ips004d2_3_sfx = 201,       ///< [AI] SFX/animation 3 for IPS004D2 sequence.
+	c_ips004d2_4_sfx = 202,       ///< [AI] SFX/animation 4 for IPS004D2 sequence.
+	c_ips004d2_Anim = 203,        ///< [AI] Full animation resource for ips004d2 series.
+	c_IPS005D2_Wav_505 = 204,     ///< [AI] Sound resource IPS005D2, index 505.
+	c_IPS005D2_Pho_505 = 205,     ///< [AI] Photo/image resource IPS005D2, index 505.
+	c_ips005d2_0_sfx = 206,       ///< [AI] SFX/animation 0 for IPS005D2 sequence.
+	c_ips005d2_1_sfx = 207,       ///< [AI] SFX/animation 1 for IPS005D2 sequence.
+	c_ips005d2_2_sfx = 208,       ///< [AI] SFX/animation 2 for IPS005D2 sequence.
+	c_ips005d2_3_sfx = 209,       ///< [AI] SFX/animation 3 for IPS005D2 sequence.
+	c_ips005d2_4_sfx = 210,       ///< [AI] SFX/animation 4 for IPS005D2 sequence.
+	c_ips005d2_5_sfx = 211,       ///< [AI] SFX/animation 5 for IPS005D2 sequence.
+	c_ips005d2_6_sfx = 212,       ///< [AI] SFX/animation 6 for IPS005D2 sequence.
+	c_ips005d2_7_sfx = 213,       ///< [AI] SFX/animation 7 for IPS005D2 sequence.
+	c_ips005d2_Anim = 214,        ///< [AI] Full animation resource for ips005d2 series.
+	c_IPS006D2_Wav_506 = 215,     ///< [AI] Sound resource IPS006D2, index 506.
+	c_IPS006D2_Pho_506 = 216,     ///< [AI] Photo/image resource IPS006D2, index 506.
+	c_ips006d2_0_sfx = 217,       ///< [AI] SFX/animation 0 for IPS006D2 sequence.
+	c_ips006d2_1_sfx = 218,       ///< [AI] SFX/animation 1 for IPS006D2 sequence.
+	c_ips006d2_2_sfx = 219,       ///< [AI] SFX/animation 2 for IPS006D2 sequence.
+	c_ips006d2_3_sfx = 220,       ///< [AI] SFX/animation 3 for IPS006D2 sequence.
+	c_ips006d2_4_sfx = 221,       ///< [AI] SFX/animation 4 for IPS006D2 sequence.
+	c_ips006d2_5_sfx = 222,       ///< [AI] SFX/animation 5 for IPS006D2 sequence.
+	c_ips006d2_Anim = 223,        ///< [AI] Full animation resource for ips006d2 series.
+
+	// SLP01XD2 script series
+	c_SLP01XD2_Wav_507 = 224,     ///< [AI] Sound resource SLP01XD2, index 507.
+	c_SLP01XD2_Pho_507 = 225,     ///< [AI] Photo/image resource SLP01XD2, index 507.
+	c_slp01xd2_0_sfx = 226,       ///< [AI] SFX/animation 0 for SLP01XD2 sequence.
+	c_slp01xd2_1_sfx = 227,       ///< [AI] SFX/animation 1 for SLP01XD2 sequence.
+	c_slp01xd2_2_sfx = 228,       ///< [AI] SFX/animation 2 for SLP01XD2 sequence.
+	c_slp01xd2_3_sfx = 229,       ///< [AI] SFX/animation 3 for SLP01XD2 sequence.
+	c_slp01xd2_Anim = 230,        ///< [AI] Full animation resource for slp01xd2 series.
+
+	// Animation run triggers for each copter script sequence
+	c_ips001d2_RunAnim = 500,     ///< [AI] Trigger/action for running the full ips001d2 animation.
+	c_ipsxx1d2_RunAnim = 501,     ///< [AI] Trigger/action for running the full ipsxx1d2 animation.
+	c_ips002d2_RunAnim = 502,     ///< [AI] Trigger/action for running the full ips002d2 animation.
+	c_ips003d2_RunAnim = 503,     ///< [AI] Trigger/action for running the full ips003d2 animation.
+	c_ips004d2_RunAnim = 504,     ///< [AI] Trigger/action for running the full ips004d2 animation.
+	c_ips005d2_RunAnim = 505,     ///< [AI] Trigger/action for running the full ips005d2 animation.
+	c_ips006d2_RunAnim = 506,     ///< [AI] Trigger/action for running the full ips006d2 animation.
+	c_slp01xd2_RunAnim = 507      ///< [AI] Trigger/action for running the full slp01xd2 animation.
 };
+
 } // namespace CopterScript
 
 #endif // COPTER_ACTIONS_H

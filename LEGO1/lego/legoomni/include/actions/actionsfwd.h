@@ -3,243 +3,355 @@
 #ifndef ACTIONSFWD_H
 #define ACTIONSFWD_H
 
+/** @file [AI]
+ * @brief Forward declarations of Script enums for LEGO Island scene/script modules. [AI]
+ * @details [AI] This header declares the different Script enums, each associated with a particular subsystem, minigame, or scene in LEGO Island.
+ * The enums themselves are defined elsewhere (usually in corresponding script/action modules).
+ * These are used as identifiers or indices for the respective SI files ("Script Instance" files) which are employed as data-driven action/event databases for each subsystem.
+ */
+
 namespace SndanimScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for SndanimScript SI scene. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for SndanimScript SI scene. [AI]
 #endif
 } // namespace SndanimScript
 
 namespace NocdScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for NocdScript SI scene, used for no-CD notification/cutscenes. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for NocdScript SI scene, used for no-CD notification/cutscenes. [AI]
 #endif
 } // namespace NocdScript
 
 namespace CreditsScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for CreditsScript SI scene, which manages and indexes credits actions/media. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for CreditsScript SI scene, which manages and indexes credits actions/media. [AI]
 #endif
 } // namespace CreditsScript
 
 namespace IntroScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the IntroScript SI scene of the game. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for the IntroScript SI scene of the game. [AI]
 #endif
 } // namespace IntroScript
 
 namespace HospitalScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the HospitalScript SI scene, which encapsulates in-hospital cutscenes and logic. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for the HospitalScript SI scene, which encapsulates in-hospital cutscenes and logic. [AI]
 #endif
 } // namespace HospitalScript
 
 namespace CarraceScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the CarraceScript SI scene, associated with regular car races. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for the CarraceScript SI scene, associated with regular car races. [AI]
 #endif
 } // namespace CarraceScript
 
 namespace JetraceScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the JetraceScript SI scene; for jet-vehicle-based races. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for the JetraceScript SI scene; for jet-vehicle-based races. [AI]
 #endif
 } // namespace JetraceScript
 
 namespace CarracerScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for CarracerScript SI scene, likely representing a racing vehicle campaign or replay. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for CarracerScript SI scene, likely representing a racing vehicle campaign or replay. [AI]
 #endif
 } // namespace CarracerScript
 
 namespace JetracerScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the JetracerScript SI scene, for jet race replay or campaign. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for the JetracerScript SI scene, for jet race replay or campaign. [AI]
 #endif
 } // namespace JetracerScript
 
 namespace InfoscorScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for InfoscorScript SI scene, responsible for information scoreboard or info screens. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for InfoscorScript SI scene, responsible for information scoreboard or info screens. [AI]
 #endif
 } // namespace InfoscorScript
 
 namespace RegbookScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for RegbookScript SI scene, likely pertaining to registration or registry-related screens. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for RegbookScript SI scene, likely pertaining to registration or registry-related screens. [AI]
 #endif
 } // namespace RegbookScript
 
 namespace HistbookScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for HistbookScript SI scene, for history book/log functionality. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for HistbookScript SI scene, for history book/log functionality. [AI]
 #endif
 } // namespace HistbookScript
 
 namespace InfomainScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for InfomainScript SI scene; central info main logic/scene. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for InfomainScript SI scene; central info main logic/scene. [AI]
 #endif
 } // namespace InfomainScript
 
 namespace ElevbottScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for ElevbottScript SI scene, likely for elevator bottom/logic. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for ElevbottScript SI scene, likely for elevator bottom/logic. [AI]
 #endif
 } // namespace ElevbottScript
 
 namespace InfodoorScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for InfodoorScript SI scene, manages logic for information doors or transitions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for InfodoorScript SI scene, manages logic for information doors or transitions. [AI]
 #endif
 } // namespace InfodoorScript
 
 namespace RacecarScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for RacecarScript SI scene, handles racecar events/actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for RacecarScript SI scene, handles racecar events/actions. [AI]
 #endif
 } // namespace RacecarScript
 
 namespace DunecarScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for DunecarScript SI scene, dune buggy/minigame script index. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for DunecarScript SI scene, dune buggy/minigame script index. [AI]
 #endif
 } // namespace DunecarScript
 
 namespace CopterScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for CopterScript SI scene, associated with the helicopter minigame/logic. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for CopterScript SI scene, associated with the helicopter minigame/logic. [AI]
 #endif
 } // namespace CopterScript
 
 namespace JetskiScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for JetskiScript SI scene, jetski racing minigame/logic script index. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for JetskiScript SI scene, jetski racing minigame/logic script index. [AI]
 #endif
 } // namespace JetskiScript
 
 namespace GarageScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for GarageScript SI scene, associated with the garage build/minigame. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for GarageScript SI scene, associated with the garage build/minigame. [AI]
 #endif
 } // namespace GarageScript
 
 namespace Act3Script
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for Act3Script SI scene, third act/sequence script actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for Act3Script SI scene, third act/sequence script actions. [AI]
 #endif
 } // namespace Act3Script
 
 namespace Act2mainScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for Act2mainScript SI scene, second act main sequence actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for Act2mainScript SI scene, second act main sequence actions. [AI]
 #endif
 } // namespace Act2mainScript
 
 namespace JukeboxwScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for JukeboxwScript SI scene, wide jukebox/music-logic script actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for JukeboxwScript SI scene, wide jukebox/music-logic script actions. [AI]
 #endif
 } // namespace JukeboxwScript
 
 namespace IsleScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
-#else
-enum Script;
-#endif
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for the main IsleScript SI scene, original LEGO Island world action enumeration. [AI]
+	 */
+	enum Script : int;
 
-#if __cplusplus >= 201103L
-enum Script2 : int;
+	/**
+	 * @enum Script2
+	 * @brief [AI] Alternate or secondary script enumeration for IsleScript, for (possibly) sub-areas or special-case logic. [AI]
+	 */
+	enum Script2 : int;
 #else
-enum Script2;
+	enum Script;  ///< @brief [AI] Script enumeration for the main IsleScript SI scene, original LEGO Island world action enumeration. [AI]
+	enum Script2; ///< @brief [AI] Alternate or secondary script enumeration for IsleScript, for (possibly) sub-areas or special-case logic. [AI]
 #endif
 } // namespace IsleScript
 
 namespace JukeboxScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for JukeboxScript SI scene, main jukebox/music-logic script actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for JukeboxScript SI scene, main jukebox/music-logic script actions. [AI]
 #endif
 } // namespace JukeboxScript
 
 namespace PoliceScript
 {
 #if __cplusplus >= 201103L
-enum Script : int;
+	/**
+	 * @enum Script
+	 * @brief [AI] Script enumeration for PoliceScript SI scene, police station or chase logic/actions. [AI]
+	 */
+	enum Script : int;
 #else
-enum Script;
+	enum Script; ///< @brief [AI] Script enumeration for PoliceScript SI scene, police station or chase logic/actions. [AI]
 #endif
 } // namespace PoliceScript
 

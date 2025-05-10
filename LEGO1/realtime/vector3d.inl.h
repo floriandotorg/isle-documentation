@@ -3,120 +3,69 @@
 
 #include "vector2d.inl.h"
 
-// FUNCTION: LEGO1 0x10002270
-// FUNCTION: BETA10 0x10011350
-void Vector3::EqualsCrossImpl(const float* p_a, const float* p_b)
-{
-	m_data[0] = p_a[1] * p_b[2] - p_a[2] * p_b[1];
-	m_data[1] = p_a[2] * p_b[0] - p_a[0] * p_b[2];
-	m_data[2] = p_a[0] * p_b[1] - p_a[1] * p_b[0];
-}
+/// @brief Computes the cross product of two 3D vectors represented as float arrays, stores the result in this vector. [AI]
+/// @param p_a Pointer to the first input vector (float[3]). [AI]
+/// @param p_b Pointer to the second input vector (float[3]). [AI]
+void Vector3::EqualsCrossImpl(const float* p_a, const float* p_b);
 
-// FUNCTION: LEGO1 0x100022c0
-// FUNCTION: BETA10 0x10011430
-void Vector3::EqualsCross(const Vector3& p_a, const Vector3& p_b)
-{
-	EqualsCrossImpl(p_a.m_data, p_b.m_data);
-}
+/// @brief Sets this vector to the cross product of two Vector3 objects. [AI]
+/// @param p_a First input vector. [AI]
+/// @param p_b Second input vector. [AI]
+void Vector3::EqualsCross(const Vector3& p_a, const Vector3& p_b);
 
-// FUNCTION: LEGO1 0x100022e0
-// FUNCTION: BETA10 0x10011470
-void Vector3::EqualsCross(const Vector3& p_a, const float* p_b)
-{
-	EqualsCrossImpl(p_a.m_data, p_b);
-}
+/// @brief Sets this vector to the cross product of a Vector3 and a float array. [AI]
+/// @param p_a Input Vector3. [AI]
+/// @param p_b Pointer to the second input vector (float[3]). [AI]
+void Vector3::EqualsCross(const Vector3& p_a, const float* p_b);
 
-// FUNCTION: LEGO1 0x10002300
-// FUNCTION: BETA10 0x100114b0
-void Vector3::EqualsCross(const float* p_a, const Vector3& p_b)
-{
-	EqualsCrossImpl(p_a, p_b.m_data);
-}
+/// @brief Sets this vector to the cross product of a float array and a Vector3. [AI]
+/// @param p_a Pointer to the first input vector (float[3]). [AI]
+/// @param p_b Input Vector3. [AI]
+void Vector3::EqualsCross(const float* p_a, const Vector3& p_b);
 
-// FUNCTION: LEGO1 0x10003a60
-// FUNCTION: BETA10 0x10011100
-void Vector3::AddImpl(const float* p_value)
-{
-	Vector2::AddImpl(p_value);
-	m_data[2] += p_value[2];
-}
+/// @brief Adds a float array (size 3) component-wise to this vector. [AI]
+/// @param p_value Pointer to float array to add (float[3]). [AI]
+void Vector3::AddImpl(const float* p_value);
 
-// FUNCTION: LEGO1 0x10003a90
-// FUNCTION: BETA10 0x10011150
-void Vector3::AddImpl(float p_value)
-{
-	m_data[0] += p_value;
-	m_data[1] += p_value;
-	m_data[2] += p_value;
-}
+/// @brief Adds a scalar value to each component of this vector. [AI]
+/// @param p_value Scalar value to add. [AI]
+void Vector3::AddImpl(float p_value);
 
-// FUNCTION: LEGO1 0x10003ac0
-// FUNCTION: BETA10 0x100111c0
-void Vector3::SubImpl(const float* p_value)
-{
-	Vector2::SubImpl(p_value);
-	m_data[2] -= p_value[2];
-}
+/// @brief Subtracts a float array (size 3) component-wise from this vector. [AI]
+/// @param p_value Pointer to float array to subtract (float[3]). [AI]
+void Vector3::SubImpl(const float* p_value);
 
-// FUNCTION: LEGO1 0x10003af0
-// FUNCTION: BETA10 0x10011210
-void Vector3::MulImpl(const float* p_value)
-{
-	Vector2::MulImpl(p_value);
-	m_data[2] *= p_value[2];
-}
+/// @brief Multiplies this vector component-wise by a float array (size 3). [AI]
+/// @param p_value Pointer to float array to multiply (float[3]). [AI]
+void Vector3::MulImpl(const float* p_value);
 
-// FUNCTION: LEGO1 0x10003b20
-// FUNCTION: BETA10 0x10011260
-void Vector3::MulImpl(const float& p_value)
-{
-	Vector2::MulImpl(p_value);
-	m_data[2] *= p_value;
-}
+/// @brief Multiplies each component of this vector by a scalar value. [AI]
+/// @param p_value Scalar value to multiply. [AI]
+void Vector3::MulImpl(const float& p_value);
 
-// FUNCTION: LEGO1 0x10003b50
-// FUNCTION: BETA10 0x100112b0
-void Vector3::DivImpl(const float& p_value)
-{
-	Vector2::DivImpl(p_value);
-	m_data[2] /= p_value;
-}
+/// @brief Divides each component of this vector by a scalar value. [AI]
+/// @param p_value Scalar value to divide. [AI]
+void Vector3::DivImpl(const float& p_value);
 
-// FUNCTION: LEGO1 0x10003b80
-// FUNCTION: BETA10 0x10011300
-float Vector3::DotImpl(const float* p_a, const float* p_b) const
-{
-	return p_a[0] * p_b[0] + p_a[1] * p_b[1] + p_a[2] * p_b[2];
-}
+/// @brief Computes the dot product of two float arrays representing 3D vectors. [AI]
+/// @param p_a Pointer to the first vector (float[3]). [AI]
+/// @param p_b Pointer to the second vector (float[3]). [AI]
+/// @return Dot product of the two vectors. [AI]
+float Vector3::DotImpl(const float* p_a, const float* p_b) const;
 
-// FUNCTION: LEGO1 0x10003ba0
-// FUNCTION: BETA10 0x100113f0
-void Vector3::EqualsImpl(const float* p_data)
-{
-	memcpy(m_data, p_data, sizeof(float) * 3);
-}
+/// @brief Sets the internal data of this vector to the contents of the provided float array. [AI]
+/// @param p_data Pointer to float array (float[3]) to copy. [AI]
+void Vector3::EqualsImpl(const float* p_data);
 
-// FUNCTION: LEGO1 0x10003bc0
-// FUNCTION: BETA10 0x100114f0
-void Vector3::Clear()
-{
-	memset(m_data, 0, sizeof(float) * 3);
-}
+/// @brief Sets all three components of this vector to zero. [AI]
+void Vector3::Clear();
 
-// FUNCTION: LEGO1 0x10003bd0
-// FUNCTION: BETA10 0x10011530
-float Vector3::LenSquared() const
-{
-	return m_data[0] * m_data[0] + m_data[1] * m_data[1] + m_data[2] * m_data[2];
-}
+/// @brief Computes the squared length of this vector (avoids sqrt for efficiency). [AI]
+/// @return Squared length of the vector. [AI]
+float Vector3::LenSquared() const;
 
-// FUNCTION: LEGO1 0x10003bf0
-// FUNCTION: BETA10 0x100115a0
-void Vector3::Fill(const float& p_value)
-{
-	m_data[0] = p_value;
-	m_data[1] = p_value;
-	m_data[2] = p_value;
-}
+/// @brief Sets each component of this vector to the given scalar value. [AI]
+/// @param p_value Value to set for all components. [AI]
+void Vector3::Fill(const float& p_value);
 
 #endif // VECTOR3D_H

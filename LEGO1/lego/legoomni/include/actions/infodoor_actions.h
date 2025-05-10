@@ -3,35 +3,56 @@
 #ifndef INFODOOR_ACTIONS_H
 #define INFODOOR_ACTIONS_H
 
+/**
+ * @namespace InfodoorScript
+ * @brief [AI] Contains enumerations for script event identifiers used in the Infodoor scene.
+ * @details [AI] Each enumerator represents a script command or event as used by the LEGO Island Infodoor script system.
+ */
 namespace InfodoorScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all script actions relevant to the Infodoor context.
+ * @details [AI] Used for dispatching input and scripted actions for the Infodoor mini-application (infodoor.si). Negative value is no action,
+ *  0-based actions are for controls and bitmaps, 500-based values are indices for sound triggers.
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all script actions relevant to the Infodoor context.
+ * @details [AI] Used for dispatching input and scripted actions for the Infodoor mini-application (infodoor.si). Negative value is no action,
+ *  0-based actions are for controls and bitmaps, 500-based values are indices for sound triggers.
+ */
 enum Script {
 #endif
-	c_noneInfodoor = -1,
+	c_noneInfodoor = -1, ///< [AI] Used to indicate no action or uninitialized event.
 
-	c__StartUp = 0,
-	c_LeftArrow_Ctl = 1,
-	c_RightArrow_Ctl = 2,
-	c_Info_Ctl = 3,
-	c_Door_Ctl = 4,
-	c_Background_Bitmap = 5,
-	c_LeftArrow_Up_Bitmap = 6,
-	c_LeftArrow_Down_Bitmap = 7,
-	c_RightArrow_Up_Bitmap = 8,
-	c_RightArrow_Down_Bitmap = 9,
-	c_Info_Up_Bitmap = 10,
-	c_Info_Down_Bitmap = 11,
-	c_Door_Up_Bitmap = 12,
-	c_ConfigAnimation = 13,
+	c__StartUp = 0,                ///< [AI] Corresponds to the startup/initialization event. [SI file: StartUp]
+	c_LeftArrow_Ctl = 1,           ///< [AI] Handles left arrow button control. [SI file: LeftArrow_Ctl]
+	c_RightArrow_Ctl = 2,          ///< [AI] Handles right arrow button control. [SI file: RightArrow_Ctl]
+	c_Info_Ctl = 3,                ///< [AI] Handles info button control. [SI file: Info_Ctl]
+	c_Door_Ctl = 4,                ///< [AI] Handles door button control. [SI file: Door_Ctl]
+	c_Background_Bitmap = 5,       ///< [AI] Loads/displays background bitmap. [SI file: Background_Bitmap]
+	c_LeftArrow_Up_Bitmap = 6,     ///< [AI] Displays left arrow in "up" state. [SI file: LeftArrow_Up_Bitmap]
+	c_LeftArrow_Down_Bitmap = 7,   ///< [AI] Displays left arrow in "down" state. [SI file: LeftArrow_Down_Bitmap]
+	c_RightArrow_Up_Bitmap = 8,    ///< [AI] Displays right arrow in "up" state. [SI file: RightArrow_Up_Bitmap]
+	c_RightArrow_Down_Bitmap = 9,  ///< [AI] Displays right arrow in "down" state. [SI file: RightArrow_Down_Bitmap]
+	c_Info_Up_Bitmap = 10,         ///< [AI] Displays info button in "up" state. [SI file: Info_Up_Bitmap]
+	c_Info_Down_Bitmap = 11,       ///< [AI] Displays info button in "down" state. [SI file: Info_Down_Bitmap]
+	c_Door_Up_Bitmap = 12,         ///< [AI] Displays door button in "up" state. [SI file: Door_Up_Bitmap]
+	c_ConfigAnimation = 13,        ///< [AI] Triggers an animation sequence. [SI file: ConfigAnimation]
 
-	c_iic037in_PlayWav = 500,
-	c_iic038in_PlayWav = 501,
-	c_iicb31in_PlayWav = 502,
-	c_iic007in_PlayWav = 503
+	c_iic037in_PlayWav = 500,      ///< [AI] Plays a .wav sound effect indexed at 037in. [SI file: iic037in_PlayWav]
+	c_iic038in_PlayWav = 501,      ///< [AI] Plays a .wav sound effect indexed at 038in. [SI file: iic038in_PlayWav]
+	c_iicb31in_PlayWav = 502,      ///< [AI] Plays a .wav sound effect indexed at b31in. [SI file: iicb31in_PlayWav]
+	c_iic007in_PlayWav = 503       ///< [AI] Plays a .wav sound effect indexed at 007in. [SI file: iic007in_PlayWav]
 };
+/**
+ * @typedef Script
+ * @brief [AI] ID type for script events in the Infodoor script namespace.
+ */
 } // namespace InfodoorScript
 
 #endif // INFODOOR_ACTIONS_H

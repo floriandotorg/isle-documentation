@@ -3,53 +3,184 @@
 #ifndef POLICE_ACTIONS_H
 #define POLICE_ACTIONS_H
 
+/**
+ * @brief [AI] Contains script action enumerations for the Police station scene in LEGO Island.
+ * @details [AI] The PoliceScript namespace defines unique integer identifiers for controls, UI elements, sounds, and animations specific to the Police station screen.
+ */
 namespace PoliceScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all supported script actions and resource identifiers for the Police station. 
+ * @details [AI] Each enumerator corresponds to a particular control, UI bitmap, sound effect, or animation sequence used in the Police script context of LEGO Island.
+ * They are mapped to integer values to be referenced in scripts, resource lookups, or action dispatch systems.
+ * The value -1 (c_nonePolice) represents an invalid or undefined script action.
+ */
 enum Script : int {
 #else
 enum Script {
 #endif
+	/**
+	 * @var c_nonePolice
+	 * @brief [AI] Invalid or no-action constant for Police script actions.
+	 * @details [AI] Used to signal the absence of a Police script action or to represent an invalid entry.
+	 */
 	c_nonePolice = -1,
 
+	/**
+	 * @var c__StartUp
+	 * @brief [AI] Script or resource identifier for Police station scene initialization.
+	 */
 	c__StartUp = 0,
+
+	/**
+	 * @var c_LeftArrow_Ctl
+	 * @brief [AI] Script control identifier for the left navigation arrow button.
+	 */
 	c_LeftArrow_Ctl = 1,
+	/**
+	 * @var c_RightArrow_Ctl
+	 * @brief [AI] Script control identifier for the right navigation arrow button.
+	 */
 	c_RightArrow_Ctl = 2,
+	/**
+	 * @var c_Info_Ctl
+	 * @brief [AI] Script control identifier for the information/help button.
+	 */
 	c_Info_Ctl = 3,
+	/**
+	 * @var c_Door_Ctl
+	 * @brief [AI] Script control identifier for the door control button, used to exit the Police station.
+	 */
 	c_Door_Ctl = 4,
+	/**
+	 * @var c_Donut_Ctl
+	 * @brief [AI] Script control identifier for the donut interactive element in the Police station.
+	 */
 	c_Donut_Ctl = 5,
+
+	/**
+	 * @var c_Background_Bitmap
+	 * @brief [AI] Resource identifier for the main background bitmap of the Police station UI.
+	 */
 	c_Background_Bitmap = 6,
+	/**
+	 * @var c_LeftArrow_Up_Bitmap
+	 * @brief [AI] Bitmap identifier for the left arrow in its up (idle) state.
+	 */
 	c_LeftArrow_Up_Bitmap = 7,
+	/**
+	 * @var c_LeftArrow_Down_Bitmap
+	 * @brief [AI] Bitmap identifier for the left arrow in its pressed (down) state.
+	 */
 	c_LeftArrow_Down_Bitmap = 8,
+	/**
+	 * @var c_RightArrow_Up_Bitmap
+	 * @brief [AI] Bitmap identifier for the right arrow in its up (idle) state.
+	 */
 	c_RightArrow_Up_Bitmap = 9,
+	/**
+	 * @var c_RightArrow_Down_Bitmap
+	 * @brief [AI] Bitmap identifier for the right arrow in its pressed (down) state.
+	 */
 	c_RightArrow_Down_Bitmap = 10,
+	/**
+	 * @var c_Info_Up_Bitmap
+	 * @brief [AI] Bitmap identifier for the info button in its up (idle) state.
+	 */
 	c_Info_Up_Bitmap = 11,
+	/**
+	 * @var c_Info_Down_Bitmap
+	 * @brief [AI] Bitmap identifier for the info button in its pressed (down) state.
+	 */
 	c_Info_Down_Bitmap = 12,
+	/**
+	 * @var c_Door_Mask_Bitmap
+	 * @brief [AI] Bitmap identifier for the mask/area corresponding to the door UI element, typically for hit testing or overlay.
+	 */
 	c_Door_Mask_Bitmap = 13,
+	/**
+	 * @var c_Donut_Up_Bitmap
+	 * @brief [AI] Bitmap identifier for the donut in its up (idle) state.
+	 */
 	c_Donut_Up_Bitmap = 14,
+	/**
+	 * @var c_Donut_Down_Bitmap
+	 * @brief [AI] Bitmap identifier for the donut in its pressed (down) state.
+	 */
 	c_Donut_Down_Bitmap = 15,
+	/**
+	 * @var c_RadioOff_Bitmap
+	 * @brief [AI] Bitmap identifier for the radio in the "off" visual state.
+	 */
 	c_RadioOff_Bitmap = 16,
+	/**
+	 * @var c_RadioOn_Bitmap
+	 * @brief [AI] Bitmap identifier for the radio in the "on" visual state.
+	 */
 	c_RadioOn_Bitmap = 17,
+	/**
+	 * @var c_Radio_Ctl
+	 * @brief [AI] Script control identifier for the radio button or interactive element.
+	 */
 	c_Radio_Ctl = 18,
+	/**
+	 * @var c_ConfigAnimation
+	 * @brief [AI] Identifier for configuration/initialization animation resources for the Police station.
+	 */
 	c_ConfigAnimation = 19,
+
+	// --- Officer Nick scripts and resources ---
+	/**
+	 * @var c_nps001ni_0_sfx ... c_nps001ni_5_sfx
+	 * @brief [AI] Sound effect (sfx) identifiers associated with officer Nick (nps001ni) in the Police station.
+	 */
 	c_nps001ni_0_sfx = 20,
 	c_nps001ni_1_sfx = 21,
 	c_nps001ni_2_sfx = 22,
 	c_nps001ni_3_sfx = 23,
 	c_nps001ni_4_sfx = 24,
 	c_nps001ni_5_sfx = 25,
+	/**
+	 * @var c_nps001ni_Anim
+	 * @brief [AI] Animation resource identifier for officer Nick.
+	 */
 	c_nps001ni_Anim = 26,
+
+	// --- Officer Laura scripts and resources ---
+	/**
+	 * @var c_nps002la_0_sfx ... c_nps002la_5_sfx
+	 * @brief [AI] Sound effect (sfx) identifiers associated with officer Laura (nps002la) in the Police station.
+	 */
 	c_nps002la_0_sfx = 27,
 	c_nps002la_1_sfx = 28,
 	c_nps002la_2_sfx = 29,
 	c_nps002la_3_sfx = 30,
 	c_nps002la_4_sfx = 31,
 	c_nps002la_5_sfx = 32,
+	/**
+	 * @var c_nps002la_Anim
+	 * @brief [AI] Animation resource identifier for officer Laura.
+	 */
 	c_nps002la_Anim = 33,
 
+	// --- Scripted "Run" animations for each officer character ---
+	/**
+	 * @var c_nps001ni_RunAnim
+	 * @brief [AI] Special animation identifier for officer Nick's "Run" animation sequence.
+	 */
 	c_nps001ni_RunAnim = 500,
+	/**
+	 * @var c_nps002la_RunAnim
+	 * @brief [AI] Special animation identifier for officer Laura's "Run" animation sequence.
+	 */
 	c_nps002la_RunAnim = 501
 };
+/**
+ * @enum Script [AI]
+ * @brief [AI] Enumerates all Police-specific script actions and resources for LEGO Island Police station scenes.
+ */
 } // namespace PoliceScript
 
 #endif // POLICE_ACTIONS_H

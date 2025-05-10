@@ -20,13 +20,26 @@
 // VTABLE: LEGO1 0x100d6338
 // VTABLE: BETA10 0x101bf0d0
 // SIZE 0x18
+/**
+ * @brief Class representing a list of pointers to LegoPathController objects, with optional ownership semantics. [AI]
+ * @details [AI] Inherits from MxPtrList<LegoPathController>. This class is used to manage a collection of LegoPathController pointers, optionally owning (deleting) the objects when the list is destroyed, depending on the ownership flag. Provides pointer comparison to support sorting or unique enforcement. Used to track all active LegoPathControllers, which are responsible for moving actors along paths. [AI]
+ */
 class LegoPathControllerList : public MxPtrList<LegoPathController> {
 public:
-	// FUNCTION: BETA10 0x100dd060
+	/**
+	 * @brief Constructor for LegoPathControllerList. [AI]
+	 * @param p_ownership If TRUE, the list will delete objects when destroyed or removed; otherwise, objects are not deleted. Defaults to FALSE. [AI]
+	 * @details [AI] Passes ownership parameter to the base MxPtrList constructor. [AI]
+	 */
 	LegoPathControllerList(MxBool p_ownership = FALSE) : MxPtrList<LegoPathController>(p_ownership) {}
 
-	// FUNCTION: LEGO1 0x1001d210
-	// FUNCTION: BETA10 0x100dd100
+	/**
+	 * @brief Compares two LegoPathController pointers for equality or ordering. [AI]
+	 * @param p_a Pointer to first LegoPathController. [AI]
+	 * @param p_b Pointer to second LegoPathController. [AI]
+	 * @return 0 if equal, -1 if p_a < p_b, 1 if p_a > p_b (using pointer value comparison). [AI]
+	 * @details [AI] Used by list implementation for ordering or duplicate checks. Comparisons are based on pointer address, not on object content. [AI]
+	 */
 	MxS8 Compare(LegoPathController* p_a, LegoPathController* p_b) override
 	{
 		return p_a == p_b ? 0 : p_a < p_b ? -1 : 1;
@@ -44,9 +57,17 @@ public:
 // VTABLE: LEGO1 0x100d6560
 // VTABLE: BETA10 0x101bf1d0
 // SIZE 0x10
+/**
+ * @brief Cursor/iterator for traversing a LegoPathControllerList. [AI]
+ * @details [AI] Inherits from MxPtrListCursor<LegoPathController> and provides cursor semantics for iterating over the list of LegoPathController pointers. Useful for safe traversal and manipulation of the active controller list. [AI]
+ */
 class LegoPathControllerListCursor : public MxPtrListCursor<LegoPathController> {
 public:
-	// FUNCTION: BETA10 0x100dfd00
+	/**
+	 * @brief Constructs a cursor for the given LegoPathControllerList. [AI]
+	 * @param p_list Pointer to a LegoPathControllerList to iterate. [AI]
+	 * @details [AI] Creates a cursor associated with the given list for sequential access. [AI]
+	 */
 	LegoPathControllerListCursor(LegoPathControllerList* p_list) : MxPtrListCursor<LegoPathController>(p_list) {}
 };
 

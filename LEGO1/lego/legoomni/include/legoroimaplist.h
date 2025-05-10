@@ -6,19 +6,17 @@
 
 class LegoROI;
 
-// VTABLE: LEGO1 0x100d9218
-// class MxCollection<LegoROI **>
-
-// VTABLE: LEGO1 0x100d9230
-// class MxList<LegoROI **>
-
-// VTABLE: LEGO1 0x100d9248
-// class MxPtrList<LegoROI *>
-
-// VTABLE: LEGO1 0x100d9260
-// SIZE 0x18
+/**
+ * @class LegoROIMapList
+ * @brief [AI] Specialized pointer list that manages collections of LegoROI pointers, for ROI map management in the LEGO Island engine.
+ * @details [AI] Inherits from MxPtrList<LegoROI*>, providing automatic deletion of list elements (TRUE is passed to the base constructor). Primarily used to maintain lists of world object instances (ROI) mappings that require custom memory and object management. [AI]
+ * @note [AI] This class does not introduce additional methods or members beyond its base, but enforces automatic element destruction semantics specific to the game logic. [AI]
+ */
 class LegoROIMapList : public MxPtrList<LegoROI*> {
 public:
+	/**
+	 * @brief [AI] Constructs an empty list of LegoROI pointers with automatic element destruction enabled.
+	 */
 	LegoROIMapList() : MxPtrList<LegoROI*>(TRUE) {}
 
 	// SYNTHETIC: LEGO1 0x1006d360

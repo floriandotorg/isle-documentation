@@ -3,28 +3,35 @@
 #ifndef ELEVBOTT_ACTIONS_H
 #define ELEVBOTT_ACTIONS_H
 
+/// \file elevbott_actions.h
+/// @brief [AI] Contains enumeration of script actions for ElevbottScript. Enumerates all script actions and resources referenced by the Elevbott subsystem for game logic and presentation.
+/// @details [AI] The enum ElevbottScript::Script defines all actions, bitmaps, and resources used in the Elevbott segment of the LEGO Island game. These can include input controls, bitmap resources, animation triggers, and audio events. This file provides a C++ enum for referencing these items in code, with clearly defined integral values for interoperability with script files or direct use in the engine.
+
 namespace ElevbottScript
 {
 #if __cplusplus >= 201103L
+/// \enum Script
+/// @brief [AI] Enumerates the script actions and resources for the Elevbott subsystem, mapping each element to an integer value for internal use.
+/// @details [AI] This enumeration includes input control events, resource load requests (e.g. bitmaps), animation triggers, and sound playback specifically for the Elevbott scene. The integral values are used for efficient referencing in the engine's script/action dispatching systems.
 enum Script : int {
 #else
 enum Script {
 #endif
-	c_noneElevbott = -1,
+	c_noneElevbott = -1, ///< @brief [AI] No action or undefined; used as a sentinel or default value.
 
-	c__StartUp = 0,
-	c_LeftArrow_Ctl = 1,
-	c_RightArrow_Ctl = 2,
-	c_ElevBott_Elevator_Ctl = 3,
-	c_Background_Bitmap = 4,
-	c_LeftArrow_Up_Bitmap = 5,
-	c_LeftArrow_Down_Bitmap = 6,
-	c_RightArrow_Up_Bitmap = 7,
-	c_RightArrow_Down_Bitmap = 8,
-	c_Elevator_Mask_Bitmap = 9,
-	c_ConfigAnimation = 10,
+	c__StartUp = 0,                ///< @brief [AI] Action for system or scene startup logic in the Elevbott context.
+	c_LeftArrow_Ctl = 1,           ///< @brief [AI] Left arrow control input event.
+	c_RightArrow_Ctl = 2,          ///< @brief [AI] Right arrow control input event.
+	c_ElevBott_Elevator_Ctl = 3,   ///< @brief [AI] Elevator control interaction in Elevbott script logic.
+	c_Background_Bitmap = 4,       ///< @brief [AI] Resource identifier for the background bitmap of the Elevbott screen.
+	c_LeftArrow_Up_Bitmap = 5,     ///< @brief [AI] Resource identifier for the bitmap representing the left arrow in the 'up' (inactive) state.
+	c_LeftArrow_Down_Bitmap = 6,   ///< @brief [AI] Resource identifier for the bitmap representing the left arrow in the 'down' (active/pressed) state.
+	c_RightArrow_Up_Bitmap = 7,    ///< @brief [AI] Resource identifier for the bitmap representing the right arrow in the 'up' (inactive) state.
+	c_RightArrow_Down_Bitmap = 8,  ///< @brief [AI] Resource identifier for the bitmap representing the right arrow in the 'down' (active/pressed) state.
+	c_Elevator_Mask_Bitmap = 9,    ///< @brief [AI] Resource identifier for the bitmap mask used for the elevator display region.
+	c_ConfigAnimation = 10,        ///< @brief [AI] Action or resource id for triggering/configuring an animation.
 
-	c_iica31in_PlayWav = 500
+	c_iica31in_PlayWav = 500       ///< @brief [AI] Command for playing a specific wav sound ("iica31in"), possibly the elevator entrance sound effect or similar in this context.
 };
 } // namespace ElevbottScript
 

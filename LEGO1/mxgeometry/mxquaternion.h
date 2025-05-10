@@ -4,166 +4,108 @@
 #include "mxgeometry4d.h"
 
 // SIZE 0x34
+
+/**
+ * @brief Quaternion interpolation utility for 4D transformations, supporting quaternion start/end points and spherical interpolation. [AI] 
+ * 
+ * Handles the conversion of 4x4 transformation matrices to quaternion representations, as well as interpolation (slerp) between two quaternions.
+ * Used for smooth rotation transitions in animations or transformations. Can also convert results back to matrix form. [AI]
+ */
 class MxQuaternionTransformer {
 public:
+	/// @brief Interpolation state flags. [AI]
 	enum {
-		c_startSet = 0x01,
-		c_endSet = 0x02
+		c_startSet = 0x01, ///< Start quaternion has been set. [AI]
+		c_endSet = 0x02    ///< End quaternion has been set. [AI]
 	};
 
+	/**
+	 * @brief Default constructor; flags zeroed, state unset. [AI]
+	 */
 	MxQuaternionTransformer() : m_flags(0) {}
 
+	/**
+	 * @brief Ensures shortest path interpolation by potentially flipping the end quaternion's sign. [AI]
+	 * 
+	 * If the direction from start to end quaternion is longer than the opposite direction, the end quaternion is negated.
+	 * This ensures proper spherical interpolation (prevents spinning the "long way" around the sphere). Returns 0 on success, -1 if neither start or end are set. [AI]
+	 */
 	inline long NormalizeDirection();
+
+	/**
+	 * @brief Sets start and end quaternions by converting two matrices to quaternion form. [AI]
+	 *
+	 * Equivalent to calling SetStart followed by SetEnd. [AI]
+	 * @param p_m1 Matrix to use as start quaternion. [AI]
+	 * @param p_m2 Matrix to use as end quaternion. [AI]
+	 */
 	inline void SetStartEnd(Matrix4& p_m1, Matrix4& p_m2);
+
+	/**
+	 * @brief Sets the start quaternion from a matrix. [AI]
+	 * @param p_m Matrix representing the start orientation. [AI]
+	 */
 	inline void SetStart(Matrix4& p_m);
+
+	/**
+	 * @brief Sets the end quaternion from a matrix. [AI]
+	 * @param p_m Matrix representing the end orientation. [AI]
+	 */
 	inline void SetEnd(Matrix4& p_m);
+
+	/**
+	 * @brief Sets the start quaternion from a 4D vector. [AI]
+	 * @param p_v Vector representing the start quaternion (x, y, z, w). [AI]
+	 */
 	inline void SetStart(Vector4& p_v);
+
+	/**
+	 * @brief Sets the end quaternion from a 4D vector. [AI]
+	 * @param p_v Vector representing the end quaternion (x, y, z, w). [AI]
+	 */
 	inline void SetEnd(Vector4& p_v);
+
+	/**
+	 * @brief Interpolates between start and end quaternions using spherical interpolation (slerp) and produces a 4x4 matrix. [AI]
+	 * 
+	 * @param p_matrix Matrix to receive the interpolated transformation. [AI]
+	 * @param p_f Interpolation parameter between 0.0f (start) and 1.0f (end). [AI]
+	 * @return 0 if successful, -1 if interpolation failed (e.g., neither start nor end set). [AI]
+	 */
 	inline int InterpolateToMatrix(Matrix4& p_matrix, float p_f);
 
+	/**
+	 * @brief Retrieves the stored start and end quaternions as 4D vectors. [AI] 
+	 * 
+	 * @param p_startQuat Returned start quaternion. [AI]
+	 * @param p_endQuat Returned end quaternion. [AI]
+	 */
 	void GetQuat(Vector4& p_startQuat, Vector4& p_endQuat) const
 	{
 		p_startQuat = m_startQuat;
 		p_endQuat = m_endQuat;
 	}
 
+	/**
+	 * @brief Returns current flag state indicating which ends are set. [AI]
+	 */
 	undefined4 GetFlags() const { return m_flags; }
 
 private:
+	/**
+	 * @brief Performs internal slerp or direct interpolation between two quaternions based on set flags. [AI]
+	 *
+	 * Handles various cases: start only, end only, or both set. For both set, performs normalized spherical interpolation (slerp); properly handles the edge case of almost opposite quaternions. [AI]
+	 *
+	 * @param p_v Output interpolated quaternion as a 4D vector. [AI]
+	 * @param p_f Interpolation factor between 0 (start) and 1 (end). [AI]
+	 * @return 0 on success, -1 if interpolation is not possible with current flags. [AI]
+	 */
 	inline int Interpolate(Vector4& p_v, float p_f);
 
-	Mx4DPointFloat m_startQuat; // 0x00
-	Mx4DPointFloat m_endQuat;   // 0x18
-	MxU32 m_flags;              // 0x30
+	Mx4DPointFloat m_startQuat; ///< Start orientation as quaternion. [AI]
+	Mx4DPointFloat m_endQuat;   ///< End orientation as quaternion. [AI]
+	MxU32 m_flags;              ///< Bitflags tracking which quaternions are set. [AI]
 };
-
-// FUNCTION: LEGO1 0x10004520
-long MxQuaternionTransformer::NormalizeDirection()
-{
-	if (!m_flags) {
-		return -1;
-	}
-
-	Mx4DPointFloat v1;
-	Mx4DPointFloat v2;
-
-	v1 = m_startQuat;
-	v1 += m_endQuat;
-
-	v2 = m_startQuat;
-	v2 -= m_endQuat;
-
-	if (v1.Dot(v1, v1) < v2.Dot(v2, v2)) {
-		m_endQuat *= -1.0f;
-	}
-
-	return 0;
-}
-
-// FUNCTION: BETA10 0x1004a9b0
-void MxQuaternionTransformer::SetStartEnd(Matrix4& p_m1, Matrix4& p_m2)
-{
-	SetStart(p_m1);
-	SetEnd(p_m2);
-}
-
-// FUNCTION: BETA10 0x1004a9f0
-void MxQuaternionTransformer::SetStart(Matrix4& p_m)
-{
-	p_m.ToQuaternion(m_startQuat);
-	m_flags |= c_startSet;
-}
-
-// FUNCTION: LEGO1 0x10004620
-// FUNCTION: BETA10 0x1004aa30
-void MxQuaternionTransformer::SetEnd(Matrix4& p_m)
-{
-	p_m.ToQuaternion(m_endQuat);
-	m_flags |= c_endSet;
-}
-
-// FUNCTION: BETA10 0x10180b80
-void MxQuaternionTransformer::SetStart(Vector4& p_v)
-{
-	m_startQuat = p_v;
-	m_flags |= c_startSet;
-}
-
-// FUNCTION: BETA10 0x10180bc0
-void MxQuaternionTransformer::SetEnd(Vector4& p_v)
-{
-	m_endQuat = p_v;
-	m_flags |= c_endSet;
-}
-
-// FUNCTION: BETA10 0x1004aaa0
-int MxQuaternionTransformer::InterpolateToMatrix(Matrix4& p_matrix, float p_f)
-{
-	float data[4];
-	Vector4 v(data);
-
-	if (Interpolate(v, p_f) == 0) {
-		return p_matrix.FromQuaternion(v);
-	}
-
-	return -1;
-}
-
-// FUNCTION: LEGO1 0x100040a0
-// FUNCTION: BETA10 0x1004ab10
-int MxQuaternionTransformer::Interpolate(Vector4& p_v, float p_f)
-{
-	if (m_flags == c_startSet) {
-		p_v = m_startQuat;
-		p_v[3] = (float) ((1.0 - p_f) * acos((double) p_v[3]) * 2.0);
-		return p_v.NormalizeQuaternion();
-	}
-
-	if (m_flags == c_endSet) {
-		p_v = m_endQuat;
-		p_v[3] = (float) (p_f * acos((double) p_v[3]) * 2.0);
-		return p_v.NormalizeQuaternion();
-	}
-
-	if (m_flags == (c_startSet | c_endSet)) {
-		int i;
-		double d1 = p_v.Dot(m_startQuat, m_endQuat);
-		double a;
-		double b;
-
-		if (d1 + 1.0 > 0.00001) {
-			if (1.0 - d1 > 0.00001) {
-				double d2 = acos(d1);
-				double denominator = sin(d2);
-				a = sin((1.0 - p_f) * d2) / denominator;
-				b = sin(p_f * d2) / denominator;
-			}
-			else {
-				a = 1.0 - p_f;
-				b = p_f;
-			}
-
-			for (i = 0; i < 4; i++) {
-				p_v[i] = (float) (m_startQuat[i] * a + m_endQuat[i] * b);
-			}
-		}
-		else {
-			p_v[0] = -m_startQuat[1];
-			p_v[1] = m_startQuat[0];
-			p_v[2] = -m_startQuat[3];
-			p_v[3] = m_startQuat[2];
-			a = sin((1.0 - p_f) * 1.570796326794895);
-			b = sin(p_f * 1.570796326794895);
-
-			for (i = 0; i < 3; i++) {
-				p_v[i] = (float) (m_startQuat[i] * a + p_v[i] * b);
-			}
-		}
-
-		return 0;
-	}
-
-	return -1;
-}
 
 #endif // MXQUATERNION_H

@@ -3,45 +3,70 @@
 #ifndef HISTBOOK_ACTIONS_H
 #define HISTBOOK_ACTIONS_H
 
+/**
+ * @namespace HistbookScript
+ * @brief [AI] Namespace for script enumeration related to the Histbook segment of the LEGO Island game's scripting system.
+ * @details [AI] Contains enums that uniquely identify different scriptable actions or assets associated with the Histbook in the game, such as bitmaps for letters and background elements. These are used for script mapping and asset referencing in the scripting engine.
+ */
 namespace HistbookScript
 {
 #if __cplusplus >= 201103L
-enum Script : int {
+    /**
+     * @enum Script
+     * @brief [AI] Enumerates script/action identifiers for the Histbook system.
+     * @details [AI] Each identifier corresponds to a resource, script, or UI element in the Histbook segment (e.g., A-Z bitmaps, score box backdrop). The values map to indices for script dispatch or resource management.
+     * @note [AI] Negative value (-1) used for uninitialized/none state, others are sequential.
+     */
+    enum Script : int {
 #else
-enum Script {
+    /**
+     * @enum Script
+     * @brief [AI] Enumerates script/action identifiers for the Histbook system.
+     * @details [AI] Each identifier corresponds to a resource, script, or UI element in the Histbook segment (e.g., A-Z bitmaps, score box backdrop). The values map to indices for script dispatch or resource management.
+     * @note [AI] Negative value (-1) used for uninitialized/none state, others are sequential.
+     */
+    enum Script {
 #endif
-	c_noneHistbook = -1,
+        c_noneHistbook = -1,           ///< @brief [AI] Represents no/invalid script (uninitialized or unused).
 
-	c__StartUp = 0,
-	c_ScoreBox = 1,
-	c_Background_Bitmap = 2,
-	c_A_Bitmap = 3,
-	c_B_Bitmap = 4,
-	c_C_Bitmap = 5,
-	c_D_Bitmap = 6,
-	c_E_Bitmap = 7,
-	c_F_Bitmap = 8,
-	c_G_Bitmap = 9,
-	c_H_Bitmap = 10,
-	c_I_Bitmap = 11,
-	c_J_Bitmap = 12,
-	c_K_Bitmap = 13,
-	c_L_Bitmap = 14,
-	c_M_Bitmap = 15,
-	c_N_Bitmap = 16,
-	c_O_Bitmap = 17,
-	c_P_Bitmap = 18,
-	c_Q_Bitmap = 19,
-	c_R_Bitmap = 20,
-	c_S_Bitmap = 21,
-	c_T_Bitmap = 22,
-	c_U_Bitmap = 23,
-	c_V_Bitmap = 24,
-	c_W_Bitmap = 25,
-	c_X_Bitmap = 26,
-	c_Y_Bitmap = 27,
-	c_Z_Bitmap = 28
-};
+        c__StartUp = 0,                ///< @brief [AI] Script ID for Histbook startup/init routine.
+        c_ScoreBox = 1,                ///< @brief [AI] Script ID for displaying or handling the game's score box in the Histbook.
+        c_Background_Bitmap = 2,       ///< @brief [AI] Script ID for background image asset/script in Histbook.
+
+        /**
+         * @name Letter Bitmap Scripts
+         * @brief [AI] Script IDs for the bitmap resources representing each letter (A-Z) for the Histbook UI.
+         * @details [AI] Used to refer to the visual assets for each character page in the Histbook.
+         */
+        //@{
+        c_A_Bitmap = 3,                ///< @brief [AI] Script ID for 'A' letter bitmap.
+        c_B_Bitmap = 4,                ///< @brief [AI] Script ID for 'B' letter bitmap.
+        c_C_Bitmap = 5,                ///< @brief [AI] Script ID for 'C' letter bitmap.
+        c_D_Bitmap = 6,                ///< @brief [AI] Script ID for 'D' letter bitmap.
+        c_E_Bitmap = 7,                ///< @brief [AI] Script ID for 'E' letter bitmap.
+        c_F_Bitmap = 8,                ///< @brief [AI] Script ID for 'F' letter bitmap.
+        c_G_Bitmap = 9,                ///< @brief [AI] Script ID for 'G' letter bitmap.
+        c_H_Bitmap = 10,               ///< @brief [AI] Script ID for 'H' letter bitmap.
+        c_I_Bitmap = 11,               ///< @brief [AI] Script ID for 'I' letter bitmap.
+        c_J_Bitmap = 12,               ///< @brief [AI] Script ID for 'J' letter bitmap.
+        c_K_Bitmap = 13,               ///< @brief [AI] Script ID for 'K' letter bitmap.
+        c_L_Bitmap = 14,               ///< @brief [AI] Script ID for 'L' letter bitmap.
+        c_M_Bitmap = 15,               ///< @brief [AI] Script ID for 'M' letter bitmap.
+        c_N_Bitmap = 16,               ///< @brief [AI] Script ID for 'N' letter bitmap.
+        c_O_Bitmap = 17,               ///< @brief [AI] Script ID for 'O' letter bitmap.
+        c_P_Bitmap = 18,               ///< @brief [AI] Script ID for 'P' letter bitmap.
+        c_Q_Bitmap = 19,               ///< @brief [AI] Script ID for 'Q' letter bitmap.
+        c_R_Bitmap = 20,               ///< @brief [AI] Script ID for 'R' letter bitmap.
+        c_S_Bitmap = 21,               ///< @brief [AI] Script ID for 'S' letter bitmap.
+        c_T_Bitmap = 22,               ///< @brief [AI] Script ID for 'T' letter bitmap.
+        c_U_Bitmap = 23,               ///< @brief [AI] Script ID for 'U' letter bitmap.
+        c_V_Bitmap = 24,               ///< @brief [AI] Script ID for 'V' letter bitmap.
+        c_W_Bitmap = 25,               ///< @brief [AI] Script ID for 'W' letter bitmap.
+        c_X_Bitmap = 26,               ///< @brief [AI] Script ID for 'X' letter bitmap.
+        c_Y_Bitmap = 27,               ///< @brief [AI] Script ID for 'Y' letter bitmap.
+        c_Z_Bitmap = 28                ///< @brief [AI] Script ID for 'Z' letter bitmap.
+        //@}
+    };
 } // namespace HistbookScript
 
 #endif // HISTBOOK_ACTIONS_H

@@ -3,214 +3,249 @@
 #ifndef JETSKI_ACTIONS_H
 #define JETSKI_ACTIONS_H
 
+/**
+ * @namespace JetskiScript [AI]
+ * @brief [AI] Contains the action and resource script enumeration for the Jetski section of LEGO Island.
+ * @details [AI] The JetskiScript namespace contains a strongly typed enumeration 'Script' that lists all actions, controls, UI bitmaps, sound and animation resources, and behavioral scripting keys encountered in the jetski build and activity scenes of the game. Actions are grouped by control logic, UI bitmaps, model references, and animation/sound resource keys. The enum values map directly to references within the SI (script instruction) files, supporting the game's resource management and entity behavior scripting. [AI]
+ */
 namespace JetskiScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script [AI]
+ * @brief [AI] Enumerates all available script actions and resources for the jetski segment of the game.
+ * @details [AI] The Script enum values provide IDs for the different scripting commands, UI elements, models, sound effects, animations, and control logic specific to the jetski section. This enables resource lookup, script switching, and entity behaviors within the engine's core logic. Values < 64 are generally controls, buttons, and logic scripts, while values >= 64 are image, animation, and sound resource handles. [AI]
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script [AI]
+ * @brief [AI] Enumerates all available script actions and resources for the jetski segment of the game.
+ * @details [AI] The Script enum values provide IDs for the different scripting commands, UI elements, models, sound effects, animations, and control logic specific to the jetski section. This enables resource lookup, script switching, and entity behaviors within the engine's core logic. Values < 64 are generally controls, buttons, and logic scripts, while values >= 64 are image, animation, and sound resource handles. [AI]
+ */
 enum Script {
 #endif
-	c_noneJetski = -1,
+	c_noneJetski = -1,           ///< @brief [AI] Used to indicate an uninitialized or invalid script in the jetski context. [AI]
 
-	c__StartUp = 0,
+	c__StartUp = 0,              ///< @brief [AI] Start-up/bootstrapping script, likely called at initialization. [AI]
 
-	c_Jetski_Actor = 3,
+	c_Jetski_Actor = 3,          ///< @brief [AI] Main jetski actor entity script. [AI]
 
-	c_Info_Ctl = 5,
-	c_Exit_Ctl = 6,
-	c_ShelfUp_Ctl = 7,
-	c_Platform_Ctl = 8,
+	c_Info_Ctl = 5,              ///< @brief [AI] UI/info panel control logic for jetski. [AI]
+	c_Exit_Ctl = 6,              ///< @brief [AI] UI exit button or logic control. [AI]
+	c_ShelfUp_Ctl = 7,           ///< @brief [AI] Shelf-up button/control logic. [AI]
+	c_Platform_Ctl = 8,          ///< @brief [AI] Platform button/control logic. [AI]
 
-	c_Background = 64,
-	c_ColorBook_Bitmap = 65,
-	c_ShelfUp_Up_Bitmap = 66,
-	c_ShelfUp_Down_Bitmap = 67,
-	c_PlatformUp_Bitmap = 68,
-	c_PlatformLeft = 69,
-	c_Rotate_Sound = 70,
-	c_PlatformLeft_Bitmap = 71,
-	c_Yellow_Ctl = 72,
-	c_Yellow_Up_Bitmap = 73,
-	c_Yellow_Down_Bitmap = 74,
-	c_Red_Ctl = 75,
-	c_Red_Up_Bitmap = 76,
-	c_Red_Down_Bitmap = 77,
-	c_Blue_Ctl = 78,
-	c_Blue_Up_Bitmap = 79,
-	c_Blue_Down_Bitmap = 80,
-	c_Green_Ctl = 81,
-	c_Green_Up_Bitmap = 82,
-	c_Green_Down_Bitmap = 83,
-	c_Gray_Ctl = 84,
-	c_Gray_Up_Bitmap = 85,
-	c_Gray_Down_Bitmap = 86,
-	c_Black_Ctl = 87,
-	c_Black_Up_Bitmap = 88,
-	c_Black_Down_Bitmap = 89,
-	c_Info_Up_Bitmap = 90,
-	c_Info_Down_Bitmap = 91,
-	c_Exit_Up_Bitmap = 92,
-	c_Exit_Down_Bitmap = 93,
-	c_Decal_Bitmap = 94,
-	c_Decals_Ctl = 95,
-	c_JSFRNT_T1_Up = 96,
-	c_JSFRNT_T1_Up_Bitmap = 97,
-	c_JSFRNT_T1_Dn = 98,
-	c_JSFRNT_T1_Dn_Bitmap = 99,
-	c_JSFRNT_Texture_1 = 100,
-	c_Decals_Ctl1 = 101,
-	c_JSFRNT_T2_Up = 102,
-	c_JSFRNT_T2_Up_Bitmap = 103,
-	c_JSFRNT_T2_Dn = 104,
-	c_JSFRNT_T2_Dn_Bitmap = 105,
-	c_JSFRNT_Texture_2 = 106,
-	c_Decals_Ctl2 = 107,
-	c_JSFRNT_B1_Up = 108,
-	c_JSFRNT_B1_Up_Bitmap = 109,
-	c_JSFRNT_B1_Dn = 110,
-	c_JSFRNT_B1_Dn_Bitmap = 111,
-	c_JSFRNT_Texture_3 = 112,
-	c_Decals_Ctl3 = 113,
-	c_JSFRNT_B2_Up = 114,
-	c_JSFRNT_B2_Up_Bitmap = 115,
-	c_JSFRNT_B2_Dn = 116,
-	c_JSFRNT_B2_Dn_Bitmap = 117,
-	c_JSFRNT_Texture_4 = 118,
-	c_Decals_Ctl4 = 119,
-	c_JSWNSH_T1_Up = 120,
-	c_JSWNSH_T1_Up_Bitmap = 121,
-	c_JSWNSH_T1_Dn = 122,
-	c_JSWNSH_T1_Dn_Bitmap = 123,
-	c_JSWNSH_Texture_1 = 124,
-	c_Decals_Ctl5 = 125,
-	c_JSWNSH_T2_Up = 126,
-	c_JSWNSH_T2_Up_Bitmap = 127,
-	c_JSWNSH_T2_Dn = 128,
-	c_JSWNSH_T2_Dn_Bitmap = 129,
-	c_JSWNSH_Texture_2 = 130,
-	c_Decals_Ctl6 = 131,
-	c_JSWNSH_B1_Up = 132,
-	c_JSWNSH_B1_Up_Bitmap = 133,
-	c_JSWNSH_B1_Dn = 134,
-	c_JSWNSH_B1_Dn_Bitmap = 135,
-	c_JSWNSH_Texture_3 = 136,
-	c_Decals_Ctl7 = 137,
-	c_JSWNSH_B2_Up = 138,
-	c_JSWNSH_B2_Up_Bitmap = 139,
-	c_JSWNSH_B2_Dn = 140,
-	c_JSWNSH_B2_Dn_Bitmap = 141,
-	c_JSWNSH_Texture_4 = 142,
-	c_Shelf_Sound = 143,
-	c_PlaceBrick_Sound = 144,
-	c_GetBrick_Sound = 145,
-	c_Paint_Sound = 146,
-	c_Decal_Sound = 147,
-	c_Build_Animation = 148,
-	c_Build_Anim0 = 149,
-	c_Build_Anim1 = 150,
-	c_Build_Anim2 = 151,
-	c_Jsuser_Model = 152,
-	c_IJS001D4_Wav_500 = 153,
-	c_IJS001D4_Pho_500 = 154,
-	c_IJS002D4_Wav_500 = 155,
-	c_IJS002D4_Pho_500 = 156,
-	c_ijs001d4_0_sfx = 157,
-	c_ijs001d4_1_sfx = 158,
-	c_ijs001d4_2_sfx = 159,
-	c_ijs001d4_3_sfx = 160,
-	c_ijs001d4_4_sfx = 161,
-	c_ijs001d4_5_sfx = 162,
-	c_ijs001d4_6_sfx = 163,
-	c_ijs001d4_7_sfx = 164,
-	c_ijs001d4_8_sfx = 165,
-	c_ijs001d4_9_sfx = 166,
-	c_ijs001d4_10_sfx = 167,
-	c_ijs001d4_11_sfx = 168,
-	c_ijs001d4_12_sfx = 169,
-	c_ijs001d4_13_sfx = 170,
-	c_ijs001d4_14_sfx = 171,
-	c_ijs001d4_15_sfx = 172,
-	c_ijs001d4_Anim = 173,
-	c_IJSxx2D4_Wav_501 = 174,
-	c_IJSxx2D4_Pho_501 = 175,
-	c_ijsxx2d4_0_sfx = 176,
-	c_ijsxx2d4_1_sfx = 177,
-	c_ijsxx2d4_2_sfx = 178,
-	c_ijsxx2d4_3_sfx = 179,
-	c_ijsxx2d4_4_sfx = 180,
-	c_ijsxx2d4_5_sfx = 181,
-	c_ijsxx2d4_6_sfx = 182,
-	c_ijsxx2d4_Anim = 183,
-	c_IJS003D4_Wav_502 = 184,
-	c_IJS003D4_Pho_502 = 185,
-	c_ijs003d4_0_sfx = 186,
-	c_ijs003d4_1_sfx = 187,
-	c_ijs003d4_Anim = 188,
-	c_IJS004D4_Wav_503 = 189,
-	c_IJS004D4_Pho_503 = 190,
-	c_ijs004d4_0_sfx = 191,
-	c_ijs004d4_1_sfx = 192,
-	c_ijs004d4_2_sfx = 193,
-	c_ijs004d4_3_sfx = 194,
-	c_ijs004d4_4_sfx = 195,
-	c_ijs004d4_5_sfx = 196,
-	c_ijs004d4_Anim = 197,
-	c_IJS005D4_Wav_504 = 198,
-	c_IJS005D4_Pho_504 = 199,
-	c_ijs005d4_0_sfx = 200,
-	c_ijs005d4_1_sfx = 201,
-	c_ijs005d4_2_sfx = 202,
-	c_ijs005d4_3_sfx = 203,
-	c_ijs005d4_4_sfx = 204,
-	c_ijs005d4_5_sfx = 205,
-	c_ijs005d4_6_sfx = 206,
-	c_ijs005d4_7_sfx = 207,
-	c_ijs005d4_8_sfx = 208,
-	c_ijs005d4_9_sfx = 209,
-	c_ijs005d4_10_sfx = 210,
-	c_ijs005d4_11_sfx = 211,
-	c_ijs005d4_12_sfx = 212,
-	c_ijs005d4_Anim = 213,
-	c_IJS006D4_Wav_505 = 214,
-	c_IJS006D4_Pho_505 = 215,
-	c_ijs006d4_0_sfx = 216,
-	c_ijs006d4_1_sfx = 217,
-	c_ijs006d4_2_sfx = 218,
-	c_ijs006d4_3_sfx = 219,
-	c_ijs006d4_4_sfx = 220,
-	c_ijs006d4_5_sfx = 221,
-	c_ijs006d4_6_sfx = 222,
-	c_ijs006d4_7_sfx = 223,
-	c_ijs006d4_8_sfx = 224,
-	c_ijs006d4_9_sfx = 225,
-	c_ijs006d4_10_sfx = 226,
-	c_ijs006d4_11_sfx = 227,
-	c_ijs006d4_12_sfx = 228,
-	c_ijs006d4_13_sfx = 229,
-	c_ijs006d4_14_sfx = 230,
-	c_ijs006d4_15_sfx = 231,
-	c_ijs006d4_16_sfx = 232,
-	c_ijs006d4_Anim = 233,
-	c_IJS007D4_Wav_506 = 234,
-	c_IJS007D4_Pho_506 = 235,
-	c_ijs007d4_0_sfx = 236,
-	c_ijs007d4_1_sfx = 237,
-	c_ijs007d4_2_sfx = 238,
-	c_ijs007d4_3_sfx = 239,
-	c_ijs007d4_4_sfx = 240,
-	c_ijs007d4_5_sfx = 241,
-	c_ijs007d4_6_sfx = 242,
-	c_ijs007d4_7_sfx = 243,
-	c_ijs007d4_8_sfx = 244,
-	c_ijs007d4_Anim = 245,
+	// --- Bitmap, UI, Model, and Animation resources (ordered by usage in SI/script files) ---
+	c_Background = 64,           ///< @brief [AI] Background bitmap for jetski builder scene. [AI]
+	c_ColorBook_Bitmap = 65,     ///< @brief [AI] Bitmap for the color selection UI book. [AI]
+	c_ShelfUp_Up_Bitmap = 66,    ///< @brief [AI] 'Up' state bitmap for Shelf Up button. [AI]
+	c_ShelfUp_Down_Bitmap = 67,  ///< @brief [AI] 'Down' state bitmap for Shelf Up button. [AI]
+	c_PlatformUp_Bitmap = 68,    ///< @brief [AI] 'Up' state bitmap for platform. [AI]
+	c_PlatformLeft = 69,         ///< @brief [AI] Control or bitmap for platform left button. [AI]
+	c_Rotate_Sound = 70,         ///< @brief [AI] Sound played during platform rotation. [AI]
+	c_PlatformLeft_Bitmap = 71,  ///< @brief [AI] Bitmap for platform-left button. [AI]
+	c_Yellow_Ctl = 72,           ///< @brief [AI] Yellow color button/control logic. [AI]
+	c_Yellow_Up_Bitmap = 73,     ///< @brief [AI] 'Up' state bitmap for yellow button. [AI]
+	c_Yellow_Down_Bitmap = 74,   ///< @brief [AI] 'Down' state bitmap for yellow button. [AI]
+	c_Red_Ctl = 75,              ///< @brief [AI] Red color button/control logic. [AI]
+	c_Red_Up_Bitmap = 76,        ///< @brief [AI] 'Up' state bitmap for red button. [AI]
+	c_Red_Down_Bitmap = 77,      ///< @brief [AI] 'Down' state bitmap for red button. [AI]
+	c_Blue_Ctl = 78,             ///< @brief [AI] Blue color button/control logic. [AI]
+	c_Blue_Up_Bitmap = 79,       ///< @brief [AI] 'Up' state bitmap for blue button. [AI]
+	c_Blue_Down_Bitmap = 80,     ///< @brief [AI] 'Down' state bitmap for blue button. [AI]
+	c_Green_Ctl = 81,            ///< @brief [AI] Green color button/control logic. [AI]
+	c_Green_Up_Bitmap = 82,      ///< @brief [AI] 'Up' state bitmap for green button. [AI]
+	c_Green_Down_Bitmap = 83,    ///< @brief [AI] 'Down' state bitmap for green button. [AI]
+	c_Gray_Ctl = 84,             ///< @brief [AI] Gray color button/control logic. [AI]
+	c_Gray_Up_Bitmap = 85,       ///< @brief [AI] 'Up' state bitmap for gray button. [AI]
+	c_Gray_Down_Bitmap = 86,     ///< @brief [AI] 'Down' state bitmap for gray button. [AI]
+	c_Black_Ctl = 87,            ///< @brief [AI] Black color button/control logic. [AI]
+	c_Black_Up_Bitmap = 88,      ///< @brief [AI] 'Up' state bitmap for black button. [AI]
+	c_Black_Down_Bitmap = 89,    ///< @brief [AI] 'Down' state bitmap for black button. [AI]
+	c_Info_Up_Bitmap = 90,       ///< @brief [AI] 'Up' state bitmap for info button. [AI]
+	c_Info_Down_Bitmap = 91,     ///< @brief [AI] 'Down' state bitmap for info button. [AI]
+	c_Exit_Up_Bitmap = 92,       ///< @brief [AI] 'Up' state bitmap for exit button. [AI]
+	c_Exit_Down_Bitmap = 93,     ///< @brief [AI] 'Down' state bitmap for exit button. [AI]
+	c_Decal_Bitmap = 94,         ///< @brief [AI] Bitmap panel for decal/decoration selection UI. [AI]
+	c_Decals_Ctl = 95,           ///< @brief [AI] Root control for decals mode switching. [AI]
 
-	c_ijs001d4_RunAnim = 500,
-	c_ijsxx2d4_RunAnim = 501,
-	c_ijs003d4_RunAnim = 502,
-	c_ijs004d4_RunAnim = 503,
-	c_ijs005d4_RunAnim = 504,
-	c_ijs006d4_RunAnim = 505,
-	c_ijs007d4_RunAnim = 506
+	// --- Front jetski decal/texture options ---
+	c_JSFRNT_T1_Up = 96,         ///< @brief [AI] Up state button for front texture option 1. [AI]
+	c_JSFRNT_T1_Up_Bitmap = 97,  ///< @brief [AI] Bitmap for up state of front texture 1 button. [AI]
+	c_JSFRNT_T1_Dn = 98,         ///< @brief [AI] Down state button for front texture option 1. [AI]
+	c_JSFRNT_T1_Dn_Bitmap = 99,  ///< @brief [AI] Bitmap for down state of front texture 1 button. [AI]
+	c_JSFRNT_Texture_1 = 100,    ///< @brief [AI] Texture resource for front texture 1. [AI]
+	c_Decals_Ctl1 = 101,         ///< @brief [AI] Decal panel button/control set 1. [AI]
+	c_JSFRNT_T2_Up = 102,        ///< @brief [AI] Up state button for front texture option 2. [AI]
+	c_JSFRNT_T2_Up_Bitmap = 103, ///< @brief [AI] Bitmap for up state of front texture 2 button. [AI]
+	c_JSFRNT_T2_Dn = 104,        ///< @brief [AI] Down state button for front texture option 2. [AI]
+	c_JSFRNT_T2_Dn_Bitmap = 105, ///< @brief [AI] Bitmap for down state of front texture 2 button. [AI]
+	c_JSFRNT_Texture_2 = 106,    ///< @brief [AI] Texture resource for front texture 2. [AI]
+	c_Decals_Ctl2 = 107,         ///< @brief [AI] Decal panel button/control set 2. [AI]
+	c_JSFRNT_B1_Up = 108,        ///< @brief [AI] Up state button for front bottom texture option 1. [AI]
+	c_JSFRNT_B1_Up_Bitmap = 109, ///< @brief [AI] Bitmap for up state of front bottom texture 1 button. [AI]
+	c_JSFRNT_B1_Dn = 110,        ///< @brief [AI] Down state button for front bottom texture option 1. [AI]
+	c_JSFRNT_B1_Dn_Bitmap = 111, ///< @brief [AI] Bitmap for down state of front bottom texture 1 button. [AI]
+	c_JSFRNT_Texture_3 = 112,    ///< @brief [AI] Texture resource for front texture 3 (bottom). [AI]
+	c_Decals_Ctl3 = 113,         ///< @brief [AI] Decal panel button/control set 3. [AI]
+	c_JSFRNT_B2_Up = 114,        ///< @brief [AI] Up state button for front bottom texture option 2. [AI]
+	c_JSFRNT_B2_Up_Bitmap = 115, ///< @brief [AI] Bitmap for up state of front bottom texture 2 button. [AI]
+	c_JSFRNT_B2_Dn = 116,        ///< @brief [AI] Down state button for front bottom texture option 2. [AI]
+	c_JSFRNT_B2_Dn_Bitmap = 117, ///< @brief [AI] Bitmap for down state of front bottom texture 2 button. [AI]
+	c_JSFRNT_Texture_4 = 118,    ///< @brief [AI] Texture resource for front texture 4 (bottom). [AI]
+	c_Decals_Ctl4 = 119,         ///< @brief [AI] Decal panel button/control set 4. [AI]
+
+	// --- Windsheild decal/texture options ---
+	c_JSWNSH_T1_Up = 120,         ///< @brief [AI] Up state button for windshield front texture 1. [AI]
+	c_JSWNSH_T1_Up_Bitmap = 121,  ///< @brief [AI] Bitmap for up state of windshield front texture 1. [AI]
+	c_JSWNSH_T1_Dn = 122,         ///< @brief [AI] Down state button for windshield front texture 1. [AI]
+	c_JSWNSH_T1_Dn_Bitmap = 123,  ///< @brief [AI] Bitmap for down state of windshield front texture 1. [AI]
+	c_JSWNSH_Texture_1 = 124,     ///< @brief [AI] Texture resource for windshield texture 1. [AI]
+	c_Decals_Ctl5 = 125,          ///< @brief [AI] Decal panel button/control set 5. [AI]
+	c_JSWNSH_T2_Up = 126,         ///< @brief [AI] Up state button for windshield front texture 2. [AI]
+	c_JSWNSH_T2_Up_Bitmap = 127,  ///< @brief [AI] Bitmap for up state of windshield front texture 2. [AI]
+	c_JSWNSH_T2_Dn = 128,         ///< @brief [AI] Down state button for windshield front texture 2. [AI]
+	c_JSWNSH_T2_Dn_Bitmap = 129,  ///< @brief [AI] Bitmap for down state of windshield front texture 2. [AI]
+	c_JSWNSH_Texture_2 = 130,     ///< @brief [AI] Texture resource for windshield texture 2. [AI]
+	c_Decals_Ctl6 = 131,          ///< @brief [AI] Decal panel button/control set 6. [AI]
+	c_JSWNSH_B1_Up = 132,         ///< @brief [AI] Up state button for windshield bottom texture 1. [AI]
+	c_JSWNSH_B1_Up_Bitmap = 133,  ///< @brief [AI] Bitmap for up state of windshield bottom texture 1. [AI]
+	c_JSWNSH_B1_Dn = 134,         ///< @brief [AI] Down state button for windshield bottom texture 1. [AI]
+	c_JSWNSH_B1_Dn_Bitmap = 135,  ///< @brief [AI] Bitmap for down state of windshield bottom texture 1. [AI]
+	c_JSWNSH_Texture_3 = 136,     ///< @brief [AI] Texture resource for windshield texture 3 (bottom). [AI]
+	c_Decals_Ctl7 = 137,          ///< @brief [AI] Decal panel button/control set 7. [AI]
+	c_JSWNSH_B2_Up = 138,         ///< @brief [AI] Up state button for windshield bottom texture 2. [AI]
+	c_JSWNSH_B2_Up_Bitmap = 139,  ///< @brief [AI] Bitmap for up state of windshield bottom texture 2. [AI]
+	c_JSWNSH_B2_Dn = 140,         ///< @brief [AI] Down state button for windshield bottom texture 2. [AI]
+	c_JSWNSH_B2_Dn_Bitmap = 141,  ///< @brief [AI] Bitmap for down state of windshield bottom texture 2. [AI]
+	c_JSWNSH_Texture_4 = 142,     ///< @brief [AI] Texture resource for windshield texture 4 (bottom). [AI]
+
+	// --- Sound FX and transitions ---
+	c_Shelf_Sound = 143,          ///< @brief [AI] Sound played when shelf is moved or engaged. [AI]
+	c_PlaceBrick_Sound = 144,     ///< @brief [AI] Sound played when placing a brick piece. [AI]
+	c_GetBrick_Sound = 145,       ///< @brief [AI] Sound when selecting or picking a brick from shelf. [AI]
+	c_Paint_Sound = 146,          ///< @brief [AI] Sound played during painting/coloring. [AI]
+	c_Decal_Sound = 147,          ///< @brief [AI] Sound played when applying a decal. [AI]
+
+	// --- Animation resources for building transformations and user feedback ---
+	c_Build_Animation = 148,      ///< @brief [AI] Generic build animation resource/controller. [AI]
+	c_Build_Anim0 = 149,          ///< @brief [AI] Build animation variant 0. [AI]
+	c_Build_Anim1 = 150,          ///< @brief [AI] Build animation variant 1. [AI]
+	c_Build_Anim2 = 151,          ///< @brief [AI] Build animation variant 2. [AI]
+	c_Jsuser_Model = 152,         ///< @brief [AI] User/player jetski model resource. [AI]
+
+	// --- Sound/Phoneme Animation resources per jetski type for dialogue/activity ---
+	c_IJS001D4_Wav_500 = 153,     ///< @brief [AI] WAV audio for jetski type 1, dialogue/file #500. [AI]
+	c_IJS001D4_Pho_500 = 154,     ///< @brief [AI] Phoneme track for jetski type 1, anim #500. [AI]
+	c_IJS002D4_Wav_500 = 155,     ///< @brief [AI] WAV audio for jetski type 2, dialogue/file #500. [AI]
+	c_IJS002D4_Pho_500 = 156,     ///< @brief [AI] Phoneme track for jetski type 2, anim #500. [AI]
+
+	// --- Sound FX for jetski activity by animation frame/segment ---
+	c_ijs001d4_0_sfx = 157,       ///< @brief [AI] SFX frame 0 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_1_sfx = 158,       ///< @brief [AI] SFX frame 1 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_2_sfx = 159,       ///< @brief [AI] SFX frame 2 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_3_sfx = 160,       ///< @brief [AI] SFX frame 3 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_4_sfx = 161,       ///< @brief [AI] SFX frame 4 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_5_sfx = 162,       ///< @brief [AI] SFX frame 5 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_6_sfx = 163,       ///< @brief [AI] SFX frame 6 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_7_sfx = 164,       ///< @brief [AI] SFX frame 7 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_8_sfx = 165,       ///< @brief [AI] SFX frame 8 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_9_sfx = 166,       ///< @brief [AI] SFX frame 9 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_10_sfx = 167,      ///< @brief [AI] SFX frame 10 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_11_sfx = 168,      ///< @brief [AI] SFX frame 11 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_12_sfx = 169,      ///< @brief [AI] SFX frame 12 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_13_sfx = 170,      ///< @brief [AI] SFX frame 13 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_14_sfx = 171,      ///< @brief [AI] SFX frame 14 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_15_sfx = 172,      ///< @brief [AI] SFX frame 15 for IJS001D4 jetski type. [AI]
+	c_ijs001d4_Anim = 173,        ///< @brief [AI] Animation track for IJS001D4 jetski type. [AI]
+
+	c_IJSxx2D4_Wav_501 = 174,     ///< @brief [AI] WAV audio for jetski type X, dialogue/file #501. [AI]
+	c_IJSxx2D4_Pho_501 = 175,     ///< @brief [AI] Phoneme track for jetski type X, anim #501. [AI]
+	c_ijsxx2d4_0_sfx = 176,       ///< @brief [AI] SFX frame 0 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_1_sfx = 177,       ///< @brief [AI] SFX frame 1 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_2_sfx = 178,       ///< @brief [AI] SFX frame 2 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_3_sfx = 179,       ///< @brief [AI] SFX frame 3 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_4_sfx = 180,       ///< @brief [AI] SFX frame 4 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_5_sfx = 181,       ///< @brief [AI] SFX frame 5 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_6_sfx = 182,       ///< @brief [AI] SFX frame 6 for IJSxx2D4 jetski type. [AI]
+	c_ijsxx2d4_Anim = 183,        ///< @brief [AI] Animation track for IJSxx2D4 jetski type. [AI]
+
+	c_IJS003D4_Wav_502 = 184,     ///< @brief [AI] WAV audio for jetski type 3, dialogue/file #502. [AI]
+	c_IJS003D4_Pho_502 = 185,     ///< @brief [AI] Phoneme track for jetski type 3, anim #502. [AI]
+	c_ijs003d4_0_sfx = 186,       ///< @brief [AI] SFX frame 0 for IJS003D4 jetski type. [AI]
+	c_ijs003d4_1_sfx = 187,       ///< @brief [AI] SFX frame 1 for IJS003D4 jetski type. [AI]
+	c_ijs003d4_Anim = 188,        ///< @brief [AI] Animation track for IJS003D4 jetski type. [AI]
+
+	c_IJS004D4_Wav_503 = 189,     ///< @brief [AI] WAV audio for jetski type 4, dialogue/file #503. [AI]
+	c_IJS004D4_Pho_503 = 190,     ///< @brief [AI] Phoneme track for jetski type 4, anim #503. [AI]
+	c_ijs004d4_0_sfx = 191,       ///< @brief [AI] SFX frame 0 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_1_sfx = 192,       ///< @brief [AI] SFX frame 1 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_2_sfx = 193,       ///< @brief [AI] SFX frame 2 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_3_sfx = 194,       ///< @brief [AI] SFX frame 3 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_4_sfx = 195,       ///< @brief [AI] SFX frame 4 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_5_sfx = 196,       ///< @brief [AI] SFX frame 5 for IJS004D4 jetski type. [AI]
+	c_ijs004d4_Anim = 197,        ///< @brief [AI] Animation track for IJS004D4 jetski type. [AI]
+
+	c_IJS005D4_Wav_504 = 198,     ///< @brief [AI] WAV audio for jetski type 5, dialogue/file #504. [AI]
+	c_IJS005D4_Pho_504 = 199,     ///< @brief [AI] Phoneme track for jetski type 5, anim #504. [AI]
+	c_ijs005d4_0_sfx = 200,       ///< @brief [AI] SFX frame 0 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_1_sfx = 201,       ///< @brief [AI] SFX frame 1 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_2_sfx = 202,       ///< @brief [AI] SFX frame 2 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_3_sfx = 203,       ///< @brief [AI] SFX frame 3 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_4_sfx = 204,       ///< @brief [AI] SFX frame 4 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_5_sfx = 205,       ///< @brief [AI] SFX frame 5 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_6_sfx = 206,       ///< @brief [AI] SFX frame 6 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_7_sfx = 207,       ///< @brief [AI] SFX frame 7 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_8_sfx = 208,       ///< @brief [AI] SFX frame 8 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_9_sfx = 209,       ///< @brief [AI] SFX frame 9 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_10_sfx = 210,      ///< @brief [AI] SFX frame 10 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_11_sfx = 211,      ///< @brief [AI] SFX frame 11 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_12_sfx = 212,      ///< @brief [AI] SFX frame 12 for IJS005D4 jetski type. [AI]
+	c_ijs005d4_Anim = 213,        ///< @brief [AI] Animation track for IJS005D4 jetski type. [AI]
+
+	c_IJS006D4_Wav_505 = 214,     ///< @brief [AI] WAV audio for jetski type 6, dialogue/file #505. [AI]
+	c_IJS006D4_Pho_505 = 215,     ///< @brief [AI] Phoneme track for jetski type 6, anim #505. [AI]
+	c_ijs006d4_0_sfx = 216,       ///< @brief [AI] SFX frame 0 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_1_sfx = 217,       ///< @brief [AI] SFX frame 1 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_2_sfx = 218,       ///< @brief [AI] SFX frame 2 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_3_sfx = 219,       ///< @brief [AI] SFX frame 3 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_4_sfx = 220,       ///< @brief [AI] SFX frame 4 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_5_sfx = 221,       ///< @brief [AI] SFX frame 5 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_6_sfx = 222,       ///< @brief [AI] SFX frame 6 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_7_sfx = 223,       ///< @brief [AI] SFX frame 7 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_8_sfx = 224,       ///< @brief [AI] SFX frame 8 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_9_sfx = 225,       ///< @brief [AI] SFX frame 9 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_10_sfx = 226,      ///< @brief [AI] SFX frame 10 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_11_sfx = 227,      ///< @brief [AI] SFX frame 11 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_12_sfx = 228,      ///< @brief [AI] SFX frame 12 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_13_sfx = 229,      ///< @brief [AI] SFX frame 13 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_14_sfx = 230,      ///< @brief [AI] SFX frame 14 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_15_sfx = 231,      ///< @brief [AI] SFX frame 15 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_16_sfx = 232,      ///< @brief [AI] SFX frame 16 for IJS006D4 jetski type. [AI]
+	c_ijs006d4_Anim = 233,        ///< @brief [AI] Animation track for IJS006D4 jetski type. [AI]
+
+	c_IJS007D4_Wav_506 = 234,     ///< @brief [AI] WAV audio for jetski type 7, dialogue/file #506. [AI]
+	c_IJS007D4_Pho_506 = 235,     ///< @brief [AI] Phoneme track for jetski type 7, anim #506. [AI]
+	c_ijs007d4_0_sfx = 236,       ///< @brief [AI] SFX frame 0 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_1_sfx = 237,       ///< @brief [AI] SFX frame 1 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_2_sfx = 238,       ///< @brief [AI] SFX frame 2 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_3_sfx = 239,       ///< @brief [AI] SFX frame 3 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_4_sfx = 240,       ///< @brief [AI] SFX frame 4 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_5_sfx = 241,       ///< @brief [AI] SFX frame 5 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_6_sfx = 242,       ///< @brief [AI] SFX frame 6 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_7_sfx = 243,       ///< @brief [AI] SFX frame 7 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_8_sfx = 244,       ///< @brief [AI] SFX frame 8 for IJS007D4 jetski type. [AI]
+	c_ijs007d4_Anim = 245,        ///< @brief [AI] Animation track for IJS007D4 jetski type. [AI]
+
+	// --- Run animation scripting commands for each jetski model ---
+	c_ijs001d4_RunAnim = 500,     ///< @brief [AI] Run animation for jetski type 1. [AI]
+	c_ijsxx2d4_RunAnim = 501,     ///< @brief [AI] Run animation for jetski type X. [AI]
+	c_ijs003d4_RunAnim = 502,     ///< @brief [AI] Run animation for jetski type 3. [AI]
+	c_ijs004d4_RunAnim = 503,     ///< @brief [AI] Run animation for jetski type 4. [AI]
+	c_ijs005d4_RunAnim = 504,     ///< @brief [AI] Run animation for jetski type 5. [AI]
+	c_ijs006d4_RunAnim = 505,     ///< @brief [AI] Run animation for jetski type 6. [AI]
+	c_ijs007d4_RunAnim = 506      ///< @brief [AI] Run animation for jetski type 7. [AI]
 };
 } // namespace JetskiScript
 

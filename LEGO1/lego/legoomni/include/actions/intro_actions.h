@@ -3,33 +3,57 @@
 #ifndef INTRO_ACTIONS_H
 #define INTRO_ACTIONS_H
 
+/**
+ * @namespace IntroScript
+ * @brief [AI] Contains enumerations for the scripts used in the intro, outro, and cinematic sequences of the game.
+ * @details [AI] The IntroScript namespace encapsulates enumerations related to scripted events and resources
+ *              in LEGO Island's intro/outro video and audio sequences, including both cinematics and sound resources.
+ */
 namespace IntroScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all scriptable intro and outro cinematic and audio resources.
+ * @details [AI] The Script enumeration contains indices representing the available video and sound resources
+ *              used in the intro, outro, and game ending cinematics. It includes SMK (video), WAVE (audio),
+ *              and categorizes by company (Lego/Mindscape), sequence (Intro/Outro/Endings), and result (Good/Bad End).
+ *              These values are used to trigger specific scripted asset playback via the engine.
+ *              This enum is zero-based except for c_noneIntro, indicating no action(-1).
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all scriptable intro and outro cinematic and audio resources.
+ * @details [AI] The Script enumeration contains indices representing the available video and sound resources
+ *              used in the intro, outro, and game ending cinematics. It includes SMK (video), WAVE (audio),
+ *              and categorizes by company (Lego/Mindscape), sequence (Intro/Outro/Endings), and result (Good/Bad End).
+ *              These values are used to trigger specific scripted asset playback via the engine.
+ *              This enum is zero-based except for c_noneIntro, indicating no action(-1).
+ */
 enum Script {
 #endif
-	c_noneIntro = -1,
+	c_noneIntro = -1,       /**< [AI] No intro script/cinematic action. */
 
-	c_Lego_Movie = 0,
-	c_Mindscape_Movie = 1,
-	c_Intro_Movie = 2,
-	c_Outro_Movie = 3,
-	c_BadEnd_Movie = 4,
-	c_GoodEnd_Movie = 5,
-	c_Lego_Smk = 6,
-	c_Lego_Wave = 7,
-	c_Mindscape_Smk = 8,
-	c_Mindscape_Wave = 9,
-	c_Intro_Smk = 10,
-	c_Intro_Wave = 11,
-	c_Outro_Smk = 12,
-	c_Outro_Wave = 13,
-	c_BadEnd_Smk = 14,
-	c_BadEnd_Wave = 15,
-	c_GoodEnd_Smk = 16,
-	c_GoodEnd_Wave = 17
+	c_Lego_Movie = 0,       /**< [AI] LEGO company legal video screen (video). */
+	c_Mindscape_Movie = 1,  /**< [AI] Mindscape company legal video screen (video). */
+	c_Intro_Movie = 2,      /**< [AI] Intro cinematic sequence (video). */
+	c_Outro_Movie = 3,      /**< [AI] Outro/campaign-completion cinematic (video). */
+	c_BadEnd_Movie = 4,     /**< [AI] Cinematic for losing or failing (bad ending, video). */
+	c_GoodEnd_Movie = 5,    /**< [AI] Cinematic for game completion with good ending (video). */
+	c_Lego_Smk = 6,         /**< [AI] LEGO company logo sequence as .SMK/Smacker video resource. */
+	c_Lego_Wave = 7,        /**< [AI] LEGO company logo associated audio (WAVE file). */
+	c_Mindscape_Smk = 8,    /**< [AI] Mindscape logo/intro as .SMK/Smacker video resource. */
+	c_Mindscape_Wave = 9,   /**< [AI] Mindscape logo associated audio (WAVE file). */
+	c_Intro_Smk = 10,       /**< [AI] Main intro cinematic as .SMK/Smacker video. */
+	c_Intro_Wave = 11,      /**< [AI] Main intro cinematic audio track (WAVE file). */
+	c_Outro_Smk = 12,       /**< [AI] Generic outro/ending cinematic as .SMK/Smacker video. */
+	c_Outro_Wave = 13,      /**< [AI] Generic outro/ending cinematic audio track (WAVE file). */
+	c_BadEnd_Smk = 14,      /**< [AI] Bad ending cinematic sequence as .SMK/Smacker video file. */
+	c_BadEnd_Wave = 15,     /**< [AI] Bad ending cinematic sequence audio (WAVE file). */
+	c_GoodEnd_Smk = 16,     /**< [AI] Good ending cinematic as .SMK/Smacker video file. */
+	c_GoodEnd_Wave = 17     /**< [AI] Good ending cinematic sequence audio (WAVE file). */
 };
 } // namespace IntroScript
 

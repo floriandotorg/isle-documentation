@@ -7,12 +7,25 @@
 
 #define HASH_TABLE_INIT_SIZE 128
 
+/**
+ * @class MxHashTableNode
+ * @brief [AI] Node used within the MxHashTable to store an individual object and associated hash, for organizing elements in a bucketed linked list.
+ * @details [AI] Each hash table slot contains a linked list of these nodes. Each node stores an object of type T and the corresponding hash, as well as pointers to previous and next nodes in the bucket's list.
+ * @tparam T [AI] Type of object stored in the hash table node.
+ */
 template <class T>
 class MxHashTableCursor;
 
 template <class T>
 class MxHashTableNode {
 public:
+	/**
+	 * @brief [AI] Constructor for a new hash node with its associated object, hash value, and linkage pointers.
+	 * @param p_obj [AI] The object value held by this node.
+	 * @param p_hash [AI] The precomputed hash for the stored object.
+	 * @param p_prev [AI] The node preceding this one in the bucket's linked list (can be nullptr).
+	 * @param p_next [AI] The node following this one in the bucket's linked list (can be nullptr).
+	 */
 	MxHashTableNode<T>(T p_obj, MxU32 p_hash, MxHashTableNode* p_prev, MxHashTableNode* p_next)
 	{
 		m_obj = p_obj;
@@ -23,21 +36,38 @@ public:
 
 	// DECOMP: Should use getter and setter methods here per the style guide.
 	// However, LEGO1D (with no functions inlined) does not use them.
+
+	/// @brief [AI] The actual object value this node represents.
 	T m_obj;
+	/// @brief [AI] The hash value for m_obj, used for placement/search in the table.
 	MxU32 m_hash;
+	/// @brief [AI] Previous node in the linked list chain within the current bucket.
 	MxHashTableNode* m_prev;
+	/// @brief [AI] Next node in the linked list chain within the current bucket.
 	MxHashTableNode* m_next;
 };
 
+/**
+ * @class MxHashTable
+ * @brief [AI] Generic hash table collection implementing chained (bucketed) hashing, used for efficient lookup and storage of objects by key or value.
+ * @details [AI] Inherits collection semantics from MxCollection<T> but also manages resizing, hash calculation, and separate chaining (via MxHashTableNode). Provides insert, deletion, and all-bucket purge operations. Resizing policies can be controlled via Option.
+ * @tparam T [AI] Type of object managed by the hash table.
+ */
 template <class T>
 class MxHashTable : protected MxCollection<T> {
 public:
+	/**
+	 * @brief [AI] Enum describing the strategy for resizing the hash table when load increases.
+	 */
 	enum Option {
-		e_noExpand = 0,
-		e_expandAll,
-		e_expandMultiply,
+		e_noExpand = 0,    ///< [AI] Never resize (table will not expand regardless of load).
+		e_expandAll,       ///< [AI] Fixed amount of slots added on resize.
+		e_expandMultiply,  ///< [AI] Table size is multiplied by a factor on resize.
 	};
 
+	/**
+	 * @brief [AI] Default constructor. Initializes hash table with HASH_TABLE_INIT_SIZE slots and configures resizing behavior.
+	 */
 	MxHashTable()
 	{
 		m_numSlots = HASH_TABLE_INIT_SIZE;
@@ -47,47 +77,112 @@ public:
 		m_resizeOption = e_noExpand;
 	}
 
+	/**
+	 * @brief [AI] Destructor. Purges all contained nodes and releases bucket array.
+	 */
 	~MxHashTable() override;
 
+	/**
+	 * @brief [AI] Expand/recreates the hash table according to the current resizing policy.
+	 * @details [AI] Moves nodes from the old bucket array to a newly sized one based on m_resizeOption, re-bucketing all nodes.
+	 */
 	void Resize();
+
+	/**
+	 * @brief [AI] Inserts a new item into the hash table, possibly resizing if automatic resize is enabled and load threshold is exceeded.
+	 * @param [AI] p_newobj The item to insert.
+	 */
 	void Add(T);
+
+	/**
+	 * @brief [AI] Removes and destructs all nodes in all hash buckets, clearing the table.
+	 */
 	void DeleteAll();
 
-	virtual MxU32 Hash(T) { return 0; }
+	/**
+	 * @brief [AI] Computes the hash of the given object. Should be overridden for meaningful hash computation.
+	 * @param [AI] (unnamed) The object to compute the hash for.
+	 * @return [AI] Hash value appropriate for placing the object in a bucket.
+	 */
+	virtual MxU32 Hash(T) { return 0; } // [AI] To be overridden by subclasses.
 
 	friend class MxHashTableCursor<T>;
 
 protected:
+	/**
+	 * @brief [AI] Inserts a given node into the relevant hash bucket according to the node's hash value.
+	 * @param p_node [AI] Node (already allocated) to insert into appropriate bucket.
+	 */
 	void NodeInsert(MxHashTableNode<T>*);
 
+	/// @brief [AI] Array of pointers to bucket heads; each slot is a chain of nodes (linked list) holding objects with equal (modulo table size) hashes.
 	MxHashTableNode<T>** m_slots; // 0x10
+
+	/// @brief [AI] Number of hash buckets in the table; controls how hash values are mapped to buckets.
 	MxU32 m_numSlots;             // 0x14
+
+	/// @brief [AI] Ratio at which the table will auto-resize (load factor denominator).
 	MxU32 m_autoResizeRatio;      // 0x18
+
+	/// @brief [AI] Strategy currently in use for resizing the table when needed.
 	Option m_resizeOption;        // 0x1c
-	// FIXME: or FIXME? This qword is used as an integer or double depending
-	// on the value of m_resizeOption. Hard to say whether this is how the devs
-	// did it, but a simple cast in either direction doesn't match.
+
+	/**
+	 * @brief [AI] Union holding the setting for table expansion:
+	 * - m_increaseAmount (when using e_expandAll): slots to add on resize.
+	 * - m_increaseFactor (when using e_expandMultiply): multiplicative factor for resizing (e.g. double the table).
+	 * Purpose is determined by m_resizeOption.
+	 */
 	union {
 		MxU32 m_increaseAmount;  // 0x20
 		double m_increaseFactor; // 0x20
 	};
 };
 
+/**
+ * @class MxHashTableCursor
+ * @brief [AI] Non-intrusive search-and-edit cursor for navigating, querying, or deleting a specific entry in an MxHashTable.
+ * @details [AI] Used to locate and possibly remove or edit a single object in the hash table by value, based on its hash and value equality.
+ * @tparam T [AI] The object type in the associated hash table.
+ */
 template <class T>
 class MxHashTableCursor : public MxCore {
 public:
+	/**
+	 * @brief [AI] Constructs a cursor operating on the supplied table; initially not referencing any match.
+	 * @param p_table [AI] Hash table in which searches/operations will be performed.
+	 */
 	MxHashTableCursor(MxHashTable<T>* p_table)
 	{
 		m_table = p_table;
 		m_match = NULL;
 	}
 
+	/**
+	 * @brief [AI] Finds and focuses the cursor on the first node matching the given object by hash and value; supports set-by-value semantics.
+	 * @param p_obj [AI] Value to search for in table using table's Compare and Hash functions.
+	 * @retval TRUE [AI] If a match was found and cursor now points to it.
+	 * @retval FALSE [AI] If no such object exists in table.
+	 */
 	MxBool Find(T p_obj);
+
+	/**
+	 * @brief [AI] Retrieves the object at the current match position, if valid.
+	 * @param p_obj [AI] (out parameter) Receives the matching object value if cursor is positioned on a node.
+	 * @retval TRUE [AI] If match exists, FALSE otherwise.
+	 */
 	MxBool Current(T& p_obj);
+
+	/**
+	 * @brief [AI] If the cursor points to a match, removes it from table and destroys the node.
+	 */
 	void DeleteMatch();
 
 private:
+	/// @brief [AI] The hash table this cursor is operating upon.
 	MxHashTable<T>* m_table;
+
+	/// @brief [AI] Currently matched node (from a find), or nullptr if not positioned.
 	MxHashTableNode<T>* m_match;
 };
 

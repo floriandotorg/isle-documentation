@@ -3,37 +3,46 @@
 #ifndef JUKEBOXW_ACTIONS_H
 #define JUKEBOXW_ACTIONS_H
 
+/// \namespace JukeboxwScript
+/// \brief [AI] Contains enumerations for all script actions specific to the Jukeboxw UI/feature.
+/// \details [AI] Each enumerator defines a unique identifier for a scriptable element/action in the Jukeboxw component, for use in script dispatch, resource lookup or control flow. [AI]
 namespace JukeboxwScript
 {
 #if __cplusplus >= 201103L
+/// \enum Script
+/// \brief [AI] Enumerates all script actions and resource IDs for the Jukeboxw UI/feature.
+/// \details [AI] These enums are used for action dispatch, bitmap lookup, and control identifiers for Jukeboxw. The integer values are preserved for compatibility and indexing. [AI]
 enum Script : int {
 #else
+/// \enum Script
+/// \brief [AI] Enumerates all script actions and resource IDs for the Jukeboxw UI/feature.
+/// \details [AI] These enums are used for action dispatch, bitmap lookup, and control identifiers for Jukeboxw. The integer values are preserved for compatibility and indexing. [AI]
 enum Script {
 #endif
-	c_noneJukeboxw = -1,
+	c_noneJukeboxw = -1,                ///< [AI] No action or invalid/uninitialized script value. [AI]
 
-	c__StartUp = 0,
-	c_Voldown_Ctl = 1,
-	c_Volup_Ctl = 2,
-	c_Dback_Ctl = 3,
-	c_Dfwd_Ctl = 4,
-	c_Note_Ctl = 5,
-	c_Background_Bitmap = 6,
-	c_Right_Bitmap = 7,
-	c_Decal_Bitmap = 8,
-	c_Wallis_Bitmap = 9,
-	c_Nelson_Bitmap = 10,
-	c_Torpedos_Bitmap = 11,
-	c_Voldown_Up_Bitmap = 12,
-	c_Voldown_Down_Bitmap = 13,
-	c_Volup_Up_Bitmap = 14,
-	c_Volup_Down_Bitmap = 15,
-	c_Dback_Up_Bitmap = 16,
-	c_Dback_Down_Bitmap = 17,
-	c_Dfwd_Up_Bitmap = 18,
-	c_Dfwd_Down_Bitmap = 19,
-	c_Note_Up_Bitmap = 20,
-	c_Note_Down_Bitmap = 21
+	c__StartUp = 0,                     ///< [AI] Start-up action for the Jukeboxw component, usually for initialization sequence. [AI]
+	c_Voldown_Ctl = 1,                  ///< [AI] Script/control ID for "volume down" button or related handler. [AI]
+	c_Volup_Ctl = 2,                    ///< [AI] Script/control ID for "volume up" button or related handler. [AI]
+	c_Dback_Ctl = 3,                    ///< [AI] Script/control ID for "back" (rewind or previous) button in the interface. [AI]
+	c_Dfwd_Ctl = 4,                     ///< [AI] Script/control ID for "forward" (advance/next) button. [AI]
+	c_Note_Ctl = 5,                     ///< [AI] Script/control ID for a "note" imagery/button. [AI]
+	c_Background_Bitmap = 6,            ///< [AI] Bitmap enumeration for the background image of the Jukeboxw UI. [AI]
+	c_Right_Bitmap = 7,                 ///< [AI] Bitmap enumeration for the right panel/image in the UI. [AI]
+	c_Decal_Bitmap = 8,                 ///< [AI] Bitmap enumeration for a decal/ornamentation image. [AI]
+	c_Wallis_Bitmap = 9,                ///< [AI] Bitmap enumeration for the Wallis character image or button. [AI]
+	c_Nelson_Bitmap = 10,               ///< [AI] Bitmap enumeration for the Nelson character image or button. [AI]
+	c_Torpedos_Bitmap = 11,             ///< [AI] Bitmap enumeration for the Torpedos character image or button. [AI]
+	c_Voldown_Up_Bitmap = 12,           ///< [AI] Bitmap used for "volume down" button in unpressed (up) state. [AI]
+	c_Voldown_Down_Bitmap = 13,         ///< [AI] Bitmap used for "volume down" button in pressed (down) state. [AI]
+	c_Volup_Up_Bitmap = 14,             ///< [AI] Bitmap used for "volume up" button in unpressed (up) state. [AI]
+	c_Volup_Down_Bitmap = 15,           ///< [AI] Bitmap used for "volume up" button in pressed (down) state. [AI]
+	c_Dback_Up_Bitmap = 16,             ///< [AI] Bitmap used for "back" button in unpressed (up) state. [AI]
+	c_Dback_Down_Bitmap = 17,           ///< [AI] Bitmap used for "back" button in pressed (down) state. [AI]
+	c_Dfwd_Up_Bitmap = 18,              ///< [AI] Bitmap used for "forward" button in unpressed (up) state. [AI]
+	c_Dfwd_Down_Bitmap = 19,            ///< [AI] Bitmap used for "forward" button in pressed (down) state. [AI]
+	c_Note_Up_Bitmap = 20,              ///< [AI] Bitmap for "note" button/image in unpressed (up) state. [AI]
+	c_Note_Down_Bitmap = 21             ///< [AI] Bitmap for "note" button/image in pressed (down) state. [AI]
 };
 } // namespace JukeboxwScript
 

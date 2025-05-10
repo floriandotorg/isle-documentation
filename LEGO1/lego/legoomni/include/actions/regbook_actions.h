@@ -3,177 +3,198 @@
 #ifndef REGBOOK_ACTIONS_H
 #define REGBOOK_ACTIONS_H
 
+/**
+ * @namespace RegbookScript
+ * @brief [AI] Namespace containing action and resource script enumerations for the Regbook script module.
+ * @details [AI] This namespace provides an enumeration of script identifiers used for mapping identifiers to scripts, resources, and entities in the Regbook scripting environment. Each enumerator typically represents the numeric identifier of a script or resource to be referenced at runtime or during script parsing. [AI]
+ */
 namespace RegbookScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script
+ * @brief [AI] Enumeration of script and resource identifiers for Regbook scripting.
+ * @details [AI]
+ * This enum provides unique integer IDs for scripts, controls, actors, bitmap resources, sounds and other data used by the Regbook section of the game. The values map directly to entries inside SI files or internal script data, enabling lookup and referencing by name or number at runtime. Some enumerators also represent down states for buttons or interface resources. Some gaps or suffixes (such as _Down or _Bitmap) clarify UI/resource state variants. [AI]
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script
+ * @brief [AI] Enumeration of script and resource identifiers for Regbook scripting.
+ * @details [AI]
+ * This enum provides unique integer IDs for scripts, controls, actors, bitmap resources, sounds and other data used by the Regbook section of the game. The values map directly to entries inside SI files or internal script data, enabling lookup and referencing by name or number at runtime. Some enumerators also represent down states for buttons or interface resources. Some gaps or suffixes (such as _Down or _Bitmap) clarify UI/resource state variants. [AI]
+ */
 enum Script {
 #endif
-	c_noneRegbook = -1,
 
-	c__StartUp = 0,
-	c_RB_Helicopter_Actor = 1,
-	c_RB_DuneBugy_Actor = 2,
-	c_RB_Jetski_Actor = 3,
-	c_RB_RaceCar_Actor = 4,
-	c_Alphabet_Ctl = 5,
-	c_A_Bitmap = 6,
-	c_B_Bitmap = 7,
-	c_C_Bitmap = 8,
-	c_D_Bitmap = 9,
+	c_noneRegbook = -1,                 ///< [AI] Represents an uninitialized or absent script/resource for the Regbook script subsystem. [AI]
 
-	c_Infoman_Entity = 12,
-	c_E_Bitmap = 13,
-	c_F_Bitmap = 14,
-	c_G_Bitmap = 15,
-	c_H_Bitmap = 16,
-	c_I_Bitmap = 17,
-	c_J_Bitmap = 18,
-	c_K_Bitmap = 19,
-	c_L_Bitmap = 20,
-	c_M_Bitmap = 21,
-	c_N_Bitmap = 22,
-	c_O_Bitmap = 23,
-	c_P_Bitmap = 24,
-	c_Q_Bitmap = 25,
-	c_R_Bitmap = 26,
-	c_S_Bitmap = 27,
-	c_T_Bitmap = 28,
-	c_U_Bitmap = 29,
-	c_V_Bitmap = 30,
-	c_W_Bitmap = 31,
-	c_X_Bitmap = 32,
-	c_Y_Bitmap = 33,
-	c_Z_Bitmap = 34,
-	c_Infoman_Model = 35,
-	c_Background_Bitmap = 36,
-	c_CheckHiLite_Bitmap = 37,
-	c_Alphabet_Mask_Bitmap = 38,
-	c_A_Down_Bitmap = 39,
-	c_B_Down_Bitmap = 40,
-	c_C_Down_Bitmap = 41,
-	c_D_Down_Bitmap = 42,
-	c_E_Down_Bitmap = 43,
-	c_F_Down_Bitmap = 44,
-	c_G_Down_Bitmap = 45,
-	c_H_Down_Bitmap = 46,
-	c_I_Down_Bitmap = 47,
-	c_J_Down_Bitmap = 48,
-	c_K_Down_Bitmap = 49,
-	c_L_Down_Bitmap = 50,
-	c_M_Down_Bitmap = 51,
-	c_N_Down_Bitmap = 52,
-	c_O_Down_Bitmap = 53,
-	c_P_Down_Bitmap = 54,
-	c_Textures = 55,
-	c_Q_Down_Bitmap = 56,
-	c_R_Down_Bitmap = 57,
-	c_S_Down_Bitmap = 58,
-	c_T_Down_Bitmap = 59,
-	c_U_Down_Bitmap = 60,
-	c_V_Down_Bitmap = 61,
-	c_W_Down_Bitmap = 62,
-	c_X_Down_Bitmap = 63,
-	c_Y_Down_Bitmap = 64,
-	c_Z_Down_Bitmap = 65,
-	c_Back_Down_Bitmap = 66,
-	c_Info_Down_Bitmap = 67,
-	c_Check0_Ctl = 68,
-	c_Check0_Bitmap_69 = 69,
-	c_Check0_Bitmap_70 = 70,
-	c_Check1_Ctl = 71,
-	c_Check1_Bitmap_72 = 72,
-	c_Check1_Bitmap_73 = 73,
-	c_Check2_Ctl = 74,
-	c_Check2_Bitmap_75 = 75,
-	c_Check2_Bitmap_76 = 76,
-	c_Check3_Ctl = 77,
-	c_Check3_Bitmap_78 = 78,
-	c_Check3_Bitmap_79 = 79,
-	c_Check4_Ctl = 80,
-	c_Check4_Bitmap_81 = 81,
-	c_Check4_Bitmap_82 = 82,
-	c_Check5_Ctl = 83,
-	c_Check5_Bitmap_84 = 84,
-	c_Check5_Bitmap_85 = 85,
-	c_Check6_Ctl = 86,
-	c_Check6_Bitmap_87 = 87,
-	c_Check6_Bitmap_88 = 88,
-	c_Check7_Ctl = 89,
-	c_Check7_Bitmap_90 = 90,
-	c_Check7_Bitmap_91 = 91,
-	c_Check8_Ctl = 92,
-	c_Check8_Bitmap_93 = 93,
-	c_Check8_Bitmap_94 = 94,
-	c_Check9_Ctl = 95,
-	c_Check9_Bitmap_96 = 96,
-	c_Check9_Bitmap_97 = 97,
-	c_ConfigAnimation = 98,
-	c_Chptr_Model = 99,
-	c_DuneBugy_Model = 100,
-	c_Jsuser_Model = 101,
-	c_Rcuser_Model = 102,
-	c_CHWIND_Texture_1 = 103,
-	c_CHJETL_Texture_1 = 104,
-	c_CHJETR_Texture_1 = 105,
-	c_Decal_Texture_1 = 106,
-	c_JSFRNT_Texture_1 = 107,
-	c_JSWNSH_Texture_1 = 108,
-	c_RCFRNT_Texture_1 = 109,
-	c_RCBACK_Texture_1 = 110,
-	c_RCTAIL_Texture_1 = 111,
-	c_iic006in_Wav_500 = 112,
-	c_iic006in_Pho_500 = 113,
-	c_iic006in_0_sfx = 114,
-	c_iic006in_1_sfx = 115,
-	c_iic006in_2_sfx = 116,
-	c_iic006in_3_sfx = 117,
-	c_iic006in_Anim = 118,
-	c_IIC010IN_Wav_501 = 119,
-	c_IIC010IN_Pho_501 = 120,
-	c_iic010in_0_sfx = 121,
-	c_iic010in_1_sfx = 122,
-	c_iic010in_2_sfx = 123,
-	c_iic010in_3_sfx = 124,
-	c_iic010in_4_sfx = 125,
-	c_iic010in_5_sfx = 126,
-	c_iic010in_6_sfx = 127,
-	c_iic010in_7_sfx = 128,
-	c_iic010in_8_sfx = 129,
-	c_iic010in_9_sfx = 130,
-	c_iic010in_Anim = 131,
-	c_IIC012IN_Wav_502 = 132,
-	c_IIC012IN_Pho_502 = 133,
-	c_iic012in_0_sfx = 134,
-	c_iic012in_1_sfx = 135,
-	c_iic012in_2_sfx = 136,
-	c_iic012in_3_sfx = 137,
-	c_iic012in_4_sfx = 138,
-	c_iic012in_5_sfx = 139,
-	c_iic012in_6_sfx = 140,
-	c_iic012in_7_sfx = 141,
-	c_iic012in_Anim = 142,
-	c_iic014in_Wav_503 = 143,
-	c_iic014in_Pho_503 = 144,
-	c_iic014in_0_sfx = 145,
-	c_iic014in_1_sfx = 146,
-	c_iic014in_2_sfx = 147,
-	c_iic014in_3_sfx = 148,
-	c_iic014in_4_sfx = 149,
-	c_iic014in_5_sfx = 150,
-	c_iic014in_6_sfx = 151,
-	c_iic014in_7_sfx = 152,
-	c_iic014in_8_sfx = 153,
-	c_iic014in_Anim = 154,
+	c__StartUp = 0,                     ///< [AI] Initial startup action/script. [AI]
+	c_RB_Helicopter_Actor = 1,          ///< [AI] Actor resource for the helicopter vehicle in Regbook. [AI]
+	c_RB_DuneBugy_Actor = 2,            ///< [AI] Actor resource for the dune buggy vehicle in Regbook. [AI]
+	c_RB_Jetski_Actor = 3,              ///< [AI] Actor resource for the jetski vehicle in Regbook. [AI]
+	c_RB_RaceCar_Actor = 4,             ///< [AI] Actor resource for the race car vehicle in Regbook. [AI]
+	c_Alphabet_Ctl = 5,                 ///< [AI] UI control for the full alphabet selection in Regbook, likely for character entry. [AI]
+	c_A_Bitmap = 6,                     ///< [AI] Bitmap resource for the letter A in the alphabet or UI. [AI]
+	c_B_Bitmap = 7,                     ///< [AI] Bitmap resource for the letter B. [AI]
+	c_C_Bitmap = 8,                     ///< [AI] Bitmap resource for the letter C. [AI]
+	c_D_Bitmap = 9,                     ///< [AI] Bitmap resource for the letter D. [AI]
 
-	c_iic006in_RunAnim = 500,
-	c_iic010in_RunAnim = 501,
-	c_iic012in_RunAnim = 502,
-	c_iic014in_RunAnim = 503,
-	c_iic009in_PlayWav = 504,
-	c_iic007in_PlayWav = 505,
-	c_iic008in_PlayWav = 506
+	c_Infoman_Entity = 12,              ///< [AI] Script/entity reference for the Infoman NPC or helper entity in Regbook. [AI]
+	c_E_Bitmap = 13,                    ///< [AI] Bitmap resource for the letter E. [AI]
+	c_F_Bitmap = 14,                    ///< [AI] Bitmap resource for the letter F. [AI]
+	c_G_Bitmap = 15,                    ///< [AI] Bitmap resource for the letter G. [AI]
+	c_H_Bitmap = 16,                    ///< [AI] Bitmap resource for the letter H. [AI]
+	c_I_Bitmap = 17,                    ///< [AI] Bitmap resource for the letter I. [AI]
+	c_J_Bitmap = 18,                    ///< [AI] Bitmap resource for the letter J. [AI]
+	c_K_Bitmap = 19,                    ///< [AI] Bitmap resource for the letter K. [AI]
+	c_L_Bitmap = 20,                    ///< [AI] Bitmap resource for the letter L. [AI]
+	c_M_Bitmap = 21,                    ///< [AI] Bitmap resource for the letter M. [AI]
+	c_N_Bitmap = 22,                    ///< [AI] Bitmap resource for the letter N. [AI]
+	c_O_Bitmap = 23,                    ///< [AI] Bitmap resource for the letter O. [AI]
+	c_P_Bitmap = 24,                    ///< [AI] Bitmap resource for the letter P. [AI]
+	c_Q_Bitmap = 25,                    ///< [AI] Bitmap resource for the letter Q. [AI]
+	c_R_Bitmap = 26,                    ///< [AI] Bitmap resource for the letter R. [AI]
+	c_S_Bitmap = 27,                    ///< [AI] Bitmap resource for the letter S. [AI]
+	c_T_Bitmap = 28,                    ///< [AI] Bitmap resource for the letter T. [AI]
+	c_U_Bitmap = 29,                    ///< [AI] Bitmap resource for the letter U. [AI]
+	c_V_Bitmap = 30,                    ///< [AI] Bitmap resource for the letter V. [AI]
+	c_W_Bitmap = 31,                    ///< [AI] Bitmap resource for the letter W. [AI]
+	c_X_Bitmap = 32,                    ///< [AI] Bitmap resource for the letter X. [AI]
+	c_Y_Bitmap = 33,                    ///< [AI] Bitmap resource for the letter Y. [AI]
+	c_Z_Bitmap = 34,                    ///< [AI] Bitmap resource for the letter Z. [AI]
+	c_Infoman_Model = 35,               ///< [AI] 3D model representation or resource for Infoman entity. [AI]
+	c_Background_Bitmap = 36,           ///< [AI] Bitmap for the Regbook UI background or general background art. [AI]
+	c_CheckHiLite_Bitmap = 37,          ///< [AI] Bitmap for highlighting or selecting a checkbutton or checkbox (UI). [AI]
+	c_Alphabet_Mask_Bitmap = 38,        ///< [AI] Bitmap serving as an alpha mask or overlay for the alphabet UI. [AI]
+	c_A_Down_Bitmap = 39,               ///< [AI] "Down" or pressed UI bitmap for letter A. [AI]
+	c_B_Down_Bitmap = 40,               ///< [AI] "Down" or pressed UI bitmap for letter B. [AI]
+	c_C_Down_Bitmap = 41,               ///< [AI] "Down" or pressed UI bitmap for letter C. [AI]
+	c_D_Down_Bitmap = 42,               ///< [AI] "Down" or pressed UI bitmap for letter D. [AI]
+	c_E_Down_Bitmap = 43,               ///< [AI] "Down" or pressed UI bitmap for letter E. [AI]
+	c_F_Down_Bitmap = 44,               ///< [AI] "Down" or pressed UI bitmap for letter F. [AI]
+	c_G_Down_Bitmap = 45,               ///< [AI] "Down" or pressed UI bitmap for letter G. [AI]
+	c_H_Down_Bitmap = 46,               ///< [AI] "Down" or pressed UI bitmap for letter H. [AI]
+	c_I_Down_Bitmap = 47,               ///< [AI] "Down" or pressed UI bitmap for letter I. [AI]
+	c_J_Down_Bitmap = 48,               ///< [AI] "Down" or pressed UI bitmap for letter J. [AI]
+	c_K_Down_Bitmap = 49,               ///< [AI] "Down" or pressed UI bitmap for letter K. [AI]
+	c_L_Down_Bitmap = 50,               ///< [AI] "Down" or pressed UI bitmap for letter L. [AI]
+	c_M_Down_Bitmap = 51,               ///< [AI] "Down" or pressed UI bitmap for letter M. [AI]
+	c_N_Down_Bitmap = 52,               ///< [AI] "Down" or pressed UI bitmap for letter N. [AI]
+	c_O_Down_Bitmap = 53,               ///< [AI] "Down" or pressed UI bitmap for letter O. [AI]
+	c_P_Down_Bitmap = 54,               ///< [AI] "Down" or pressed UI bitmap for letter P. [AI]
+	c_Textures = 55,                    ///< [AI] General reference to textures used in Regbook, likely a container or lookup resource. [AI]
+	c_Q_Down_Bitmap = 56,               ///< [AI] "Down" or pressed UI bitmap for letter Q. [AI]
+	c_R_Down_Bitmap = 57,               ///< [AI] "Down" or pressed UI bitmap for letter R. [AI]
+	c_S_Down_Bitmap = 58,               ///< [AI] "Down" or pressed UI bitmap for letter S. [AI]
+	c_T_Down_Bitmap = 59,               ///< [AI] "Down" or pressed UI bitmap for letter T. [AI]
+	c_U_Down_Bitmap = 60,               ///< [AI] "Down" or pressed UI bitmap for letter U. [AI]
+	c_V_Down_Bitmap = 61,               ///< [AI] "Down" or pressed UI bitmap for letter V. [AI]
+	c_W_Down_Bitmap = 62,               ///< [AI] "Down" or pressed UI bitmap for letter W. [AI]
+	c_X_Down_Bitmap = 63,               ///< [AI] "Down" or pressed UI bitmap for letter X. [AI]
+	c_Y_Down_Bitmap = 64,               ///< [AI] "Down" or pressed UI bitmap for letter Y. [AI]
+	c_Z_Down_Bitmap = 65,               ///< [AI] "Down" or pressed UI bitmap for letter Z. [AI]
+	c_Back_Down_Bitmap = 66,            ///< [AI] "Down" or pressed UI bitmap for the "Back" button. [AI]
+	c_Info_Down_Bitmap = 67,            ///< [AI] "Down" or pressed UI bitmap for the "Info" button. [AI]
+
+	c_Check0_Ctl = 68,                  ///< [AI] UI control for the first checkbox/checkbutton in a numeric or multi-check UI series. [AI]
+	c_Check0_Bitmap_69 = 69,            ///< [AI] Bitmap for the normal state of checkbox 0. [AI]
+	c_Check0_Bitmap_70 = 70,            ///< [AI] Bitmap for an alternate or highlighted state of checkbox 0. [AI]
+	c_Check1_Ctl = 71,                  ///< [AI] UI control for checkbox 1. [AI]
+	c_Check1_Bitmap_72 = 72,            ///< [AI] Bitmap for checkbox 1, normal state. [AI]
+	c_Check1_Bitmap_73 = 73,            ///< [AI] Bitmap for checkbox 1, alternate state. [AI]
+	c_Check2_Ctl = 74,                  ///< [AI] UI control for checkbox 2. [AI]
+	c_Check2_Bitmap_75 = 75,            ///< [AI] Bitmap for checkbox 2, normal state. [AI]
+	c_Check2_Bitmap_76 = 76,            ///< [AI] Bitmap for checkbox 2, alternate state. [AI]
+	c_Check3_Ctl = 77,                  ///< [AI] UI control for checkbox 3. [AI]
+	c_Check3_Bitmap_78 = 78,            ///< [AI] Bitmap for checkbox 3, normal state. [AI]
+	c_Check3_Bitmap_79 = 79,            ///< [AI] Bitmap for checkbox 3, alternate state. [AI]
+	c_Check4_Ctl = 80,                  ///< [AI] UI control for checkbox 4. [AI]
+	c_Check4_Bitmap_81 = 81,            ///< [AI] Bitmap for checkbox 4, normal state. [AI]
+	c_Check4_Bitmap_82 = 82,            ///< [AI] Bitmap for checkbox 4, alternate state. [AI]
+	c_Check5_Ctl = 83,                  ///< [AI] UI control for checkbox 5. [AI]
+	c_Check5_Bitmap_84 = 84,            ///< [AI] Bitmap for checkbox 5, normal state. [AI]
+	c_Check5_Bitmap_85 = 85,            ///< [AI] Bitmap for checkbox 5, alternate state. [AI]
+	c_Check6_Ctl = 86,                  ///< [AI] UI control for checkbox 6. [AI]
+	c_Check6_Bitmap_87 = 87,            ///< [AI] Bitmap for checkbox 6, normal state. [AI]
+	c_Check6_Bitmap_88 = 88,            ///< [AI] Bitmap for checkbox 6, alternate state. [AI]
+	c_Check7_Ctl = 89,                  ///< [AI] UI control for checkbox 7. [AI]
+	c_Check7_Bitmap_90 = 90,            ///< [AI] Bitmap for checkbox 7, normal state. [AI]
+	c_Check7_Bitmap_91 = 91,            ///< [AI] Bitmap for checkbox 7, alternate state. [AI]
+	c_Check8_Ctl = 92,                  ///< [AI] UI control for checkbox 8. [AI]
+	c_Check8_Bitmap_93 = 93,            ///< [AI] Bitmap for checkbox 8, normal state. [AI]
+	c_Check8_Bitmap_94 = 94,            ///< [AI] Bitmap for checkbox 8, alternate state. [AI]
+	c_Check9_Ctl = 95,                  ///< [AI] UI control for checkbox 9. [AI]
+	c_Check9_Bitmap_96 = 96,            ///< [AI] Bitmap for checkbox 9, normal state. [AI]
+	c_Check9_Bitmap_97 = 97,            ///< [AI] Bitmap for checkbox 9, alternate state. [AI]
+
+	c_ConfigAnimation = 98,             ///< [AI] Animation resource or configuration script for Regbook customizations. [AI]
+	c_Chptr_Model = 99,                 ///< [AI] 3D model for a "chapter" or section marker in Regbook. [AI]
+	c_DuneBugy_Model = 100,             ///< [AI] 3D model resource for the dune buggy vehicle. [AI]
+	c_Jsuser_Model = 101,               ///< [AI] 3D model resource for jetski user or character. [AI]
+	c_Rcuser_Model = 102,               ///< [AI] 3D model resource for racecar user or character. [AI]
+	c_CHWIND_Texture_1 = 103,           ///< [AI] Texture resource for wind or propeller component for vehicles, type 1. [AI]
+	c_CHJETL_Texture_1 = 104,           ///< [AI] Texture resource for jet (left side) for vehicle assets, type 1. [AI]
+	c_CHJETR_Texture_1 = 105,           ///< [AI] Texture resource for jet (right side) for vehicle assets, type 1. [AI]
+	c_Decal_Texture_1 = 106,            ///< [AI] General-use decal or sticker texture for vehicle customization, type 1. [AI]
+	c_JSFRNT_Texture_1 = 107,           ///< [AI] Texture for front face of jetski. [AI]
+	c_JSWNSH_Texture_1 = 108,           ///< [AI] Texture for windscreen/shield of jetski. [AI]
+	c_RCFRNT_Texture_1 = 109,           ///< [AI] Texture for front face of racecar. [AI]
+	c_RCBACK_Texture_1 = 110,           ///< [AI] Texture for back face of racecar. [AI]
+	c_RCTAIL_Texture_1 = 111,           ///< [AI] Texture for tail of racecar. [AI]
+
+	c_iic006in_Wav_500 = 112,           ///< [AI] WAV audio resource for character or event (iic006in), number 500 slot. [AI]
+	c_iic006in_Pho_500 = 113,           ///< [AI] PHO (phoneme/voice) audio resource for iic006in, number 500 slot. [AI]
+	c_iic006in_0_sfx = 114,             ///< [AI] Sound effect for iic006in, index 0. [AI]
+	c_iic006in_1_sfx = 115,             ///< [AI] Sound effect for iic006in, index 1. [AI]
+	c_iic006in_2_sfx = 116,             ///< [AI] Sound effect for iic006in, index 2. [AI]
+	c_iic006in_3_sfx = 117,             ///< [AI] Sound effect for iic006in, index 3. [AI]
+	c_iic006in_Anim = 118,              ///< [AI] Animation for iic006in. [AI]
+	c_IIC010IN_Wav_501 = 119,           ///< [AI] WAV audio resource for IIC010IN, number 501. [AI]
+	c_IIC010IN_Pho_501 = 120,           ///< [AI] PHO (phoneme/voice) audio resource for IIC010IN, number 501. [AI]
+	c_iic010in_0_sfx = 121,             ///< [AI] Sound effect for IIC010IN, index 0. [AI]
+	c_iic010in_1_sfx = 122,             ///< [AI] Sound effect for IIC010IN, index 1. [AI]
+	c_iic010in_2_sfx = 123,             ///< [AI] Sound effect for IIC010IN, index 2. [AI]
+	c_iic010in_3_sfx = 124,             ///< [AI] Sound effect for IIC010IN, index 3. [AI]
+	c_iic010in_4_sfx = 125,             ///< [AI] Sound effect for IIC010IN, index 4. [AI]
+	c_iic010in_5_sfx = 126,             ///< [AI] Sound effect for IIC010IN, index 5. [AI]
+	c_iic010in_6_sfx = 127,             ///< [AI] Sound effect for IIC010IN, index 6. [AI]
+	c_iic010in_7_sfx = 128,             ///< [AI] Sound effect for IIC010IN, index 7. [AI]
+	c_iic010in_8_sfx = 129,             ///< [AI] Sound effect for IIC010IN, index 8. [AI]
+	c_iic010in_9_sfx = 130,             ///< [AI] Sound effect for IIC010IN, index 9. [AI]
+	c_iic010in_Anim = 131,              ///< [AI] Animation for IIC010IN. [AI]
+	c_IIC012IN_Wav_502 = 132,           ///< [AI] WAV audio resource for IIC012IN, number 502. [AI]
+	c_IIC012IN_Pho_502 = 133,           ///< [AI] PHO audio resource for IIC012IN, number 502. [AI]
+	c_iic012in_0_sfx = 134,             ///< [AI] Sound effect for IIC012IN, index 0. [AI]
+	c_iic012in_1_sfx = 135,             ///< [AI] Sound effect for IIC012IN, index 1. [AI]
+	c_iic012in_2_sfx = 136,             ///< [AI] Sound effect for IIC012IN, index 2. [AI]
+	c_iic012in_3_sfx = 137,             ///< [AI] Sound effect for IIC012IN, index 3. [AI]
+	c_iic012in_4_sfx = 138,             ///< [AI] Sound effect for IIC012IN, index 4. [AI]
+	c_iic012in_5_sfx = 139,             ///< [AI] Sound effect for IIC012IN, index 5. [AI]
+	c_iic012in_6_sfx = 140,             ///< [AI] Sound effect for IIC012IN, index 6. [AI]
+	c_iic012in_7_sfx = 141,             ///< [AI] Sound effect for IIC012IN, index 7. [AI]
+	c_iic012in_Anim = 142,              ///< [AI] Animation for IIC012IN. [AI]
+	c_iic014in_Wav_503 = 143,           ///< [AI] WAV audio resource for IIC014IN, number 503. [AI]
+	c_iic014in_Pho_503 = 144,           ///< [AI] PHO audio resource for IIC014IN, number 503. [AI]
+	c_iic014in_0_sfx = 145,             ///< [AI] Sound effect for IIC014IN, index 0. [AI]
+	c_iic014in_1_sfx = 146,             ///< [AI] Sound effect for IIC014IN, index 1. [AI]
+	c_iic014in_2_sfx = 147,             ///< [AI] Sound effect for IIC014IN, index 2. [AI]
+	c_iic014in_3_sfx = 148,             ///< [AI] Sound effect for IIC014IN, index 3. [AI]
+	c_iic014in_4_sfx = 149,             ///< [AI] Sound effect for IIC014IN, index 4. [AI]
+	c_iic014in_5_sfx = 150,             ///< [AI] Sound effect for IIC014IN, index 5. [AI]
+	c_iic014in_6_sfx = 151,             ///< [AI] Sound effect for IIC014IN, index 6. [AI]
+	c_iic014in_7_sfx = 152,             ///< [AI] Sound effect for IIC014IN, index 7. [AI]
+	c_iic014in_8_sfx = 153,             ///< [AI] Sound effect for IIC014IN, index 8. [AI]
+	c_iic014in_Anim = 154,              ///< [AI] Animation for IIC014IN. [AI]
+
+	c_iic006in_RunAnim = 500,           ///< [AI] "Run" animation for iic006in. [AI]
+	c_iic010in_RunAnim = 501,           ///< [AI] "Run" animation for iic010in. [AI]
+	c_iic012in_RunAnim = 502,           ///< [AI] "Run" animation for iic012in. [AI]
+	c_iic014in_RunAnim = 503,           ///< [AI] "Run" animation for iic014in. [AI]
+	c_iic009in_PlayWav = 504,           ///< [AI] WAV audio playback action or trigger for iic009in resource. [AI]
+	c_iic007in_PlayWav = 505,           ///< [AI] WAV audio playback action or trigger for iic007in resource. [AI]
+	c_iic008in_PlayWav = 506            ///< [AI] WAV audio playback action or trigger for iic008in resource. [AI]
 };
 } // namespace RegbookScript
 

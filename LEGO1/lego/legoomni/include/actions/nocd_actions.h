@@ -3,17 +3,36 @@
 #ifndef NOCD_ACTIONS_H
 #define NOCD_ACTIONS_H
 
+/// @namespace NocdScript [AI]
+/// @brief [AI] Contains identifiers for NOCD script actions. 
+/// @details [AI] This namespace defines an enumeration of script actions used for NOCD-specific events and resources within the NOCD add-on/subsystem of the LEGO Island engine.
 namespace NocdScript
 {
 #if __cplusplus >= 201103L
+/// @enum Script [AI]
+/// @brief [AI] Enum representing all possible NocdScript action identifiers.
+/// @details [AI] Provides integer codes for different NOCD scripts (e.g., movies, sound effects) for resource selection and event scripting.
 enum Script : int {
 #else
+/// @enum Script [AI]
+/// @brief [AI] Enum representing all possible NocdScript action identifiers.
+/// @details [AI] Provides integer codes for different NOCD scripts (e.g., movies, sound effects) for resource selection and event scripting.
 enum Script {
 #endif
+	/// @var c_noneNocd
+	/// @brief [AI] Used as an invalid or uninitialized value for NOCD script action. 
 	c_noneNocd = -1,
 
+	/// @var c_NoCD_Movie
+	/// @brief [AI] Script action for playing the NOCD "Movie" (usually an intro or cutscene).
 	c_NoCD_Movie = 0,
+
+	/// @var c_CDSpin1_Smk
+	/// @brief [AI] Script action for the "Spin1" Smacker video event/animation in NOCD context.
 	c_CDSpin1_Smk = 1,
+
+	/// @var c_Iicx62In_Wave
+	/// @brief [AI] Script action for the "Iicx62In" WAVE audio resource in NOCD context.
 	c_Iicx62In_Wave = 2
 };
 } // namespace NocdScript

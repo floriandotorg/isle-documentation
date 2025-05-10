@@ -9,100 +9,115 @@
 
 // VTABLE: LEGO1 0x100db7f4
 // SIZE 0x40
+
+/**
+ * @brief [AI] Represents an advanced edge in the LEGO Island geometry system, with direction, flags, and geometric query utilities.
+ * @details [AI] This is an extension of LegoEdge, featuring enhanced geometric capabilities. This structure associates an edge with additional information such as directionality (normal vector), flags indicating properties per-face, and several helper functions for geometry intersection and metric queries. Seen in the path- and world-edge system of LEGO Island.
+ */
 struct LegoUnknown100db7f4 : public LegoEdge {
 public:
+	/// @brief [AI] Flag values for edge-face properties.
 	enum {
-		c_bit1 = 0x01,
-		c_bit2 = 0x02,
-		c_bit3 = 0x04,
-		c_bit4 = 0x08
+		c_bit1 = 0x01, ///< [AI] Bit flag 1 for face B connection/properties
+		c_bit2 = 0x02, ///< [AI] Bit flag 2 for face A connection/properties
+		c_bit3 = 0x04, ///< [AI] Bit flag 3 (purpose unknown)
+		c_bit4 = 0x08  ///< [AI] Bit flag 4 (purpose unknown)
 	};
 
+	/**
+	 * @brief [AI] Constructs a new edge object with zero-initialized per-face flags and direction/normal vector.
+	 */
 	LegoUnknown100db7f4();
 
-	// FUNCTION: LEGO1 0x1002ddc0
-	// FUNCTION: BETA10 0x100372a0
-	LegoResult FUN_1002ddc0(LegoWEEdge& p_f, Vector3& p_point) const
-	{
-		if (p_f.IsEqual(m_faceA)) {
-			p_point[0] = -m_unk0x28[0];
-			p_point[1] = -m_unk0x28[1];
-			p_point[2] = -m_unk0x28[2];
-		}
-		else {
-			// clang-format off
-			assert(p_f.IsEqual( m_faceB ));
-			// clang-format on
-			p_point = m_unk0x28;
-		}
+	/**
+	 * @brief [AI] Calculates the edge normal for use from the given face, negating it if called from faceA.
+	 * @details [AI] Provides outward-facing edge normal as a vector for the specified edge; reversed for one side, used for collision, lighting, or traversal logic.
+	 * @param p_f [AI] The face from which the query is made.
+	 * @param p_point [AI] Output vector for the face's normal.
+	 * @return Returns SUCCESS on completion. [AI]
+	 */
+	LegoResult FUN_1002ddc0(LegoWEEdge& p_f, Vector3& p_point) const;
 
-		return SUCCESS;
-	}
+	/**
+	 * @brief [AI] Tests whether a WEG-edge meets complex mask and flag criteria for this edge, depending on mask and which face is referenced.
+	 * @param p_face [AI] The WEG-edge being queried.
+	 * @param p_mask [AI] Bitmask to match against the face's mask.
+	 * @return TRUE if edge matches mask and flags conditions; otherwise FALSE. [AI]
+	 */
+	LegoU32 BETA_1004a830(LegoWEGEdge& p_face, LegoU8 p_mask);
 
-	// FUNCTION: BETA10 0x1004a830
-	LegoU32 BETA_1004a830(LegoWEGEdge& p_face, LegoU8 p_mask)
-	{
-		assert(p_face.IsEqual(m_faceA) || p_face.IsEqual(m_faceB));
-		return (p_face.IsEqual(m_faceB) && (m_flags & c_bit1) && (p_face.GetMask0x03() & p_mask) == p_mask) ||
-			   (p_face.IsEqual(m_faceA) && (m_flags & c_bit2) && (p_face.GetMask0x03() & p_mask) == p_mask);
-	}
+	/**
+	 * @brief [AI] Checks if a WEG-edge is connected to this edge with proper flagging for its side.
+	 * @details [AI] Used to quickly determine face-edge-side relations.
+	 * @param p_face [AI] The WEG-edge to check.
+	 * @return TRUE if present according to correct flag (c_bit1/c_bit2), otherwise FALSE. [AI]
+	 */
+	LegoU32 BETA_100b53b0(LegoWEGEdge& p_face);
 
-	// FUNCTION: BETA10 0x100b53b0
-	LegoU32 BETA_100b53b0(LegoWEGEdge& p_face)
-	{
-		// clang-format off
-		assert(p_face.IsEqual( m_faceA ) || p_face.IsEqual( m_faceB ));
-		// clang-format on
-		return (p_face.IsEqual(m_faceA) && (m_flags & c_bit1)) || (p_face.IsEqual(m_faceB) && (m_flags & c_bit2));
-	}
+	/**
+	 * @brief [AI] Returns the opposite face pointer to the one passed in.
+	 * @details [AI] Call with a face pointer: gets the "other" face at the edge for traversal/type queries.
+	 * @param p_other [AI] Known face.
+	 * @return Returns pointer to the other (not passed-in) face. [AI]
+	 */
+	LegoWEEdge* OtherFace(LegoWEEdge* p_other);
 
-	// FUNCTION: BETA10 0x1001cbe0
-	LegoWEEdge* OtherFace(LegoWEEdge* p_other)
-	{
-		if (m_faceA == p_other) {
-			return m_faceB;
-		}
-		else {
-			return m_faceA;
-		}
-	}
+	/**
+	 * @brief [AI] Calculates linear distance from a vector position to the 3D midpoint of the edge.
+	 * @details [AI] Used for proximity/metric queries.
+	 * @param p_vec [AI] Position to compare against midpoint.
+	 * @return Euclidean distance from input point to the midpoint of this edge. [AI]
+	 */
+	LegoFloat DistanceToMidpoint(const Vector3& p_vec);
 
-	// FUNCTION: BETA10 0x100bd4a0
-	LegoFloat DistanceToMidpoint(const Vector3& p_vec)
-	{
-		Mx3DPointFloat point(*m_pointA);
-		point += *m_pointB;
-		point *= 0.5f;
-		point -= p_vec;
-		return sqrt((double) point.LenSquared());
-	}
+	/**
+	 * @brief [AI] Returns the Euclidean distance between the midpoints of this edge and another edge.
+	 * @details [AI] Both midpoints are computed and then their distance measured, for geometry LOD or region grouping.
+	 * @param p_other [AI] The other edge.
+	 * @return Distance between midpoints. [AI]
+	 */
+	LegoFloat DistanceBetweenMidpoints(const LegoUnknown100db7f4& p_other);
 
-	// FUNCTION: BETA10 0x100bd540
-	LegoFloat DistanceBetweenMidpoints(const LegoUnknown100db7f4& p_other)
-	{
-		Mx3DPointFloat point1(*m_pointA);
-		Mx3DPointFloat point2(*p_other.m_pointA);
-		point1 += *m_pointB;
-		point1 *= 0.5f;
-		point2 += *p_other.m_pointB;
-		point2 *= 0.5f;
-		point1 -= point2;
-		return sqrt((double) point1.LenSquared());
-	}
+	/**
+	 * @brief [AI] Returns a mask of flags relevant to the two faces (bits 0 and 1: c_bit1, c_bit2).
+	 * @return The flag mask for face assignment. [AI]
+	 */
+	LegoU32 GetMask0x03();
 
-	// FUNCTION: BETA10 0x1001cc60
-	LegoU32 GetMask0x03() { return m_flags & (c_bit1 | c_bit2); }
+	/**
+	 * @brief [AI] Directly sets the internal flags value.
+	 * @param p_flags [AI] Value to assign to m_flags.
+	 */
+	void SetFlags(LegoU16 p_flags);
 
-	// FUNCTION: BETA10 0x101841b0
-	void SetFlags(LegoU16 p_flags) { m_flags = p_flags; }
-
+	/**
+	 * @brief [AI] Tests if a position is on this edge based on its direction and points, within a precision threshold.
+	 * @details [AI] Tests for geometric containment: whether the given position is on/along this edge segment (using direction/normal and tolerance).
+	 * @param p_position [AI] The position to test.
+	 * @return TRUE if the point lies on the edge (within a tolerance), else FALSE. [AI]
+	 */
 	inline LegoU32 FUN_10048c40(const Vector3& p_position);
 
 	// SYNTHETIC: LEGO1 0x1009a6c0
 	// LegoUnknown100db7f4::`scalar deleting destructor'
 
+	/**
+	 * @var m_flags
+	 * @brief [AI] Internal flags controlling per-face properties and connection status.
+	 */
 	LegoU16 m_flags;          // 0x24
+
+	/**
+	 * @var m_unk0x28
+	 * @brief [AI] Represents the edge's direction/normal vector or outward face normal.
+	 * @details [AI] Used repeatedly for face-based normal queries and edge positioning.
+	 */
 	Mx3DPointFloat m_unk0x28; // 0x28
+
+	/**
+	 * @var m_unk0x3c
+	 * @brief [AI] Unknown float; likely represents additional metric (possibly precomputed distance/weight).
+	 */
 	float m_unk0x3c;          // 0x3c
 };
 

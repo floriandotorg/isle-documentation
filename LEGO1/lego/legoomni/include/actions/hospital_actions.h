@@ -3,32 +3,92 @@
 #ifndef HOSPITAL_ACTIONS_H
 #define HOSPITAL_ACTIONS_H
 
+/// @brief [AI] Namespace encapsulating all script action enums and logic for the Hospital level script. 
+/// This namespace provides symbolic script action IDs for use in SI scripting, event handling, or 
+/// hardcoded event dispatch within the LEGO Island hospital environment. [AI]
 namespace HospitalScript
 {
 #if __cplusplus >= 201103L
-enum Script : int {
+	/// @enum Script [AI]
+	/// @brief [AI] Enumerates all script actions, assets, and event triggers available in the Hospital area.
+	/// @details [AI]
+	/// The Script enum contains identifiers for startup events, entity triggers, model and control references,
+	/// animation, sound events, and bitmap resources used in the Hospital SI scene. Their numeric values are 
+	/// typically used to reference behaviors, asset playback, or other logic in the SI system or associated 
+	/// native code. [AI]
+	enum Script : int {
 #else
-enum Script {
+	/// @enum Script [AI]
+	/// @brief [AI] Enumerates all script actions, assets, and event triggers available in the Hospital area.
+	/// @details [AI]
+	/// The Script enum contains identifiers for startup events, entity triggers, model and control references,
+	/// animation, sound events, and bitmap resources used in the Hospital SI scene. Their numeric values are 
+	/// typically used to reference behaviors, asset playback, or other logic in the SI system or associated 
+	/// native code. [AI]
+	enum Script {
 #endif
+	/// @var c_noneHospital [AI]
+	/// @brief [AI] Sentinel value signifying no hospital action, uninitialized/default. [AI]
 	c_noneHospital = -1,
 
+	/// @var c__StartUp [AI]
+	/// @brief [AI] Hospital scene startup action—triggers general initialization routines. [AI]
 	c__StartUp = 0,
+	
+	/// @var c_Doc_Entity [AI]
+	/// @brief [AI] Reference to the doctor entity object in the hospital scene. [AI]
 	c_Doc_Entity = 1,
+
+	/// @var c_Doc_Model [AI]
+	/// @brief [AI] Reference to the doctor model resource (geometry/appearance). [AI]
 	c_Doc_Model = 2,
+
+	/// @var c_Info_Ctl [AI]
+	/// @brief [AI] "Info" UI/control asset (e.g. button, label, or window asset). [AI]
 	c_Info_Ctl = 3,
+
+	/// @var c_Door_Ctl [AI]
+	/// @brief [AI] Door control or trigger event for the hospital entry/exit. [AI]
 	c_Door_Ctl = 4,
+
+	/// @var c_Background_Bitmap [AI]
+	/// @brief [AI] Hospital background bitmap resource. [AI]
 	c_Background_Bitmap = 5,
+
+	/// @var c_PizzaLed_Bitmap [AI]
+	/// @brief [AI] Specialized bitmap for the pizza indicator light (LED). [AI]
 	c_PizzaLed_Bitmap = 6,
+
+	/// @var c_CopLed_Bitmap [AI]
+	/// @brief [AI] Specialized bitmap for the cop indicator light (LED). [AI]
 	c_CopLed_Bitmap = 7,
+
+	/// @var c_Info_Up_Bitmap [AI]
+	/// @brief [AI] Bitmap representing the "info up" arrow or state. [AI]
 	c_Info_Up_Bitmap = 8,
+
+	/// @var c_Info_Down_Bitmap [AI]
+	/// @brief [AI] Bitmap representing the "info down" arrow or state. [AI]
 	c_Info_Down_Bitmap = 9,
+
+	/// @var c_Door_Mask_Bitmap [AI]
+	/// @brief [AI] Bitmap resource used as the door mask for rendering or hit testing. [AI]
 	c_Door_Mask_Bitmap = 10,
+
+	/// @var c_ConfigAnimation [AI]
+	/// @brief [AI] Hospital-level configuration animation (dynamic asset). [AI]
 	c_ConfigAnimation = 11,
+
+	/// @name c_hho002cl_* [AI]
+	/// @brief [AI] Resources (wave, phoneme, sfx, anim) linked to character/entity "hho002cl". [AI]
 	c_hho002cl_Wav_500 = 12,
 	c_hho002cl_Pho_500 = 13,
 	c_hho002cl_0_sfx = 14,
 	c_hho002cl_1_sfx = 15,
 	c_hho002cl_Anim = 16,
+
+	/// @name c_HHO003CL_* [AI]
+	/// @brief [AI] Resources linked to character/entity "hho003cl". [AI]
 	c_HHO003CL_Wav_501 = 17,
 	c_HHO003CL_Pho_501 = 18,
 	c_hho003cl_0_sfx = 19,
@@ -37,6 +97,9 @@ enum Script {
 	c_hho003cl_3_sfx = 22,
 	c_hho003cl_4_sfx = 23,
 	c_hho003cl_Anim = 24,
+
+	/// @name c_hho004jk_* [AI]
+	/// @brief [AI] Resources linked to the hospital patient or similar entity "hho004jk". [AI]
 	c_hho004jk_Wav_502 = 25,
 	c_hho004jk_Pho_502 = 26,
 	c_hho004jk_0_sfx = 27,
@@ -46,16 +109,25 @@ enum Script {
 	c_hho004jk_4_sfx = 31,
 	c_hho004jk_5_sfx = 32,
 	c_hho004jk_Anim = 33,
+
+	/// @name c_hho016cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho016cl". [AI]
 	c_hho016cl_Wav_503 = 34,
 	c_hho016cl_Pho_503 = 35,
 	c_hho016cl_0_sfx = 36,
 	c_hho016cl_1_sfx = 37,
 	c_hho016cl_Anim = 38,
+
+	/// @name c_hho017cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho017cl". [AI]
 	c_hho017cl_Wav_504 = 39,
 	c_hho017cl_Pho_504 = 40,
 	c_hho017cl_0_sfx = 41,
 	c_hho017cl_1_sfx = 42,
 	c_hho017cl_Anim = 43,
+
+	/// @name c_hho018cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho018cl". [AI]
 	c_hho018cl_Wav_505 = 44,
 	c_hho018cl_Pho_505 = 45,
 	c_hho018cl_0_sfx = 46,
@@ -63,29 +135,44 @@ enum Script {
 	c_hho018cl_2_sfx = 48,
 	c_hho018cl_3_sfx = 49,
 	c_hho018cl_Anim = 50,
+
+	/// @name c_hho019cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho019cl". [AI]
 	c_hho019cl_Wav_506 = 51,
 	c_hho019cl_Pho_506 = 52,
 	c_hho019cl_0_sfx = 53,
 	c_hho019cl_1_sfx = 54,
 	c_hho019cl_2_sfx = 55,
 	c_hho019cl_Anim = 56,
+
+	/// @name c_hho020cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho020cl". [AI]
 	c_hho020cl_Wav_507 = 57,
 	c_hho020cl_Pho_507 = 58,
 	c_hho020cl_0_sfx = 59,
 	c_hho020cl_1_sfx = 60,
 	c_hho020cl_Anim = 61,
+
+	/// @name c_hho021cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho021cl". [AI]
 	c_hho021cl_Wav_508 = 62,
 	c_hho021cl_Pho_508 = 63,
 	c_hho021cl_0_sfx = 64,
 	c_hho021cl_1_sfx = 65,
 	c_hho021cl_2_sfx = 66,
 	c_hho021cl_Anim = 67,
+
+	/// @name c_hho023cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho023cl". [AI]
 	c_hho023cl_Wav_509 = 68,
 	c_hho023cl_Pho_509 = 69,
 	c_hho023cl_0_sfx = 70,
 	c_hho023cl_1_sfx = 71,
 	c_hho023cl_2_sfx = 72,
 	c_hho023cl_Anim = 73,
+
+	/// @name c_hho024cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho024cl". [AI]
 	c_hho024cl_Wav_510 = 74,
 	c_hho024cl_Pho_510 = 75,
 	c_hho024cl_0_sfx = 76,
@@ -93,17 +180,26 @@ enum Script {
 	c_hho024cl_2_sfx = 78,
 	c_hho024cl_3_sfx = 79,
 	c_hho024cl_Anim = 80,
+
+	/// @name c_hho025cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho025cl". [AI]
 	c_hho025cl_Wav_511 = 81,
 	c_hho025cl_Pho_511 = 82,
 	c_hho025cl_0_sfx = 83,
 	c_hho025cl_1_sfx = 84,
 	c_hho025cl_2_sfx = 85,
 	c_hho025cl_Anim = 86,
+
+	/// @name c_hho026cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hho026cl". [AI]
 	c_hho026cl_Wav_512 = 87,
 	c_hho026cl_Pho_512 = 88,
 	c_hho026cl_0_sfx = 89,
 	c_hho026cl_1_sfx = 90,
 	c_hho026cl_Anim = 91,
+
+	/// @name c_hhoa22cl_* [AI]
+	/// @brief [AI] Resources for character/entity "hhoa22cl". [AI]
 	c_hhoa22cl_Wav_513 = 92,
 	c_hhoa22cl_Pho_513 = 93,
 	c_hhoa22cl_0_sfx = 94,
@@ -111,13 +207,25 @@ enum Script {
 	c_hhoa22cl_2_sfx = 96,
 	c_hhoa22cl_3_sfx = 97,
 	c_hhoa22cl_Anim = 98,
+
+	/// @var c_hho008p1_Wav_514 [AI]
+	/// @brief [AI] Dialogue wav for "hho008p1". [AI]
 	c_hho008p1_Wav_514 = 99,
+
+	/// @var c_hho007p1_Wav_514 [AI]
+	/// @brief [AI] Dialogue wav for "hho007p1". [AI]
 	c_hho007p1_Wav_514 = 100,
+
+	/// @name c_hho007p1_* [AI]
+	/// @brief [AI] Sfx and animation resources for "hho007p1". [AI]
 	c_hho007p1_0_sfx = 101,
 	c_hho007p1_1_sfx = 102,
 	c_hho007p1_2_sfx = 103,
 	c_hho007p1_3_sfx = 104,
 	c_hho007p1_Anim = 105,
+
+	/// @name Various Doctor/Patient Dialogue and SFX [AI]
+	/// @brief [AI] Multiple wav and phoneme entries for hospital characters "hho006cl" to "hho008cl" and others. [AI]
 	c_hho006cl_Wav_515 = 106,
 	c_hho006cl_Pho_515 = 107,
 	c_hho015cl_Wav_515 = 108,
@@ -138,6 +246,9 @@ enum Script {
 	c_hho011re_Pho_515 = 123,
 	c_hho008cl_Wav_515 = 124,
 	c_hho008cl_Pho_515 = 125,
+
+	/// @name c_hho006cl_sfx & Anim [AI]
+	/// @brief [AI] Sound effects and animation indices for "hho006cl". [AI]
 	c_hho006cl_0_sfx = 126,
 	c_hho006cl_1_sfx = 127,
 	c_hho006cl_2_sfx = 128,
@@ -153,6 +264,9 @@ enum Script {
 	c_hho006cl_12_sfx = 138,
 	c_hho006cl_Anim = 139,
 
+	/// @name Animation Run Event IDs [AI]
+	/// @brief [AI] These are triggers for "run" animation states for each main hospital character/entity.
+	/// They are significantly separated in value space to avoid overlap with above identifiers. [AI]
 	c_hho002cl_RunAnim = 500,
 	c_hho003cl_RunAnim = 501,
 	c_hho004jk_RunAnim = 502,

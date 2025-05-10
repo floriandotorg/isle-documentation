@@ -3,93 +3,107 @@
 #ifndef CARRACER_ACTIONS_H
 #define CARRACER_ACTIONS_H
 
+/// @namespace CarracerScript [AI]
+/// @brief [AI] Contains enumerations and identifiers used for scripting actions in the CARRACER module.
+/// @details [AI] CarracerScript provides script action IDs for the Carracer game logic, mapping specific integer values to 
+/// predefined animation and environmental actions that are used and referenced by the script system.
 namespace CarracerScript
 {
 #if __cplusplus >= 201103L
+/// @enum Script [AI]
+/// @brief [AI] Enumerates the unique integer action identifiers for all Carracer scripting actions.
+/// @details [AI] This enum defines each script action that can be triggered in the Carracer module, 
+/// including specific animation states for characters and visual environment transitions. 
+/// It is structured to allow mapping between human-readable symbolic identifiers and their corresponding script integer values.
 enum Script : int {
 #else
+/// @enum Script [AI]
+/// @brief [AI] Enumerates the unique integer action identifiers for all Carracer scripting actions.
+/// @details [AI] This enum defines each script action that can be triggered in the Carracer module, 
+/// including specific animation states for characters and visual environment transitions. 
+/// It is structured to allow mapping between human-readable symbolic identifiers and their corresponding script integer values.
 enum Script {
 #endif
-	c_noneCarracer = -1,
+	c_noneCarracer = -1,                ///< @brief [AI] Represents no action; used as a sentinel value.
 
-	c_nrt002pz_Anim = 0,
-	c_NRT100DR_Anim = 1,
-	c_NRT110DR_Anim = 2,
-	c_NRT101DR_Anim = 3,
-	c_NRT111DR_Anim = 4,
-	c_NRT102DR_Anim = 5,
-	c_NRT112DR_Anim = 6,
-	c_NRT103DR_Anim = 7,
-	c_NRT113DR_Anim = 8,
-	c_NRT104DR_Anim = 9,
-	c_NRT114DR_Anim = 10,
-	c_NRT105DR_Anim = 11,
-	c_NRT115DR_Anim = 12,
-	c_NRT106DR_Anim = 13,
-	c_NRT116DR_Anim = 14,
-	c_NRT107DR_Anim = 15,
-	c_NRT117DR_Anim = 16,
-	c_NRT108DR_Anim = 17,
-	c_NRT118DR_Anim = 18,
-	c_NRT109DR_Anim = 19,
-	c_NRT119DR_Anim = 20,
-	c_nrt015gh_RunAnim = 21,
-	c_nrt001pz_RunAnim = 22,
-	c_nrt002pz_RunAnim = 23,
-	c_nrt030bk_RunAnim = 24,
-	c_nrt031bk_RunAnim = 25,
-	c_nrt032bk_RunAnim = 26,
-	c_nrt025sw_RunAnim = 27,
-	c_nrt004sh_RunAnim = 28,
-	c_nrt003sh_RunAnim = 29,
-	c_nrt022sp_RunAnim = 30,
-	c_nrt015sl_RunAnim = 31,
-	c_nrt014sl_RunAnim = 32,
-	c_nrt013sl_RunAnim = 33,
-	c_nrt012sl_RunAnim = 34,
-	c_nrt026sw_RunAnim = 35,
-	c_nrt027sw_RunAnim = 36,
-	c_nrt028sw_RunAnim = 37,
-	c_nrt029sw_RunAnim = 38,
-	c_nrt033bk_RunAnim = 39,
-	c_nrt034bk_RunAnim = 40,
-	c_nrt035bk_RunAnim = 41,
-	c_nrt016gh_RunAnim = 42,
-	c_nrt030sw_RunAnim = 43,
-	c_nrt005ft_RunAnim = 44,
-	c_nrt010pz_RunAnim = 45,
-	c_nrt011pz_RunAnim = 46,
-	c_nrt008oc_RunAnim = 47,
-	c_nrt003sh_Anim = 48,
-	c_nrt004sh_Anim = 49,
-	c_nrt005ft_Anim = 50,
-	c_nrt008oc_Anim = 51,
-	c_nrt010pz_Anim = 52,
-	c_nrt011pz_Anim = 53,
-	c_nrt012sl_Anim = 54,
-	c_nrt013sl_Anim = 55,
-	c_nrt014sl_Anim = 56,
-	c_nrt015gh_Anim = 57,
-	c_nrt015sl_Anim = 58,
-	c_nrt016gh_Anim = 59,
-	c_nrt026sw_Anim = 60,
-	c_nrt027sw_Anim = 61,
-	c_nrt028sw_Anim = 62,
-	c_nrt029sw_Anim = 63,
-	c_nrt031bk_Anim = 64,
-	c_nrt032bk_Anim = 65,
-	c_nrt035bk_Anim = 66,
-	c_nrt025sw_Anim = 67,
-	c_nrt022sp_Anim = 68,
-	c_nrt030sw_Anim = 69,
+	c_nrt002pz_Anim = 0,                ///< @brief [AI] Triggers the animation sequence for "nrt002pz".
+	c_NRT100DR_Anim = 1,                ///< @brief [AI] Triggers the animation for "NRT100DR".
+	c_NRT110DR_Anim = 2,                ///< @brief [AI] Triggers the animation for "NRT110DR".
+	c_NRT101DR_Anim = 3,                ///< @brief [AI] Triggers the animation for "NRT101DR".
+	c_NRT111DR_Anim = 4,                ///< @brief [AI] Triggers the animation for "NRT111DR".
+	c_NRT102DR_Anim = 5,                ///< @brief [AI] Triggers the animation for "NRT102DR".
+	c_NRT112DR_Anim = 6,                ///< @brief [AI] Triggers the animation for "NRT112DR".
+	c_NRT103DR_Anim = 7,                ///< @brief [AI] Triggers the animation for "NRT103DR".
+	c_NRT113DR_Anim = 8,                ///< @brief [AI] Triggers the animation for "NRT113DR".
+	c_NRT104DR_Anim = 9,                ///< @brief [AI] Triggers the animation for "NRT104DR".
+	c_NRT114DR_Anim = 10,               ///< @brief [AI] Triggers the animation for "NRT114DR".
+	c_NRT105DR_Anim = 11,               ///< @brief [AI] Triggers the animation for "NRT105DR".
+	c_NRT115DR_Anim = 12,               ///< @brief [AI] Triggers the animation for "NRT115DR".
+	c_NRT106DR_Anim = 13,               ///< @brief [AI] Triggers the animation for "NRT106DR".
+	c_NRT116DR_Anim = 14,               ///< @brief [AI] Triggers the animation for "NRT116DR".
+	c_NRT107DR_Anim = 15,               ///< @brief [AI] Triggers the animation for "NRT107DR".
+	c_NRT117DR_Anim = 16,               ///< @brief [AI] Triggers the animation for "NRT117DR".
+	c_NRT108DR_Anim = 17,               ///< @brief [AI] Triggers the animation for "NRT108DR".
+	c_NRT118DR_Anim = 18,               ///< @brief [AI] Triggers the animation for "NRT118DR".
+	c_NRT109DR_Anim = 19,               ///< @brief [AI] Triggers the animation for "NRT109DR".
+	c_NRT119DR_Anim = 20,               ///< @brief [AI] Triggers the animation for "NRT119DR".
+	c_nrt015gh_RunAnim = 21,            ///< @brief [AI] Triggers the running animation for "nrt015gh".
+	c_nrt001pz_RunAnim = 22,            ///< @brief [AI] Triggers the running animation for "nrt001pz".
+	c_nrt002pz_RunAnim = 23,            ///< @brief [AI] Triggers the running animation for "nrt002pz".
+	c_nrt030bk_RunAnim = 24,            ///< @brief [AI] Triggers the running animation for "nrt030bk".
+	c_nrt031bk_RunAnim = 25,            ///< @brief [AI] Triggers the running animation for "nrt031bk".
+	c_nrt032bk_RunAnim = 26,            ///< @brief [AI] Triggers the running animation for "nrt032bk".
+	c_nrt025sw_RunAnim = 27,            ///< @brief [AI] Triggers the running animation for "nrt025sw".
+	c_nrt004sh_RunAnim = 28,            ///< @brief [AI] Triggers the running animation for "nrt004sh".
+	c_nrt003sh_RunAnim = 29,            ///< @brief [AI] Triggers the running animation for "nrt003sh".
+	c_nrt022sp_RunAnim = 30,            ///< @brief [AI] Triggers the running animation for "nrt022sp".
+	c_nrt015sl_RunAnim = 31,            ///< @brief [AI] Triggers the running animation for "nrt015sl".
+	c_nrt014sl_RunAnim = 32,            ///< @brief [AI] Triggers the running animation for "nrt014sl".
+	c_nrt013sl_RunAnim = 33,            ///< @brief [AI] Triggers the running animation for "nrt013sl".
+	c_nrt012sl_RunAnim = 34,            ///< @brief [AI] Triggers the running animation for "nrt012sl".
+	c_nrt026sw_RunAnim = 35,            ///< @brief [AI] Triggers the running animation for "nrt026sw".
+	c_nrt027sw_RunAnim = 36,            ///< @brief [AI] Triggers the running animation for "nrt027sw".
+	c_nrt028sw_RunAnim = 37,            ///< @brief [AI] Triggers the running animation for "nrt028sw".
+	c_nrt029sw_RunAnim = 38,            ///< @brief [AI] Triggers the running animation for "nrt029sw".
+	c_nrt033bk_RunAnim = 39,            ///< @brief [AI] Triggers the running animation for "nrt033bk".
+	c_nrt034bk_RunAnim = 40,            ///< @brief [AI] Triggers the running animation for "nrt034bk".
+	c_nrt035bk_RunAnim = 41,            ///< @brief [AI] Triggers the running animation for "nrt035bk".
+	c_nrt016gh_RunAnim = 42,            ///< @brief [AI] Triggers the running animation for "nrt016gh".
+	c_nrt030sw_RunAnim = 43,            ///< @brief [AI] Triggers the running animation for "nrt030sw".
+	c_nrt005ft_RunAnim = 44,            ///< @brief [AI] Triggers the running animation for "nrt005ft".
+	c_nrt010pz_RunAnim = 45,            ///< @brief [AI] Triggers the running animation for "nrt010pz".
+	c_nrt011pz_RunAnim = 46,            ///< @brief [AI] Triggers the running animation for "nrt011pz".
+	c_nrt008oc_RunAnim = 47,            ///< @brief [AI] Triggers the running animation for "nrt008oc".
+	c_nrt003sh_Anim = 48,               ///< @brief [AI] Triggers the animation for "nrt003sh".
+	c_nrt004sh_Anim = 49,               ///< @brief [AI] Triggers the animation for "nrt004sh".
+	c_nrt005ft_Anim = 50,               ///< @brief [AI] Triggers the animation for "nrt005ft".
+	c_nrt008oc_Anim = 51,               ///< @brief [AI] Triggers the animation for "nrt008oc".
+	c_nrt010pz_Anim = 52,               ///< @brief [AI] Triggers the animation for "nrt010pz".
+	c_nrt011pz_Anim = 53,               ///< @brief [AI] Triggers the animation for "nrt011pz".
+	c_nrt012sl_Anim = 54,               ///< @brief [AI] Triggers the animation for "nrt012sl".
+	c_nrt013sl_Anim = 55,               ///< @brief [AI] Triggers the animation for "nrt013sl".
+	c_nrt014sl_Anim = 56,               ///< @brief [AI] Triggers the animation for "nrt014sl".
+	c_nrt015gh_Anim = 57,               ///< @brief [AI] Triggers the animation for "nrt015gh".
+	c_nrt015sl_Anim = 58,               ///< @brief [AI] Triggers the animation for "nrt015sl".
+	c_nrt016gh_Anim = 59,               ///< @brief [AI] Triggers the animation for "nrt016gh".
+	c_nrt026sw_Anim = 60,               ///< @brief [AI] Triggers the animation for "nrt026sw".
+	c_nrt027sw_Anim = 61,               ///< @brief [AI] Triggers the animation for "nrt027sw".
+	c_nrt028sw_Anim = 62,               ///< @brief [AI] Triggers the animation for "nrt028sw".
+	c_nrt029sw_Anim = 63,               ///< @brief [AI] Triggers the animation for "nrt029sw".
+	c_nrt031bk_Anim = 64,               ///< @brief [AI] Triggers the animation for "nrt031bk".
+	c_nrt032bk_Anim = 65,               ///< @brief [AI] Triggers the animation for "nrt032bk".
+	c_nrt035bk_Anim = 66,               ///< @brief [AI] Triggers the animation for "nrt035bk".
+	c_nrt025sw_Anim = 67,               ///< @brief [AI] Triggers the animation for "nrt025sw".
+	c_nrt022sp_Anim = 68,               ///< @brief [AI] Triggers the animation for "nrt022sp".
+	c_nrt030sw_Anim = 69,               ///< @brief [AI] Triggers the animation for "nrt030sw".
 
-	c_TRS100_BlackSky = 100,
+	c_TRS100_BlackSky = 100,            ///< @brief [AI] Triggers the environmental state change to "BlackSky" (ID 100).
 
-	c_TRS200_DkBlueSky = 200,
+	c_TRS200_DkBlueSky = 200,           ///< @brief [AI] Triggers the environmental state change to "DkBlueSky" (dark blue sky).
 
-	c_TRS300_BlackSky = 300,
+	c_TRS300_BlackSky = 300,            ///< @brief [AI] Triggers the environmental state change to "BlackSky" (ID 300; possibly different state/area).
 
-	c_TRS400_BlueSky = 400
+	c_TRS400_BlueSky = 400              ///< @brief [AI] Triggers the environmental state change to "BlueSky".
 };
 } // namespace CarracerScript
 

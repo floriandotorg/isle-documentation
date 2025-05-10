@@ -6,38 +6,34 @@
 
 class LegoWorld;
 
-// VTABLE: LEGO1 0x100d8700
-// class MxCollection<LegoWorld *>
-
-// VTABLE: LEGO1 0x100d8718
-// class MxList<LegoWorld *>
-
-// VTABLE: LEGO1 0x100d8730
-// class MxPtrList<LegoWorld>
-
-// VTABLE: LEGO1 0x100d8680
-// SIZE 0x18
+/// \class LegoWorldList
+/// \brief A specialized list for managing pointers to LegoWorld instances. [AI]
+/// \details [AI] Inherits from MxPtrList<LegoWorld>, providing ordering, iteration, ownership control, and pointer management for LegoWorld objects in the engine. [AI]
+/// @note [AI] Implements custom comparison logic for LegoWorld pointers. [AI]
 class LegoWorldList : public MxPtrList<LegoWorld> {
 public:
+	/// \brief Constructor which may optionally enable ownership of the LegoWorld pointers. [AI]
+	/// \param p_ownership If TRUE, the list will own (and delete) the objects it contains. [AI]
 	LegoWorldList(MxBool p_ownership = FALSE) : MxPtrList<LegoWorld>(p_ownership) {}
 
-	// FUNCTION: LEGO1 0x100598d0
+	/// \brief Compares two LegoWorld pointers for ordering. [AI]
+	/// \details [AI] Returns 0 if the pointers are equal, -1 if p_a < p_b, and 1 if p_a > p_b. Used for ordered list operations. [AI]
+	/// \param p_a First LegoWorld pointer to compare. [AI]
+	/// \param p_b Second LegoWorld pointer to compare. [AI]
+	/// \return 0 if equal, -1 if p_a < p_b, 1 otherwise. [AI]
 	MxS8 Compare(LegoWorld* p_a, LegoWorld* p_b) override { return p_a == p_b ? 0 : p_a < p_b ? -1 : 1; } // vtable+0x14
 
 	// SYNTHETIC: LEGO1 0x10059a00
 	// LegoWorldList::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d75b8
-// class MxListCursor<LegoWorld *>
-
-// VTABLE: LEGO1 0x100d7588
-// class MxPtrListCursor<LegoWorld>
-
-// VTABLE: LEGO1 0x100d75a0
-// SIZE 0x10
+/// \class LegoWorldListCursor
+/// \brief Provides iteration access to a LegoWorldList. [AI]
+/// \details [AI] Inherits from MxPtrListCursor<LegoWorld>. Used to traverse the elements of a LegoWorldList safely, supporting robust iteration patterns over the contained LegoWorld pointers. [AI]
 class LegoWorldListCursor : public MxPtrListCursor<LegoWorld> {
 public:
+	/// \brief Construct a cursor for a given LegoWorldList. [AI]
+	/// \param p_list Pointer to the LegoWorldList to iterate over. [AI]
 	LegoWorldListCursor(LegoWorldList* p_list) : MxPtrListCursor<LegoWorld>(p_list) {}
 };
 

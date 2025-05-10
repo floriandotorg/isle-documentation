@@ -3,54 +3,63 @@
 #ifndef CREDITS_ACTIONS_H
 #define CREDITS_ACTIONS_H
 
+/// @namespace CreditsScript
+/// @brief [AI] Namespace that contains all enums and identifiers for the credits sequence scripts and resources.
+/// @details [AI] Contains the Script enumeration which maps script and resource names to integer identifiers used for managing the credits media sequence.
 namespace CreditsScript
 {
 #if __cplusplus >= 201103L
-enum Script : int {
+	/// @enum Script
+	/// @brief [AI] Enumerates all script and resource identifiers used in the Credits scene.
+	/// @details [AI] Every entry corresponds to a specific section, media file, or image in the credits sequence. These values are used for controlling the playback of scripts, sound, video, and bitmap displays in the credits roll.
+	enum Script : int {
 #else
-enum Script {
+	/// @enum Script
+	/// @brief [AI] Enumerates all script and resource identifiers used in the Credits scene.
+	/// @details [AI] Every entry corresponds to a specific section, media file, or image in the credits sequence. These values are used for controlling the playback of scripts, sound, video, and bitmap displays in the credits roll.
+	enum Script {
 #endif
-	c_noneCredits = -1,
+		c_noneCredits = -1, ///< @brief [AI] Value indicating no credits action or an uninitialized state.
 
-	c_Credits_Wav = 0,
-	c_Credits_Smk = 1,
-	c_Credit01_Bitmap = 2,
-	c_Credit02_Bitmap = 3,
-	c_Credit03_Bitmap = 4,
-	c_Credit04_Bitmap = 5,
-	c_Credit05_Bitmap = 6,
-	c_Credit06_Bitmap = 7,
-	c_Credit07_Bitmap = 8,
-	c_Credit08_Bitmap = 9,
-	c_Credit09_Bitmap = 10,
-	c_Credit11_Bitmap = 11,
-	c_Credit12_Bitmap = 12,
-	c_Credit13_Bitmap = 13,
-	c_Credit14_Bitmap = 14,
-	c_Credit15_Bitmap = 15,
-	c_Credit16_Bitmap = 16,
-	c_Credit17_Bitmap = 17,
-	c_Credit21_Bitmap = 18,
-	c_Credit19_Bitmap = 19,
-	c_Credit22_Bitmap = 20,
-	c_Credit22b_Bitmap = 21,
-	c_Credit25_Bitmap = 22,
-	c_Credit20_Bitmap = 23,
-	c_Credit12b_Bitmap = 24,
-	c_Credit23_Bitmap = 25,
-	c_Credit24_Bitmap = 26,
-	c_Credit14b_Bitmap = 27,
-	c_Credit14c_Bitmap = 28,
-	c_Credit26_Bitmap = 29,
-	c_Credit27_Bitmap = 30,
-	c_Credit28_Bitmap = 31,
-	c_Credit29_Bitmap = 32,
-	c_Credit10_Bitmap = 33,
-	c_Credit17b_Bitmap = 34,
-	c_Credit17c_Bitmap = 35,
+		c_Credits_Wav = 0,      ///< @brief [AI] Identifier for the main credits WAV audio resource.
+		c_Credits_Smk = 1,      ///< @brief [AI] Identifier for the main credits Smacker video sequence.
+		c_Credit01_Bitmap = 2,  ///< @brief [AI] Bitmap/image displayed for credit slide 01.
+		c_Credit02_Bitmap = 3,  ///< @brief [AI] Bitmap/image displayed for credit slide 02.
+		c_Credit03_Bitmap = 4,  ///< @brief [AI] Bitmap/image displayed for credit slide 03.
+		c_Credit04_Bitmap = 5,  ///< @brief [AI] Bitmap/image displayed for credit slide 04.
+		c_Credit05_Bitmap = 6,  ///< @brief [AI] Bitmap/image displayed for credit slide 05.
+		c_Credit06_Bitmap = 7,  ///< @brief [AI] Bitmap/image displayed for credit slide 06.
+		c_Credit07_Bitmap = 8,  ///< @brief [AI] Bitmap/image displayed for credit slide 07.
+		c_Credit08_Bitmap = 9,  ///< @brief [AI] Bitmap/image displayed for credit slide 08.
+		c_Credit09_Bitmap = 10, ///< @brief [AI] Bitmap/image displayed for credit slide 09.
+		c_Credit11_Bitmap = 11, ///< @brief [AI] Bitmap/image displayed for credit slide 11.
+		c_Credit12_Bitmap = 12, ///< @brief [AI] Bitmap/image displayed for credit slide 12.
+		c_Credit13_Bitmap = 13, ///< @brief [AI] Bitmap/image displayed for credit slide 13.
+		c_Credit14_Bitmap = 14, ///< @brief [AI] Bitmap/image displayed for credit slide 14.
+		c_Credit15_Bitmap = 15, ///< @brief [AI] Bitmap/image displayed for credit slide 15.
+		c_Credit16_Bitmap = 16, ///< @brief [AI] Bitmap/image displayed for credit slide 16.
+		c_Credit17_Bitmap = 17, ///< @brief [AI] Bitmap/image displayed for credit slide 17.
+		c_Credit21_Bitmap = 18, ///< @brief [AI] Bitmap/image displayed for credit slide 21.
+		c_Credit19_Bitmap = 19, ///< @brief [AI] Bitmap/image displayed for credit slide 19.
+		c_Credit22_Bitmap = 20, ///< @brief [AI] Bitmap/image displayed for credit slide 22.
+		c_Credit22b_Bitmap = 21,///< @brief [AI] Bitmap/image displayed for an alternate or secondary credit slide 22.
+		c_Credit25_Bitmap = 22, ///< @brief [AI] Bitmap/image displayed for credit slide 25.
+		c_Credit20_Bitmap = 23, ///< @brief [AI] Bitmap/image displayed for credit slide 20.
+		c_Credit12b_Bitmap = 24,///< @brief [AI] Bitmap/image for alternate or secondary version of slide 12.
+		c_Credit23_Bitmap = 25, ///< @brief [AI] Bitmap/image displayed for credit slide 23.
+		c_Credit24_Bitmap = 26, ///< @brief [AI] Bitmap/image displayed for credit slide 24.
+		c_Credit14b_Bitmap = 27,///< @brief [AI] Bitmap/image for alternate or secondary version of slide 14.
+		c_Credit14c_Bitmap = 28,///< @brief [AI] Bitmap/image for third variation of slide 14.
+		c_Credit26_Bitmap = 29, ///< @brief [AI] Bitmap/image displayed for credit slide 26.
+		c_Credit27_Bitmap = 30, ///< @brief [AI] Bitmap/image displayed for credit slide 27.
+		c_Credit28_Bitmap = 31, ///< @brief [AI] Bitmap/image displayed for credit slide 28.
+		c_Credit29_Bitmap = 32, ///< @brief [AI] Bitmap/image displayed for credit slide 29.
+		c_Credit10_Bitmap = 33, ///< @brief [AI] Bitmap/image displayed for credit slide 10.
+		c_Credit17b_Bitmap = 34,///< @brief [AI] Bitmap/image for alternate or secondary version of slide 17.
+		c_Credit17c_Bitmap = 35,///< @brief [AI] Bitmap/image for third variation of slide 17.
 
-	c_LegoCredits = 499
-};
+		c_LegoCredits = 499      ///< @brief [AI] Identifier for the main script or starting action for LEGO credits sequence.
+	};
 } // namespace CreditsScript
 
 #endif // CREDITS_ACTIONS_H

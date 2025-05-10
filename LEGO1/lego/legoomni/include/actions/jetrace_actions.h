@@ -3,83 +3,101 @@
 #ifndef JETRACE_ACTIONS_H
 #define JETRACE_ACTIONS_H
 
+/**
+ * @namespace JetraceScript [AI]
+ * @brief [AI] Contains enumerations and identifiers for JetRace scene objects and actions used in the JetRace portion of LEGO Island.
+ * @details [AI] The JetraceScript namespace defines unique numeric identifiers for scripted objects, actors, animations, sounds, models, HUD elements, triggers, and control handlers in the JetRace scenario. These IDs are used by the engine's scripting and action system to reference specific scenario elements for loading, instantiation, and event dispatch within the SI (Script/Scenario Instance) scripting framework. [See codebase documentation for broader SI/Script concept]. 
+ */
 namespace JetraceScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script [AI]
+ * @brief [AI] Enumerates all script IDs used in JetRace scenario scripting. 
+ * @details [AI] Each value is a unique integer representing a particular object or action (model, actor, animation, sound effect, bitmap, control, etc.) that can be referenced by Jetrace's SI script system at runtime. SI uses these values to spawn, address, or otherwise manipulate game objects.
+ * Negative values (e.g. c_noneJetrace) are reserved as sentinel/invalid identifiers, and do not correspond to any actual object
+ * [c_NONEJetrace = -1 indicates none/invalid].
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script [AI]
+ * @brief [AI] Enumerates all script IDs used in JetRace scenario scripting. 
+ * @details [AI] See enum Script : int full description above. [AI_SUGGESTED_NAME: ScriptId]
+ */
 enum Script {
 #endif
-	c_noneJetrace = -1,
+	c_noneJetrace = -1, ///< [AI] Invalid or "no object" sentinel value for JetRace scripts.
 
-	c__JetRace_World = 0,
-	c_DistanceMeter = 1,
-	c_Map_Ctl = 2,
+	// The following enumerate specific JetRace scenario entities/actions (IDs assigned for scene loading, referencing, and event scripting)
+	c__JetRace_World = 0, ///< [AI] Root world scene object for JetRace area.
+	c_DistanceMeter = 1, ///< [AI] HUD widget or control tracking player's distance/progress through the race course.
+	c_Map_Ctl = 2, ///< [AI] Main minimap/map control handler for JetRace.
 
-	c_Map_Up_Bitmap = 4,
-	c_Map_Down_Bitmap = 5,
-	c_JetskiLocator2 = 6,
-	c_JetskiLocator3 = 7,
-	c_StartTriggers = 8,
-	c_HitActorSound = 9,
-	c_UserJetski_Actor = 10,
-	c_Snap_Actor = 11,
-	c_Valerie_Actor = 12,
-	c_AirHorn_PlayWav = 13,
-	c_SetHitActorSound = 14,
-	c_HitWallSound = 15,
-	c_SetHitWallSound = 16,
-	c_RacePath = 17,
-	c_HideAni_Anim = 18,
-	c_VO1 = 19,
-	c_VO2 = 20,
-	c_VO3 = 21,
-	c_VO4 = 22,
-	c_VO5 = 23,
-	c_VO6 = 24,
-	c_VO7 = 25,
-	c_Jetski_Sound = 26,
-	c_BlackJetskiLocator = 27,
-	c_JsSnap00_Anim = 28,
-	c_JsSnap99_Anim = 29,
-	c_BlackJetski_Actor = 30,
-	c_BlackJetski_Model = 31,
-	c_Snap_Model = 32,
-	c_YellowJetskiLocator = 33,
-	c_JsVal00_Anim = 34,
-	c_JsVal99_Anim = 35,
-	c_JsVal04_Anim = 36,
-	c_YellowJetski_Actor = 37,
-	c_YellowJetski_Model = 38,
-	c_JetskiSpeedMeter = 39,
-	c_JetskiFuelMeter = 40,
-	c_JetskiDashboard11_Bitmap = 41,
-	c_JetskiDashboard12_Bitmap = 42,
-	c_JetskiDashboard13_Bitmap = 43,
-	c_JetskiDashboard14_Bitmap = 44,
-	c_JetskiDashboard15_Bitmap = 45,
-	c_JetskiDashboard16_Bitmap = 46,
-	c_Valerie_Model = 47,
-	c_User_Locator = 48,
-	c_UserJetski_Model = 49,
-	c_CopBoat_Actor = 50,
-	c_JetskiDashboard21_Bitmap = 51,
+	c_Map_Up_Bitmap = 4, ///< [AI] Bitmap/image used for the "map up" display in the HUD.
+	c_Map_Down_Bitmap = 5, ///< [AI] Bitmap/image used for the "map down" display in the HUD.
+	c_JetskiLocator2 = 6, ///< [AI] Spatial locator for a jetski (used in initial placement or respawn).
+	c_JetskiLocator3 = 7, ///< [AI] Spatial locator for a jetski (used in initial placement or respawn).
+	c_StartTriggers = 8, ///< [AI] Trigger entity/entities for starting the JetRace event.
+	c_HitActorSound = 9, ///< [AI] Sound object played when the player collides with an actor during JetRace.
+	c_UserJetski_Actor = 10, ///< [AI] Player-controlled jetski actor/entity.
+	c_Snap_Actor = 11, ///< [AI] Snap the mascot character's actor reference.
+	c_Valerie_Actor = 12, ///< [AI] Valerie (NPC) actor reference for JetRace scenario.
+	c_AirHorn_PlayWav = 13, ///< [AI] Action to play airhorn WAV file (JetRace SFX).
+	c_SetHitActorSound = 14, ///< [AI] Script action to configure/choose the actor hit sound SFX.
+	c_HitWallSound = 15, ///< [AI] Sound object played when jetski/watercraft collides with course boundary/walls.
+	c_SetHitWallSound = 16, ///< [AI] Script action to configure/choose wall hit sound SFX.
+	c_RacePath = 17, ///< [AI] Actor path or waypoint series defining the racecourse/track.
+	c_HideAni_Anim = 18, ///< [AI] Animation for hiding an entity or actor, possibly when player leaves view.
+	c_VO1 = 19, ///< [AI] Voice-over event/sound 1.
+	c_VO2 = 20, ///< [AI] Voice-over event/sound 2.
+	c_VO3 = 21, ///< [AI] Voice-over event/sound 3.
+	c_VO4 = 22, ///< [AI] Voice-over event/sound 4.
+	c_VO5 = 23, ///< [AI] Voice-over event/sound 5.
+	c_VO6 = 24, ///< [AI] Voice-over event/sound 6.
+	c_VO7 = 25, ///< [AI] Voice-over event/sound 7.
+	c_Jetski_Sound = 26, ///< [AI] Main jetski engine sound effect.
+	c_BlackJetskiLocator = 27, ///< [AI] Locator/starting position for Black Jetski.
+	c_JsSnap00_Anim = 28, ///< [AI] Animation 00 for Snap character (start or idle).
+	c_JsSnap99_Anim = 29, ///< [AI] Animation 99 for Snap character (finish or outro).
+	c_BlackJetski_Actor = 30, ///< [AI] Black jetski AI or NPC actor.
+	c_BlackJetski_Model = 31, ///< [AI] Black jetski model/geometry reference.
+	c_Snap_Model = 32, ///< [AI] Snap character model (geometry, skin/mesh).
+	c_YellowJetskiLocator = 33, ///< [AI] Locator for Yellow Jetski starting position.
+	c_JsVal00_Anim = 34, ///< [AI] Animation 00 for Valerie character.
+	c_JsVal99_Anim = 35, ///< [AI] Animation 99 for Valerie character.
+	c_JsVal04_Anim = 36, ///< [AI] Animation 04 for Valerie character.
+	c_YellowJetski_Actor = 37, ///< [AI] Yellow jetski actor (player or AI).
+	c_YellowJetski_Model = 38, ///< [AI] Model for Yellow jetski (geometry/mesh).
+	c_JetskiSpeedMeter = 39, ///< [AI] HUD widget/control representing jetski speed.
+	c_JetskiFuelMeter = 40, ///< [AI] HUD widget/control representing jetski fuel.
+	c_JetskiDashboard11_Bitmap = 41, ///< [AI] Bitmap image for jetski dashboard (instrument cluster, type 1, state/frame 1).
+	c_JetskiDashboard12_Bitmap = 42, ///< [AI] Dashboard bitmap, type 1, state/frame 2.
+	c_JetskiDashboard13_Bitmap = 43, ///< [AI] Dashboard bitmap, type 1, state/frame 3.
+	c_JetskiDashboard14_Bitmap = 44, ///< [AI] Dashboard bitmap, type 1, state/frame 4.
+	c_JetskiDashboard15_Bitmap = 45, ///< [AI] Dashboard bitmap, type 1, state/frame 5.
+	c_JetskiDashboard16_Bitmap = 46, ///< [AI] Dashboard bitmap, type 1, state/frame 6.
+	c_Valerie_Model = 47, ///< [AI] Valerie character model reference.
+	c_User_Locator = 48, ///< [AI] Locator for placing the player/user in the JetRace world.
+	c_UserJetski_Model = 49, ///< [AI] Jetski model used for the player's vehicle.
+	c_CopBoat_Actor = 50, ///< [AI] Police/coproat patrol boat actor.
+	c_JetskiDashboard21_Bitmap = 51, ///< [AI] Dashboard bitmap, type 2, state/frame 1.
 	c_JetskiDashboard22_Bitmap = 52,
 	c_JetskiDashboard23_Bitmap = 53,
 	c_JetskiDashboard24_Bitmap = 54,
 	c_JetskiDashboard25_Bitmap = 55,
 	c_JetskiDashboard26_Bitmap = 56,
-	c_CopBoat_Model = 57,
-	c_L1_Actor = 58,
-	c_L1_Model = 59,
-	c_CM_Actor = 60,
+	c_CopBoat_Model = 57, ///< [AI] Police/coproat patrol boat model.
+	c_L1_Actor = 58, ///< [AI] Unknown actor, likely an NPC or environmental object.
+	c_L1_Model = 59, ///< [AI] Model for L1 actor.
+	c_CM_Actor = 60, ///< [AI] Actor: CM, likely a JetRace NPC or environmental entity.
 	c_JetskiDashboard31_Bitmap = 61,
 	c_JetskiDashboard32_Bitmap = 62,
 	c_JetskiDashboard33_Bitmap = 63,
 	c_JetskiDashboard34_Bitmap = 64,
 	c_JetskiDashboard35_Bitmap = 65,
 	c_JetskiDashboard36_Bitmap = 66,
-	c_CM_Model = 67,
+	c_CM_Model = 67, ///< [AI] Model for CM actor.
 	c_NU_Actor = 68,
 	c_NU_Model = 69,
 	c_JK_Actor = 70,
@@ -102,28 +120,28 @@ enum Script {
 	c_NA_Model = 87,
 	c_RD_Actor = 88,
 	c_RD_Model = 89,
-	c_Cop01_Actor = 90,
+	c_Cop01_Actor = 90, ///< [AI] Possibly "Cop 01" secondary/co-op actor or patrol variant.
 	c_JetskiDashboard61_Bitmap = 91,
 	c_JetskiDashboard62_Bitmap = 92,
 	c_JetskiDashboard63_Bitmap = 93,
 	c_JetskiDashboard64_Bitmap = 94,
 	c_JetskiDashboard65_Bitmap = 95,
 	c_JetskiDashboard66_Bitmap = 96,
-	c_JetskiDashboard = 97,
-	c_JetskiArms_Ctl = 98,
-	c_JetskiInfo_Ctl = 99,
-	c_Cop01_Model = 100,
-	c_Boat_Actor = 101,
-	c_Boat_Model = 102,
-	c_Shark_Actor = 103,
-	c_Shark_Model = 104,
-	c_LfJacket_Actor = 105,
-	c_LfJacket_Model = 106,
-	c_FishRod_Actor = 107,
-	c_FishRod_Model = 108,
-	c_Sharkj1_Actor = 109,
-	c_Sharkj1_Model = 110,
-	c_Trig01_Actor = 111,
+	c_JetskiDashboard = 97, ///< [AI] Parent dashboard control, aggregates dashboard bitmaps/controls.
+	c_JetskiArms_Ctl = 98, ///< [AI] HUD control/entity for player's jetski arms or hands display.
+	c_JetskiInfo_Ctl = 99, ///< [AI] HUD control/entity for player's jetski info screen.
+	c_Cop01_Model = 100, ///< [AI] Model for Cop01 actor/entity.
+	c_Boat_Actor = 101, ///< [AI] Generic or specific boat actor (likely an obstacle or environment NPC).
+	c_Boat_Model = 102, ///< [AI] Model for generic/specific boat actor.
+	c_Shark_Actor = 103, ///< [AI] Shark actor for JetRace (animated/swimming/bumped).
+	c_Shark_Model = 104, ///< [AI] Model for shark actor.
+	c_LfJacket_Actor = 105, ///< [AI] Lifejacket (pickup or visual element) actor.
+	c_LfJacket_Model = 106, ///< [AI] Model for lifejacket actor/element.
+	c_FishRod_Actor = 107, ///< [AI] Fishing rod pickup or decoration actor.
+	c_FishRod_Model = 108, ///< [AI] Model for fishing rod actor.
+	c_Sharkj1_Actor = 109, ///< [AI] Shark jumping actor/variant 1.
+	c_Sharkj1_Model = 110, ///< [AI] Model for shark jump 1.
+	c_Trig01_Actor = 111, ///< [AI] Generic trigger zone actor 01 (normally invisible, used for event scripting).
 	c_Trig01_Model = 112,
 	c_Trig02_Actor = 113,
 	c_Trig02_Model = 114,
@@ -131,42 +149,46 @@ enum Script {
 	c_Trig03_Model = 116,
 	c_Trig04_Actor = 117,
 	c_Trig04_Model = 118,
-	c_BouyBump_Actor = 119,
+	c_BouyBump_Actor = 119, ///< [AI] Buoy collision/bump actor (obstacle in water).
 	c_BouyBump_Model = 120,
-	c_Brickster_Actor = 121,
+	c_Brickster_Actor = 121, ///< [AI] The Brickster NPC actor (villain appearance).
 	c_Brickster_Model = 122,
-	c_Yeeheemx_Sound = 123,
-	c_Bronco_Anim = 124,
-	c_Cboycycl_Actor = 125,
+	c_Yeeheemx_Sound = 123, ///< [AI] Sound effect "Yeeheemx" (likely a character sound/response).
+	c_Bronco_Anim = 124, ///< [AI] "Bronco" animation (wild ride, wrangle, etc).
+	c_Cboycycl_Actor = 125, ///< [AI] Cowboy cyclist actor (environment or NPC).
 	c_Cboycycl_Model = 126,
-	c_Shkbrnco_Actor = 127,
+	c_Shkbrnco_Actor = 127, ///< [AI] Shark-bronco actor (possibly minigame or challenge).
 	c_Shkbrnco_Model = 128,
-	c_Shrkfast_Anim = 129,
-	c_Sharkswm_Actor = 130,
+	c_Shrkfast_Anim = 129, ///< [AI] Fast shark animation actor.
+	c_Sharkswm_Actor = 130, ///< [AI] Swimming shark actor variant.
 	c_Sharkswm_Model = 131,
-	c_Splash1_Sound = 132,
-	c_Shrkjump_Anim = 133,
-	c_Shkjmcyc_Actor = 134,
+	c_Splash1_Sound = 132, ///< [AI] Splash sound effect.
+	c_Shrkjump_Anim = 133, ///< [AI] Shark jumping animation sequence.
+	c_Shkjmcyc_Actor = 134, ///< [AI] Shark-jumping-cycle actor (possibly used with shark/bike challenge).
 	c_Shkjmcyc_Model = 135,
-	c_JetskiArms_Mask_Bitmap = 136,
-	c_JetskiInfoUp_Bitmap = 137,
-	c_JetskiInfoDown_Bitmap = 138,
-	c_sjs012in_Wav_500 = 139,
-	c_sjs012in_Pho_500 = 140,
-	c_sjs012in_0_sfx = 141,
-	c_sjs012in_1_sfx = 142,
-	c_sjs012in_2_sfx = 143,
-	c_sjs012in_3_sfx = 144,
-	c_sjs012in_4_sfx = 145,
-	c_sjs012in_Anim = 146,
-	c_sjs013in_Wav_501 = 147,
+	c_JetskiArms_Mask_Bitmap = 136, ///< [AI] Bitmap for masking jetski arms in HUD.
+	c_JetskiInfoUp_Bitmap = 137, ///< [AI] Bitmap for upward toggle/detail in info HUD.
+	c_JetskiInfoDown_Bitmap = 138, ///< [AI] Bitmap for downward toggle/detail in info HUD.
+
+	// --- Region: In-game SFX, Phoneme, Animation triplets for "sjs01[2-4]in" sequences [AI]
+	c_sjs012in_Wav_500 = 139, ///< [AI] WAV sound effect for scenario sequence 012 in.
+	c_sjs012in_Pho_500 = 140, ///< [AI] Phoneme data (lip sync) for 012 in.
+	c_sjs012in_0_sfx = 141, ///< [AI] SFX 0 for 012 in.
+	c_sjs012in_1_sfx = 142, ///< [AI] SFX 1 for 012 in.
+	c_sjs012in_2_sfx = 143, ///< [AI] SFX 2 for 012 in.
+	c_sjs012in_3_sfx = 144, ///< [AI] SFX 3 for 012 in.
+	c_sjs012in_4_sfx = 145, ///< [AI] SFX 4 for 012 in.
+	c_sjs012in_Anim = 146, ///< [AI] Animation for sequence sjs012in.
+
+	c_sjs013in_Wav_501 = 147, ///< [AI] WAV sound effect for scenario sequence 013 in.
 	c_sjs013in_Pho_501 = 148,
 	c_sjs013in_0_sfx = 149,
 	c_sjs013in_1_sfx = 150,
 	c_sjs013in_2_sfx = 151,
 	c_sjs013in_3_sfx = 152,
 	c_sjs013in_Anim = 153,
-	c_sjs014in_Wav_502 = 154,
+
+	c_sjs014in_Wav_502 = 154, ///< [AI] WAV sound effect for scenario sequence 014 in.
 	c_sjs014in_Pho_502 = 155,
 	c_sjs014in_0_sfx = 156,
 	c_sjs014in_1_sfx = 157,
@@ -174,7 +196,8 @@ enum Script {
 	c_sjs014in_3_sfx = 159,
 	c_sjs014in_Anim = 160,
 
-	c_sjs012in_RunAnim = 500,
+	// --- Region: Animation runners for JetRace scenario (500+ IDs) [AI]
+	c_sjs012in_RunAnim = 500, ///< [AI] Animation runner/trigger for sequence sjs012in.
 	c_sjs013in_RunAnim = 501,
 	c_sjs014in_RunAnim = 502
 };

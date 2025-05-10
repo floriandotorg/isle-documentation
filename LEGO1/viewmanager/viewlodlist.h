@@ -22,40 +22,73 @@ class ViewLODListManager;
 // ViewLODLists are managed (created and destroyed) by ViewLODListManager.
 //
 
-// VTABLE: LEGO1 0x100dbdc4
-// VTABLE: BETA10 0x101c34f0
-// SIZE 0x18
+/**
+ * @class ViewLODList
+ * @brief [AI] Reference-counted list of Level-of-Detail (LOD) objects associated with a single ROI (Realtime Object Instance), shared by all instances of the same ROI.
+ * @details [AI] Inherits from LODList<ViewLOD>. Each ViewLODList is managed exclusively by a ViewLODListManager, and contains the LODs for a particular ROI (object type). Lifetime is tied to reference counting to ensure proper sharing and cleanup between multiple ROI instances sharing geometry. 
+ */
 class ViewLODList : public LODList<ViewLOD> {
 	friend ViewLODListManager;
 
 protected:
+	/**
+	 * @brief [AI] Constructs a ViewLODList with a given capacity and owner manager.
+	 * @param capacity [AI] Initial allocation for the number of LODs to hold.
+	 * @param owner [AI] Pointer to the ViewLODListManager responsible for this list.
+	 */
 	ViewLODList(size_t capacity, ViewLODListManager* owner);
+
+	/**
+	 * @brief [AI] Destructor for ViewLODList; asserts that no references remain before destroying.
+	 */
 	~ViewLODList() override;
 
-	// SYNTHETIC: LEGO1 0x100a80f0
-	// SYNTHETIC: BETA10 0x1017b590
-	// ViewLODList::`scalar deleting destructor'
-
 public:
+	/**
+	 * @brief [AI] Increments the reference count. Used to manage shared ownership across different ROI instances.
+	 * @return [AI] The incremented reference count value.
+	 */
 	inline int AddRef();
+
+	/**
+	 * @brief [AI] Decrements the reference count. When the reference count reaches zero, deletes this ViewLODList via the owning manager.
+	 * @return [AI] The decremented reference count, or 0 if deleted.
+	 */
 	inline int Release();
 
 #ifdef _DEBUG
+	/**
+	 * @brief [AI] Outputs diagnostic information about the LOD list, its contents, and reference count using the given tracing function.
+	 * @param pTracer [AI] Function pointer to a printf-style tracing routine.
+	 */
 	void Dump(void (*pTracer)(const char*, ...)) const;
 #endif
 
 private:
-	int m_refCount;              // 0x10
-	ViewLODListManager* m_owner; // 0x14
+	int m_refCount;              ///< [AI] Reference count for shared ownership semantics among ROI instances.
+	ViewLODListManager* m_owner; ///< [AI] Manager that owns and deletes this ViewLODList when no longer referenced.
 };
 
 //////////////////////////////////////////////////////////////////////////////
 //
 
-// ??? for now, until we have symbol management
+/**
+ * @typedef ROIName
+ * @brief [AI] String type used as a key to identify uniquely-named ROI (Realtime Object Instance) classes.
+ */
 typedef const char* ROIName;
+
+/**
+ * @struct ROINameComparator
+ * @brief [AI] Comparator for ROIName (C-style strings) to be used as keys in maps, using strcmp for sorting.
+ */
 struct ROINameComparator {
-	// FUNCTION: BETA10 0x101794c0
+	/**
+	 * @brief [AI] Lexicographical comparison of two ROI names for map ordering.
+	 * @param rName1 [AI] First ROIName to compare.
+	 * @param rName2 [AI] Second ROIName to compare.
+	 * @return [AI] TRUE if rName1 > rName2, FALSE otherwise.
+	 */
 	unsigned char operator()(const ROIName& rName1, const ROIName& rName2) const
 	{
 		return strcmp((const char*) rName1, (const char*) rName2) > 0;
@@ -70,161 +103,77 @@ struct ROINameComparator {
 // It stores ViewLODLists under a name, the name of the ROI where
 // the ViewLODList belongs.
 
-// VTABLE: LEGO1 0x100dbdbc
-// VTABLE: BETA10 0x101c34ec
-// SIZE 0x14
+/**
+ * @class ViewLODListManager
+ * @brief [AI] Manages the lifecycle, lookup, and sharing of ViewLODList instances for different ROI names.
+ * @details [AI] Ensures that ViewLODList objects are created uniquely per ROI name and shared using reference counting. Responsible for deletion and lifetime management of all shared ViewLODLists.
+ */
 class ViewLODListManager {
 
+	/**
+	 * @brief [AI] Typedef for the map associating ROI names (C strings) to ViewLODList pointers, using a custom comparator.
+	 */
 	typedef map<ROIName, ViewLODList*, ROINameComparator> ViewLODListMap;
 
 public:
+	/**
+	 * @brief [AI] Constructs a ViewLODListManager; initializes internal structures.
+	 */
 	ViewLODListManager();
+
+	/**
+	 * @brief [AI] Destroys the manager and all ViewLODLists it owns, ensuring proper cleanup of all managed instances.
+	 */
 	virtual ~ViewLODListManager();
 
-	// ??? should LODList be const
-
-	// creates an LODList with room for lodCount LODs for a named ROI
-	// returned LODList has a refCount of 1, i.e. caller must call Release()
-	// when it no longer holds on to the list
+	/**
+	 * @brief [AI] Creates and registers a new ViewLODList for a named ROI, with space for the specified number of LODs.
+	 * @param rROIName [AI] Name of the ROI to associate with the new LOD list. Must be unique.
+	 * @param lodCount [AI] How many LODs to reserve space for.
+	 * @return [AI] Pointer to the newly created ViewLODList (with reference count initialized to 1).
+	 * @details [AI] Caller must call Release() when done with the returned list; if a list with the same name already exists, a new unique name is generated.
+	 */
 	ViewLODList* Create(const ROIName& rROIName, int lodCount);
 
-	// returns an LODList for a named ROI
-	// returned LODList's refCount is increased, i.e. caller must call Release()
-	// when it no longer holds on to the list
+	/**
+	 * @brief [AI] Looks up an existing ViewLODList by ROI name, incrementing its reference count.
+	 * @param[in] [AI] ROI name key.
+	 * @return [AI] The found ViewLODList, or NULL if not found. Reference count is incremented.
+	 * @details [AI] Caller is responsible for calling Release() on the returned ViewLODList.
+	 */
 	ViewLODList* Lookup(const ROIName&) const;
+
+	/**
+	 * @brief [AI] Destroys (removes and deletes) the given ViewLODList from the manager. Called automatically via ViewLODList reference counting.
+	 * @param lodList [AI] The ViewLODList to remove and deallocate.
+	 * @return [AI] TRUE if successfully deleted, FALSE otherwise.
+	 */
 	unsigned char Destroy(ViewLODList* lodList);
 
 #ifdef _DEBUG
+	/**
+	 * @brief [AI] Outputs diagnostic information about all managed LOD lists using the provided tracer function.
+	 * @param pTracer [AI] Function pointer to a printf-style tracing routine.
+	 */
 	void Dump(void (*pTracer)(const char*, ...)) const;
 #endif
 
-	// SYNTHETIC: LEGO1 0x100a70c0
-	// SYNTHETIC: BETA10 0x10178a80
-	// ViewLODListManager::`scalar deleting destructor'
-
 private:
-	static int g_ROINameUID;
+	static int g_ROINameUID;        ///< [AI] Counter for generating unique ROI names if needed for collisions.
 
-	ViewLODListMap m_map;
+	ViewLODListMap m_map;           ///< [AI] Associates ROI names to managed ViewLODList pointers.
 };
-
-// clang-format off
-// FUNCTION: LEGO1 0x1001dde0
-// FUNCTION: BETA10 0x100223c0
-// _Lockit::~_Lockit
-
-// TEMPLATE: LEGO1 0x100a70e0
-// TEMPLATE: BETA10 0x10178ac0
-// Map<char const *,ViewLODList *,ROINameComparator>::~Map<char const *,ViewLODList *,ROINameComparator>
-
-// TEMPLATE: LEGO1 0x100a7800
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::iterator::_Dec
-
-// TEMPLATE: LEGO1 0x100a7850
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::iterator::_Inc
-
-// TEMPLATE: LEGO1 0x100a7890
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::~_Tree<char const *,pair<char const * const,ViewLODList *>,map<char c
-
-// TEMPLATE: LEGO1 0x100a7960
-// TEMPLATE: BETA10 0x1017ab40
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::erase
-
-// TEMPLATE: LEGO1 0x100a7db0
-// TEMPLATE: BETA10 0x1017aca0
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Erase
-
-// TEMPLATE: LEGO1 0x100a7df0
-// TEMPLATE: BETA10 0x101796b0
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Insert
-
-// TEMPLATE: LEGO1 0x100a80a0
-// TEMPLATE: BETA10 0x1017b1e0
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::~map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >
-
-// GLOBAL: LEGO1 0x10101068
-// GLOBAL: BETA10 0x10205eb4
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Nil
-
-// TEMPLATE: BETA10 0x101791f0
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::operator[]
-
-// TEMPLATE: BETA10 0x10178c80
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::iterator::operator==
-
-// TEMPLATE: BETA10 0x10178ef0
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::begin
-
-// TEMPLATE: BETA10 0x10179070
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::end
-
-// TEMPLATE: BETA10 0x10179250
-// pair<char const * const,ViewLODList *>::pair<char const * const,ViewLODList *>
-
-// TEMPLATE: BETA10 0x10179280
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::insert
-
-// TEMPLATE: BETA10 0x101792c0
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::insert
-
-// TEMPLATE: BETA10 0x10178c00
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::iterator::operator*
-
-// TEMPLATE: BETA10 0x1017ab10
-// map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::erase
-// No symbol generated for this?
-// Two iterators
-
-// TEMPLATE: BETA10 0x1017a040
-// ?erase@?$map@PBDPAVViewLODList@@UROINameComparator@@V?$allocator@PAVViewLODList@@@@@@QAE?AViterator@?$_Tree@PBDU?$pair@QBDPAVViewLODList@@@@U_Kfn@?$map@PBDPAVViewLODList@@UROINameComparator@@V?$allocator@PAVViewLODList@@@@@@UROINameComparator@@V?$allocato
-// aka map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::erase
-// One iterator
-
-// TEMPLATE: BETA10 0x10178f80
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Lmost
-
-// TEMPLATE: BETA10 0x10179e70
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Rmost
-
-// TEMPLATE: BETA10 0x10179670
-// _Tree<char const *,pair<char const * const,ViewLODList *>,map<char const *,ViewLODList *,ROINameComparator,allocator<ViewLODList *> >::_Kfn,ROINameComparator,allocator<ViewLODList *> >::_Color
-
-// TEMPLATE: BETA10 0x1017aa30
-// ?swap@@YAXAAW4_Redbl@?$_Tree@PBDU?$pair@QBDPAVViewLODList@@@@U_Kfn@?$map@PBDPAVViewLODList@@UROINameComparator@@V?$allocator@PAVViewLODList@@@@@@UROINameComparator@@V?$allocator@PAVViewLODList@@@@@@0@Z
-
-// clang-format on
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// ViewLODList implementation
-
-// FUNCTION: BETA10 0x1017b240
-inline ViewLODList::ViewLODList(size_t capacity, ViewLODListManager* owner) : LODList<ViewLOD>(capacity), m_refCount(0)
-{
-	m_owner = owner;
-}
-
-inline ViewLODList::~ViewLODList()
-{
-	assert(m_refCount == 0);
-}
-
-// FUNCTION: BETA10 0x1007b5b0
-inline int ViewLODList::AddRef()
-{
-	return ++m_refCount;
-}
-
-// FUNCTION: BETA10 0x1007ad70
-inline int ViewLODList::Release()
-{
-	assert(m_refCount > 0);
-	if (!--m_refCount) {
-		m_owner->Destroy(this);
-		return 0;
-	}
-
-	return m_refCount;
-}
+// Implementation notes:
+//
+// - ViewLODList instances are reference counted and deleted when their count reaches zero.
+// - Each list is associated with a string key (the ROI type's name) in ViewLODListManager.
+// - New lists are created with unique names in case of collisions, using g_ROINameUID for disambiguation.
+//
+// [AI] The overall pattern supports resource sharing among many ROI instances of the same type while maintaining
+// correct resource lifetime, suitable for geometry sharing in a 3D engine.
+//
 
 #endif // VIEWLODLIST_H

@@ -9,11 +9,28 @@
 
 // VTABLE: LEGO1 0x100d6308
 // SIZE 0x18
+/**
+ * @brief [AI] List to hold pointers to MxPresenter objects with optional ownership semantics.
+ * @details [AI] MxPresenterList extends MxPtrList<MxPresenter> to provide a specialized container for handling a list of pointers to MxPresenter instances.
+ * It supports basic list operations, pointer comparison, and optional memory management based on ownership.
+ * Typically used to manage presentational state/progression, sequencing multiple presenters in the LEGO Island engine.
+ */
 class MxPresenterList : public MxPtrList<MxPresenter> {
 public:
+	/**
+	 * @brief [AI] Constructs an MxPresenterList with optional pointer ownership flag.
+	 * @param p_ownership If TRUE, the list assumes ownership and will delete MxPresenter objects upon destruction or removal. [AI]
+	 */
 	MxPresenterList(MxBool p_ownership = FALSE) : MxPtrList<MxPresenter>(p_ownership) {}
 
-	// FUNCTION: LEGO1 0x1001cd00
+	/**
+	 * @brief [AI] Compares two MxPresenter pointers for equality and ordering.
+	 * @details [AI] Returns 0 if the pointers are equal, -1 if the first is less than the second, and 1 otherwise.
+	 * Used internally to support ordered list operations or uniqueness checks.
+	 * @param p_a The first MxPresenter pointer to compare. [AI]
+	 * @param p_b The second MxPresenter pointer to compare. [AI]
+	 * @return 0 if equal, -1 if p_a < p_b, 1 if p_a > p_b. [AI]
+	 */
 	MxS8 Compare(MxPresenter* p_a, MxPresenter* p_b) override
 	{
 		return p_a == p_b ? 0 : p_a < p_b ? -1 : 1;
@@ -31,9 +48,17 @@ public:
 
 // VTABLE: LEGO1 0x100d6470
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor/iterator for traversing an MxPresenterList.
+ * @details [AI] Provides facilities to iterate through the list of presenters efficiently and safely.
+ * Inherits from MxPtrListCursor<MxPresenter> which allows access and navigation over the list data structure.
+ */
 class MxPresenterListCursor : public MxPtrListCursor<MxPresenter> {
 public:
-	// FUNCTION: BETA10 0x1007d130
+	/**
+	 * @brief [AI] Constructs a cursor for an MxPresenterList.
+	 * @param p_list The MxPresenterList to iterate over. [AI]
+	 */
 	MxPresenterListCursor(MxPresenterList* p_list) : MxPtrListCursor<MxPresenter>(p_list) {}
 };
 

@@ -12,6 +12,10 @@
 
 #pragma warning(disable : 4237)
 
+/**
+ * @brief Comparator used to order keys in LegoContainerInfo maps; compares C-strings lexicographically. [AI]
+ * @details [AI] Used as a functor for sorting map keys in a descending string order, making use of std::strcmp. [AI]
+ */
 struct LegoContainerInfoComparator {
 	LegoBool operator()(const char* const& p_key0, const char* const& p_key1) const
 	{
@@ -19,16 +23,32 @@ struct LegoContainerInfoComparator {
 	}
 };
 
-// SIZE 0x10
+/**
+ * @brief Template alias for a map from C-string keys to object pointers, using LegoContainerInfoComparator for ordering. [AI]
+ * @tparam T Element type, must be pointer. [AI]
+ * @details [AI] Used as the internal storage for LegoContainer. Manages pointers and does not own the memory by default. [AI]
+ */
 template <class T>
-class LegoContainerInfo : public map<const char*, T*, LegoContainerInfoComparator> {};
+class LegoContainerInfo : public map<const char*, T*, LegoContainerInfoComparator> {}; // [AI]
 
-// SIZE 0x18
+/**
+ * @brief Template container associating string names with object pointers, optional lifetime management. [AI]
+ * @tparam T Object type, used as pointer. [AI]
+ * @details [AI] Manages a mapping from names (C-strings) to pointers to objects of type T. Supports adding, retrieving, and clearing objects, and can optionally manage the deletion of both key strings and mapped objects depending on m_ownership. Used for centrally managing game resources by name. [AI]
+ */
 template <class T>
 class LegoContainer {
 public:
+	/**
+	 * @brief Default constructor, sets this container to own its elements. [AI]
+	 * @details [AI] By default, the container will delete objects and name strings when destroyed. [AI]
+	 */
 	LegoContainer() { m_ownership = TRUE; }
 
+	/**
+	 * @brief Destructor. Cleans up all key strings and objects depending on ownership flag. [AI]
+	 * @details [AI] Iterates map and deletes both key string and object pointer. [AI]
+	 */
 	virtual ~LegoContainer()
 	{
 #ifdef COMPAT_MODE
@@ -47,6 +67,10 @@ public:
 		}
 	}
 
+	/**
+	 * @brief Remove and delete all mapped objects; preserves key strings. [AI]
+	 * @details [AI] Iterates through the map, deleting objects (but not C-string keys) from memory. [AI]
+	 */
 	void Clear()
 	{
 #ifdef COMPAT_MODE
@@ -59,6 +83,12 @@ public:
 		}
 	}
 
+	/**
+	 * @brief Retrieve the element mapped to the given name, or nullptr if missing. [AI]
+	 * @param p_name Name of the element (C-string). [AI]
+	 * @return Pointer to the element if found, otherwise nullptr. [AI]
+	 * @details [AI] Looks up the map for the name (using comparator). [AI]
+	 */
 	T* Get(const char* p_name)
 	{
 		T* value = NULL;
@@ -76,6 +106,12 @@ public:
 		return value;
 	}
 
+	/**
+	 * @brief Add an element mapped to the given name, replacing existing item if present. [AI]
+	 * @param p_name Name to map. Will be allocated/copied if new. [AI]
+	 * @param p_value Pointer to object to store. [AI]
+	 * @details [AI] If the key exists, the old object is deleted (if ownership is set). Key strings are managed by this container and freed in the destructor. [AI]
+	 */
 	void Add(const char* p_name, T* p_value)
 	{
 #ifdef COMPAT_MODE
@@ -100,104 +136,61 @@ public:
 		m_map[name] = p_value;
 	}
 
+	/**
+	 * @brief Set whether this container owns/deletes its objects (and name strings) on removal/destruction. [AI]
+	 * @param p_ownership If TRUE, container owns the memory and is responsible for cleanup. [AI]
+	 */
 	void SetOwnership(LegoBool p_ownership) { m_ownership = p_ownership; }
 
 protected:
-	LegoBool m_ownership;       // 0x04
-	LegoContainerInfo<T> m_map; // 0x08
+	LegoBool m_ownership;       ///< If TRUE, container owns objects and keys; else no cleanup on destruction. [AI]
+	LegoContainerInfo<T> m_map; ///< Underlying map from name strings to objects. [AI]
 };
 
-// VTABLE: LEGO1 0x100d86d4
-// class LegoContainer<LegoTextureInfo>
-
+/**
+ * @typedef LegoCachedTexture [AI]
+ * @brief Pair associating a LegoTextureInfo pointer with a cache state (BOOL). [AI]
+ * @details [AI] Used for tracking cached DirectDraw/Direct3D texture resources, where the BOOL indicates if the texture is actively in use (=TRUE). [AI]
+ */
 typedef pair<LegoTextureInfo*, BOOL> LegoCachedTexture;
+
+/**
+ * @typedef LegoCachedTextureList [AI]
+ * @brief List of cached textures, each with a pointer and a cache state. [AI]
+ * @details [AI] Used by the LegoTextureContainer to manage temporary/in-use DirectDraw/Direct3D textures. [AI]
+ */
 typedef list<LegoCachedTexture> LegoCachedTextureList;
 
-// VTABLE: LEGO1 0x100d86fc
-// SIZE 0x24
+/**
+ * @brief Specialized LegoContainer handling LegoTextureInfo objects and their DirectDraw/Direct3D caching. [AI]
+ * @details [AI] In addition to basic named texture management, supports tracking and sharing temporary DirectDraw/Direct3D textures, avoiding redundant texture loads and managing texture resources efficiently. [AI]
+ * @inherits LegoContainer<LegoTextureInfo> [AI]
+ */
 class LegoTextureContainer : public LegoContainer<LegoTextureInfo> {
 public:
+	/**
+	 * @brief Destructor. Cleans up all cached textures as well as the standard container cleanup. [AI]
+	 * @details [AI] Ensures that texture resources in m_cached are released. [AI]
+	 */
 	~LegoTextureContainer() override;
 
+	/**
+	 * @brief Attempt to find and return a cached LegoTextureInfo with the same properties as p_textureInfo, or create and cache a new one if not found. [AI]
+	 * @param p_textureInfo The reference texture to match or duplicate. [AI]
+	 * @return Pointer to a cached (shared or newly-created) LegoTextureInfo, or nullptr if creation fails. [AI]
+	 * @details [AI] Tries to match any existing cached texture of the same name and size; if none, duplicates the DirectDraw surface and texture for sharing. [AI]
+	 */
 	LegoTextureInfo* GetCached(LegoTextureInfo* p_textureInfo);
+
+	/**
+	 * @brief Mark a cached texture as unused and release its Direct3D/DirectDraw resources if its reference count reaches zero. [AI]
+	 * @param p_textureInfo The texture to erase from the cache. [AI]
+	 * @details [AI] Sets the cached/freed flag to FALSE and erases the texture from cache if its ref count is now 0, cleaning up its resources. [AI]
+	 */
 	void EraseCached(LegoTextureInfo* p_textureInfo);
 
 protected:
-	LegoCachedTextureList m_cached; // 0x18
+	LegoCachedTextureList m_cached; ///< List of cached temporary texture objects, pairing texture info with a cache/in-use flag. [AI]
 };
-
-// TEMPLATE: LEGO1 0x10059c50
-// allocator<LegoTextureInfo *>::_Charalloc
-
-// clang-format off
-// TEMPLATE: LEGO1 0x10001cc0
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Lbound
-
-// TEMPLATE: LEGO1 0x1004f740
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::find
-
-// TEMPLATE: LEGO1 0x1004f800
-// map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::insert
-
-// TEMPLATE: LEGO1 0x1004f960
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::iterator::_Dec
-
-// TEMPLATE: LEGO1 0x1004f9b0
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Insert
-
-// TEMPLATE: LEGO1 0x10059c70
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Color
-
-// TEMPLATE: LEGO1 0x10059c80
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Left
-
-// TEMPLATE: LEGO1 0x10059c90
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Parent
-
-// TEMPLATE: LEGO1 0x10059ca0
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Right
-
-// TEMPLATE: LEGO1 0x10059cb0
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::~_Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >
-
-// TEMPLATE: LEGO1 0x10059d80
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::iterator::_Inc
-
-// TEMPLATE: LEGO1 0x10059dc0
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::erase
-
-// TEMPLATE: LEGO1 0x1005a210
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Erase
-
-// TEMPLATE: LEGO1 0x1005a250
-// list<pair<LegoTextureInfo *,int>,allocator<pair<LegoTextureInfo *,int> > >::~list<pair<LegoTextureInfo *,int>,allocator<pair<LegoTextureInfo *,int> > >
-
-// TEMPLATE: LEGO1 0x1005a2c0
-// map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::~map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >
-
-// TEMPLATE: LEGO1 0x1005a310
-// LegoContainer<LegoTextureInfo>::`scalar deleting destructor'
-
-// TEMPLATE: LEGO1 0x1005a400
-// LegoContainerInfo<LegoTextureInfo>::~LegoContainerInfo<LegoTextureInfo>
-
-// TEMPLATE: LEGO1 0x1005a450
-// Map<char const *,LegoTextureInfo *,LegoContainerInfoComparator>::~Map<char const *,LegoTextureInfo *,LegoContainerInfoComparator>
-
-// SYNTHETIC: LEGO1 0x1005a580
-// LegoTextureContainer::`scalar deleting destructor'
-
-// TEMPLATE: LEGO1 0x1005a5a0
-// List<pair<LegoTextureInfo *,int> >::~List<pair<LegoTextureInfo *,int> >
-
-// TEMPLATE: LEGO1 0x1005b660
-// LegoContainer<LegoTextureInfo>::~LegoContainer<LegoTextureInfo>
-
-// GLOBAL: LEGO1 0x100f0100
-// _Tree<char const *,pair<char const * const,LegoTextureInfo *>,map<char const *,LegoTextureInfo *,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Kfn,LegoContainerInfoComparator,allocator<LegoTextureInfo *> >::_Nil
-// clang-format on
-
-// TEMPLATE: BETA10 0x1007bc00
-// LegoContainer<LegoTextureInfo>::Get
 
 #endif // LEGOCONTAINER_H

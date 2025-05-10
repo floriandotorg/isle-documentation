@@ -15,8 +15,17 @@
 
 // VTABLE: LEGO1 0x100d8158
 // SIZE 0x18
+/**
+ * @brief [AI] A list class that manages a collection of pointers to LegoNamedTexture objects. 
+ * @details [AI] This class is specialized for use with LegoNamedTexture and provides storage and iteration functionality, allowing safe memory-managing containers (with object ownership) of textures by name within the rendering engine. 
+ * By inheriting from MxPtrList<LegoNamedTexture>, it automatically supports list operations for managing named textures.
+ */
 class LegoNamedTextureList : public MxPtrList<LegoNamedTexture> {
 public:
+	/**
+	 * @brief [AI] Constructs a new LegoNamedTextureList and enables object ownership semantics for contained pointers.
+	 * @details [AI] The TRUE argument ensures the list is responsible for deleting held LegoNamedTexture objects.
+	 */
 	LegoNamedTextureList() : MxPtrList<LegoNamedTexture>(TRUE) {}
 
 	// SYNTHETIC: LEGO1 0x1004f040
@@ -31,8 +40,16 @@ public:
 
 // VTABLE: LEGO1 0x100d81a0
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor/iterator for traversing a LegoNamedTextureList.
+ * @details [AI] This class allows iteration over the textures in a LegoNamedTextureList, supporting standard cursor operations through inheritance from MxPtrListCursor<LegoNamedTexture>.
+ */
 class LegoNamedTextureListCursor : public MxPtrListCursor<LegoNamedTexture> {
 public:
+	/**
+	 * @brief [AI] Constructs a cursor for a specific LegoNamedTextureList.
+	 * @param p_list Pointer to the list to iterate over. [AI]
+	 */
 	LegoNamedTextureListCursor(LegoNamedTextureList* p_list) : MxPtrListCursor<LegoNamedTexture>(p_list) {}
 };
 

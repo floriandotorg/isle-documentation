@@ -3,80 +3,92 @@
 #ifndef SNDANIM_ACTIONS_H
 #define SNDANIM_ACTIONS_H
 
+/// @brief [AI] Namespace grouping all script-related enumerations for the SndanimScript scripting system.
+/// @details [AI] This namespace wraps script action enumerations used in the SndanimScript system, defining IDs for actions related to sound and animation integration.
 namespace SndanimScript
 {
 #if __cplusplus >= 201103L
+/// @brief [AI] Enum representing all possible script actions for SndanimScript.
+/// @details [AI] These enumerated values are used as IDs in SndanimScript to trigger or identify script actions. The values map to action blocks or references in the scripting and resource system.
+/// - Negative values (e.g. c_noneSndanim) are reserved for invalid or uninitialized states.
+/// - Lower numbered values are core or general-purpose actions.
+/// - Higher numbered entries refer to specific animations, sounds, or object/script-based triggers as defined in SI files or hardcoded logic.
 enum Script : int {
 #else
+/// @brief [AI] Enum representing all possible script actions for SndanimScript.
+/// @details [AI] These enumerated values are used as IDs in SndanimScript to trigger or identify script actions. The values map to action blocks or references in the scripting and resource system.
+/// - Negative values (e.g. c_noneSndanim) are reserved for invalid or uninitialized states.
+/// - Lower numbered values are core or general-purpose actions.
+/// - Higher numbered entries refer to specific animations, sounds, or object/script-based triggers as defined in SI files or hardcoded logic.
 enum Script {
 #endif
-	c_noneSndanim = -1,
+	c_noneSndanim = -1,                ///< @brief [AI] Invalid or uninitialized script action. [AI]
 
-	c_SoundAndAnim_Action = 0,
+	c_SoundAndAnim_Action = 0,         ///< @brief [AI] Main action combining sound and animation. [AI]
 
-	c_ThisFilename = 4,
+	c_ThisFilename = 4,                ///< @brief [AI] Refers to the current filename or script reference. [AI]
 
-	c_AnimC1 = 10,
-	c_AnimC2 = 11,
-	c_AnimC3 = 12,
-	c_AnimC4 = 13,
+	c_AnimC1 = 10,                     ///< @brief [AI] Animation block C1. [AI]
+	c_AnimC2 = 11,                     ///< @brief [AI] Animation block C2. [AI]
+	c_AnimC3 = 12,                     ///< @brief [AI] Animation block C3. [AI]
+	c_AnimC4 = 13,                     ///< @brief [AI] Animation block C4. [AI]
 
-	c_AnimF1 = 30,
-	c_AnimF2 = 31,
-	c_AnimF3 = 32,
-	c_AnimT1 = 33,
-	c_AnimT2 = 34,
-	c_AnimT3 = 35,
-	c_AnimB1 = 36,
-	c_AnimB2 = 37,
-	c_AnimB3 = 38,
-	c_AnimP1 = 39,
-	c_AnimP2 = 40,
-	c_AnimP3 = 41,
+	c_AnimF1 = 30,                     ///< @brief [AI] Animation block F1. [AI]
+	c_AnimF2 = 31,                     ///< @brief [AI] Animation block F2. [AI]
+	c_AnimF3 = 32,                     ///< @brief [AI] Animation block F3. [AI]
+	c_AnimT1 = 33,                     ///< @brief [AI] Animation block T1. [AI]
+	c_AnimT2 = 34,                     ///< @brief [AI] Animation block T2. [AI]
+	c_AnimT3 = 35,                     ///< @brief [AI] Animation block T3. [AI]
+	c_AnimB1 = 36,                     ///< @brief [AI] Animation block B1. [AI]
+	c_AnimB2 = 37,                     ///< @brief [AI] Animation block B2. [AI]
+	c_AnimB3 = 38,                     ///< @brief [AI] Animation block B3. [AI]
+	c_AnimP1 = 39,                     ///< @brief [AI] Animation block P1. [AI]
+	c_AnimP2 = 40,                     ///< @brief [AI] Animation block P2. [AI]
+	c_AnimP3 = 41,                     ///< @brief [AI] Animation block P3. [AI]
 
-	c_Sound1 = 50,
-	c_Sound2 = 51,
-	c_Sound3 = 52,
-	c_Sound4 = 53,
-	c_Sound5 = 54,
-	c_Sound6 = 55,
-	c_Sound7 = 56,
-	c_Sound8 = 57,
-	c_Sound9 = 58,
-	c_Sound10 = 59,
-	c_Sound11 = 60,
-	c_Sound12 = 61,
-	c_Sound13 = 62,
-	c_Sound14 = 63,
-	c_Sound15 = 64,
-	c_Sound16 = 65,
-	c_Sound17 = 66,
-	c_Sound18 = 67,
-	c_Sound19 = 68,
-	c_Sound20 = 69,
-	c_AnimBld1 = 70,
-	c_AnimBld2 = 71,
-	c_AnimBld3 = 72,
-	c_AnimBld4 = 73,
-	c_AnimBld5 = 74,
-	c_AnimBld6 = 75,
-	c_AnimBld7 = 76,
-	c_AnimBld8 = 77,
-	c_AnimBld9 = 78,
-	c_AnimBld10 = 79,
-	c_AnimBld11 = 80,
-	c_AnimBld12 = 81,
-	c_AnimBld13 = 82,
-	c_AnimBld14 = 83,
-	c_AnimBld15 = 84,
-	c_AnimBld16 = 85,
-	c_AnimBld17 = 86,
-	c_AnimBld18 = 87,
+	c_Sound1 = 50,                     ///< @brief [AI] Sound action 1. [AI]
+	c_Sound2 = 51,                     ///< @brief [AI] Sound action 2. [AI]
+	c_Sound3 = 52,                     ///< @brief [AI] Sound action 3. [AI]
+	c_Sound4 = 53,                     ///< @brief [AI] Sound action 4. [AI]
+	c_Sound5 = 54,                     ///< @brief [AI] Sound action 5. [AI]
+	c_Sound6 = 55,                     ///< @brief [AI] Sound action 6. [AI]
+	c_Sound7 = 56,                     ///< @brief [AI] Sound action 7. [AI]
+	c_Sound8 = 57,                     ///< @brief [AI] Sound action 8. [AI]
+	c_Sound9 = 58,                     ///< @brief [AI] Sound action 9. [AI]
+	c_Sound10 = 59,                    ///< @brief [AI] Sound action 10. [AI]
+	c_Sound11 = 60,                    ///< @brief [AI] Sound action 11. [AI]
+	c_Sound12 = 61,                    ///< @brief [AI] Sound action 12. [AI]
+	c_Sound13 = 62,                    ///< @brief [AI] Sound action 13. [AI]
+	c_Sound14 = 63,                    ///< @brief [AI] Sound action 14. [AI]
+	c_Sound15 = 64,                    ///< @brief [AI] Sound action 15. [AI]
+	c_Sound16 = 65,                    ///< @brief [AI] Sound action 16. [AI]
+	c_Sound17 = 66,                    ///< @brief [AI] Sound action 17. [AI]
+	c_Sound18 = 67,                    ///< @brief [AI] Sound action 18. [AI]
+	c_Sound19 = 68,                    ///< @brief [AI] Sound action 19. [AI]
+	c_Sound20 = 69,                    ///< @brief [AI] Sound action 20. [AI]
+	c_AnimBld1 = 70,                   ///< @brief [AI] Building animation 1. [AI]
+	c_AnimBld2 = 71,                   ///< @brief [AI] Building animation 2. [AI]
+	c_AnimBld3 = 72,                   ///< @brief [AI] Building animation 3. [AI]
+	c_AnimBld4 = 73,                   ///< @brief [AI] Building animation 4. [AI]
+	c_AnimBld5 = 74,                   ///< @brief [AI] Building animation 5. [AI]
+	c_AnimBld6 = 75,                   ///< @brief [AI] Building animation 6. [AI]
+	c_AnimBld7 = 76,                   ///< @brief [AI] Building animation 7. [AI]
+	c_AnimBld8 = 77,                   ///< @brief [AI] Building animation 8. [AI]
+	c_AnimBld9 = 78,                   ///< @brief [AI] Building animation 9. [AI]
+	c_AnimBld10 = 79,                  ///< @brief [AI] Building animation 10. [AI]
+	c_AnimBld11 = 80,                  ///< @brief [AI] Building animation 11. [AI]
+	c_AnimBld12 = 81,                  ///< @brief [AI] Building animation 12. [AI]
+	c_AnimBld13 = 82,                  ///< @brief [AI] Building animation 13. [AI]
+	c_AnimBld14 = 83,                  ///< @brief [AI] Building animation 14. [AI]
+	c_AnimBld15 = 84,                  ///< @brief [AI] Building animation 15. [AI]
+	c_AnimBld16 = 85,                  ///< @brief [AI] Building animation 16. [AI]
+	c_AnimBld17 = 86,                  ///< @brief [AI] Building animation 17. [AI]
+	c_AnimBld18 = 87,                  ///< @brief [AI] Building animation 18. [AI]
 
-	c_TRS302_OpenJailDoor = 302,
-	c_BRS303_CloseJailDoor = 303,
+	c_TRS302_OpenJailDoor = 302,       ///< @brief [AI] Action to open the jail door for TRS302. [AI]
+	c_BRS303_CloseJailDoor = 303,      ///< @brief [AI] Action to close the jail door for BRS303. [AI]
 
-	c_BookWig_Flic = 400
+	c_BookWig_Flic = 400               ///< @brief [AI] BookWig special FLIC animation trigger. [AI]
 };
 } // namespace SndanimScript
 

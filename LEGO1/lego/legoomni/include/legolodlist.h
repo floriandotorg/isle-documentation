@@ -17,8 +17,19 @@
 
 // VTABLE: LEGO1 0x100d9d78
 // SIZE 0x18
+/**
+ * @brief [AI] Manages a list of LOD (Level-of-Detail) objects used for efficient 3D rendering by trading detail for performance.
+ * @details [AI] 
+ * Inherits from `MxPtrList<LegoLOD>`, providing a strongly-typed container for storing and managing multiple `LegoLOD` pointers. 
+ * This is used in the context of rendering to store the different levels of detail that can be swapped based on distance or importance.
+ * The constructor initializes the parent list with the `FALSE` flag, meaning ownership or deletion semantics as required by the parent.
+ */
 class LegoLODList : public MxPtrList<LegoLOD> {
 public:
+	/**
+	 * @brief [AI] Constructs an empty LOD list for storage and lookup of `LegoLOD` pointers.
+	 * @details [AI] Calls the `MxPtrList<LegoLOD>` constructor with FALSE, which likely controls memory management policy.
+	 */
 	LegoLODList() : MxPtrList<LegoLOD>(FALSE) {}
 
 	// SYNTHETIC: LEGO1 0x1007de40
@@ -33,8 +44,19 @@ public:
 
 // VTABLE: LEGO1 0x100d9e20
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor class for traversing a `LegoLODList`.
+ * @details [AI] 
+ * Inherits from `MxPtrListCursor<LegoLOD>`, providing cursor functionality specialized for `LegoLODList` traversal.
+ * Useful for iterating or seeking within the LOD list structure.
+ */
 class LegoLODListCursor : public MxPtrListCursor<LegoLOD> {
 public:
+	/**
+	 * @brief [AI] Constructs a cursor attached to the specified `LegoLODList`.
+	 * @param p_list Pointer to the `LegoLODList` to be traversed [AI]
+	 * @details [AI] Calls the parent cursor constructor, associating the cursor with the given LOD list.
+	 */
 	LegoLODListCursor(LegoLODList* p_list) : MxPtrListCursor<LegoLOD>(p_list) {}
 };
 

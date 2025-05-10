@@ -3,37 +3,100 @@
 #ifndef INFOSCOR_ACTIONS_H
 #define INFOSCOR_ACTIONS_H
 
+/// @file [AI]
+/// @brief [AI] Contains enumerations for all script actions specific to the InfoscorScript module.
+/// @details [AI] This header provides a strongly-typed enumeration for referencing script actions used in Infoscor, mapping meaningfully named constants to their action IDs. Useful for SI scripting and code referring to these actions by name rather than raw number. Actions correspond to objects or triggers in UI, animations, or scene transitions.
+/// [AI]
+
 namespace InfoscorScript
 {
 #if __cplusplus >= 201103L
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all valid script actions for InfoscorScript SI context. [AI]
+ * @details [AI] Each value refers to an action, animation, control or bitmap as handled by the Infoscor scripting system.
+ * The IDs correspond to entries in the SI file or embedded action table. Negative or large numbers may represent special or reserved actions. [AI]
+ */
 enum Script : int {
 #else
+/**
+ * @enum Script
+ * @brief [AI] Enumerates all valid script actions for InfoscorScript SI context. [AI]
+ * @details [AI] Each value refers to an action, animation, control or bitmap as handled by the Infoscor scripting system.
+ * The IDs correspond to entries in the SI file or embedded action table. Negative or large numbers may represent special or reserved actions. [AI]
+ */
 enum Script {
 #endif
+	/// @var c_noneInfoscor
+	/// @brief [AI] Indicates an invalid or uninitialized script action; not a real action. [AI]
 	c_noneInfoscor = -1,
 
+	/// @var c__StartUp
+	/// @brief [AI] Startup action; typically run automatically at script initialization. [AI]
 	c__StartUp = 0,
+	/// @var c_LeftArrow_Ctl
+	/// @brief [AI] Action or control for the left arrow UI element. [AI]
 	c_LeftArrow_Ctl = 1,
+	/// @var c_RightArrow_Ctl
+	/// @brief [AI] Action or control for the right arrow UI element. [AI]
 	c_RightArrow_Ctl = 2,
+	/// @var c_Book_Ctl
+	/// @brief [AI] Action or control for the book UI element. [AI]
 	c_Book_Ctl = 3,
+	/// @var c_LegoBox_Ctl
+	/// @brief [AI] Action or control for the Lego box UI element. [AI]
 	c_LegoBox_Ctl = 4,
+	/// @var c_HistBook_Bmp
+	/// @brief [AI] Reference to a bitmap for the history book graphic. [AI]
 	c_HistBook_Bmp = 5,
+	/// @var c_HistBook_Flc
+	/// @brief [AI] Reference to a FLC animation for the history book. [AI]
 	c_HistBook_Flc = 6,
+	/// @var c_LegoBox1_Flc
+	/// @brief [AI] Reference to first Lego box FLC animation. [AI]
 	c_LegoBox1_Flc = 7,
+	/// @var c_LegoBox2_Flc
+	/// @brief [AI] Reference to second Lego box FLC animation. [AI]
 	c_LegoBox2_Flc = 8,
+	/// @var c_LegoBox3_Flc
+	/// @brief [AI] Reference to third Lego box FLC animation. [AI]
 	c_LegoBox3_Flc = 9,
+	/// @var c_GoTo_HistBook
+	/// @brief [AI] Script command or transition to go to the history book section. [AI]
 	c_GoTo_HistBook = 10,
+	/// @var c_Background_Bitmap
+	/// @brief [AI] Reference to the bitmap used as background image in the UI. [AI]
 	c_Background_Bitmap = 11,
+	/// @var c_LeftArrow_Up_Bitmap
+	/// @brief [AI] Reference to the bitmap for left arrow in "up" (unpressed) state. [AI]
 	c_LeftArrow_Up_Bitmap = 12,
+	/// @var c_LeftArrow_Down_Bitmap
+	/// @brief [AI] Reference to the bitmap for left arrow in "down" (pressed) state. [AI]
 	c_LeftArrow_Down_Bitmap = 13,
+	/// @var c_RightArrow_Up_Bitmap
+	/// @brief [AI] Reference to the bitmap for right arrow in "up" (unpressed) state. [AI]
 	c_RightArrow_Up_Bitmap = 14,
+	/// @var c_RightArrow_Down_Bitmap
+	/// @brief [AI] Reference to the bitmap for right arrow in "down" (pressed) state. [AI]
 	c_RightArrow_Down_Bitmap = 15,
+	/// @var c_Book_Up_Bitmap
+	/// @brief [AI] Reference to the bitmap for book UI element in "up" state. [AI]
 	c_Book_Up_Bitmap = 16,
+	/// @var c_LegoBox_Mask_Bitmap
+	/// @brief [AI] Reference to a bitmap acting as a mask for Lego box UI interactions or rendering. [AI]
 	c_LegoBox_Mask_Bitmap = 17,
+	/// @var c_ConfigAnimation
+	/// @brief [AI] Action or pointer for configuration animation (exact purpose context-dependent). [AI]
 	c_ConfigAnimation = 18,
+	/// @var c_nin001pr_Anim
+	/// @brief [AI] Animation for character or item "nin001pr". [AI]
 	c_nin001pr_Anim = 19,
 
+	/// @var c_nin001pr_RunAnim
+	/// @brief [AI] Running animation for "nin001pr" entity; likely a fast/alternate sequence. [AI]
 	c_nin001pr_RunAnim = 500,
+	/// @var c_iicc31in_PlayWav
+	/// @brief [AI] Play a WAV sound referenced by "iicc31in"; could be effect, dialog, or UI sound. [AI]
 	c_iicc31in_PlayWav = 501
 };
 } // namespace InfoscorScript

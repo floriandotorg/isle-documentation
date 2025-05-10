@@ -3,27 +3,36 @@
 #ifndef JETRACER_ACTIONS_H
 #define JETRACER_ACTIONS_H
 
+/// @namespace JetracerScript
+/// @brief [AI] Namespace containing script action enums specific to the Jetracer scenario.
+/// @details [AI] This namespace groups all action script identifiers used within Jetracer-specific scripted scenarios, allowing for organized access to the available triggers and actions.
 namespace JetracerScript
 {
 #if __cplusplus >= 201103L
-enum Script : int {
+	/// @enum Script
+	/// @brief [AI] Enumerates all script actions for the Jetracer scenario.
+	/// @details [AI] Entries in this enum are script triggers or actions recognized by the Jetracer logic. Each constant corresponds to a unique in-game trigger or event, which can be invoked by the game logic or scripts.
+	enum Script : int {
 #else
-enum Script {
+	/// @enum Script
+	/// @brief [AI] Enumerates all script actions for the Jetracer scenario.
+	/// @details [AI] Entries in this enum are script triggers or actions recognized by the Jetracer logic. Each constant corresponds to a unique in-game trigger or event, which can be invoked by the game logic or scripts.
+	enum Script {
 #endif
-	c_noneJetracer = -1,
+		c_noneJetracer = -1, ///< @brief [AI] No action or explicitly empty action (sentinel value). [AI]
 
-	c_Trigger200_Drown = 200,
-	c_Trigger201_BtShark = 201,
-	c_Trigger202_SwimShrk = 202,
-	c_Trigger203_Hover_Anim = 203,
-	c_Trigger204_SwimSj01 = 204,
-	c_Trigger205_BtShark1 = 205,
-	c_Trigger206_ShrkJum1 = 206,
-	c_Trigger207_TriSpin = 207,
-	c_Trigger208_TriSpin01 = 208,
-	c_Trigger209_SwimBouy = 209,
-	c_Trigger210_SwimSJ02 = 210
-};
+		c_Trigger200_Drown = 200,        ///< @brief [AI] Triggers the "drown" sequence or event for the Jetracer scenario. [AI]
+		c_Trigger201_BtShark = 201,      ///< @brief [AI] Triggers the appearance or logic for the "BtShark" (possibly "Boat Shark") event. [AI]
+		c_Trigger202_SwimShrk = 202,     ///< @brief [AI] Triggers the swimming (swim) shark-related script. [AI]
+		c_Trigger203_Hover_Anim = 203,   ///< @brief [AI] Triggers a hovering animation or event. [AI]
+		c_Trigger204_SwimSj01 = 204,     ///< @brief [AI] Triggers a swim event labeled "SJ01" (script/jump variant 01). [AI]
+		c_Trigger205_BtShark1 = 205,     ///< @brief [AI] Triggers secondary boat shark logic/event. [AI]
+		c_Trigger206_ShrkJum1 = 206,     ///< @brief [AI] Triggers a shark jump sequence or event, first instance. [AI]
+		c_Trigger207_TriSpin = 207,      ///< @brief [AI] Triggers a "tri spin" or spinning event. [AI]
+		c_Trigger208_TriSpin01 = 208,    ///< @brief [AI] Triggers a variant of the tri spin animation or logic (first instance). [AI]
+		c_Trigger209_SwimBouy = 209,     ///< @brief [AI] Triggers the swimming buoy event/action. [AI]
+		c_Trigger210_SwimSJ02 = 210      ///< @brief [AI] Triggers a second swim event labeled "SJ02". [AI]
+	};
 } // namespace JetracerScript
 
 #endif // JETRACER_ACTIONS_H

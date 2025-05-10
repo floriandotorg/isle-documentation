@@ -16,8 +16,15 @@
 
 // VTABLE: LEGO1 0x100d8c90
 // SIZE 0x18
+/**
+ * @brief [AI] List container holding pointers to LegoTranInfo objects for use in transfer/pathfinding/ROIs. Inherits from MxPtrList for pointer list management.
+ * @details [AI] LegoTranInfoList manages an ordered collection of LegoTranInfo pointers. It is used wherever lists of LegoTranInfo (which often represent transfer points, animation states, or transform infos in the 3D world) are needed in the game engine, such as navigation and path management systems. Inherits pointer-list semantics, automatic ownership/cleanup, and iteration functionality from the base class.
+ */
 class LegoTranInfoList : public MxPtrList<LegoTranInfo> {
 public:
+	/**
+	 * @brief [AI] Constructs an empty list of LegoTranInfo pointers; disables ownership deletion semantics in the base class by passing FALSE.
+	 */
 	LegoTranInfoList() : MxPtrList<LegoTranInfo>(FALSE) {}
 };
 
@@ -29,8 +36,16 @@ public:
 
 // VTABLE: LEGO1 0x100d8d20
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor/iterator for traversing a LegoTranInfoList.
+ * @details [AI] LegoTranInfoListCursor allows controlled sequential traversal of a LegoTranInfoList, supporting navigation and access to each element in the list without exposing internal structures. Specialized for LegoTranInfo pointers and retains all pointer safety semantics of MxPtrListCursor/LegoTranInfo.
+ */
 class LegoTranInfoListCursor : public MxPtrListCursor<LegoTranInfo> {
 public:
+	/**
+	 * @brief [AI] Construct a cursor targeting the given LegoTranInfoList.
+	 * @param p_list The LegoTranInfoList to be iterated by this cursor. [AI]
+	 */
 	LegoTranInfoListCursor(LegoTranInfoList* p_list) : MxPtrListCursor<LegoTranInfo>(p_list) {}
 };
 

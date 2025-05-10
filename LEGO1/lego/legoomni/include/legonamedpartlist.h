@@ -15,12 +15,24 @@
 
 // VTABLE: LEGO1 0x100d9dd8
 // SIZE 0x18
+/**
+ * @brief [AI] A list container for storing pointers to LegoNamedPart objects. 
+ *        Inherits from MxPtrList<LegoNamedPart>, providing management of ownership and list operations.
+ * @details [AI] The list owns its contents (i.e., TRUE passed to base), so deleting the list will delete the contained LegoNamedPart objects.
+ */
 class LegoNamedPartList : public MxPtrList<LegoNamedPart> {
 public:
+	/**
+	 * @brief [AI] Constructor. Initializes the list as an owning list of LegoNamedPart pointers.
+	 * @details [AI] Passing TRUE to the base MxPtrList constructor ensures automatic deletion of contained elements.
+	 */
 	LegoNamedPartList() : MxPtrList<LegoNamedPart>(TRUE) {}
 
 	// SYNTHETIC: LEGO1 0x1007dbf0
 	// LegoNamedPartList::`scalar deleting destructor'
+	/**
+	 * @brief [AI] Destructor. Cleans up contents if owned.
+	 */
 };
 
 // VTABLE: LEGO1 0x100d9e68
@@ -31,8 +43,16 @@ public:
 
 // VTABLE: LEGO1 0x100d9e50
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor/iterator for traversing a LegoNamedPartList.
+ * @details [AI] Provides navigation capabilities over LegoNamedPartList objects using the MxPtrListCursor base class.
+ */
 class LegoNamedPartListCursor : public MxPtrListCursor<LegoNamedPart> {
 public:
+	/**
+	 * @brief [AI] Constructor. Creates a cursor for the supplied LegoNamedPartList.
+	 * @param p_list [AI] Pointer to the LegoNamedPartList to iterate over.
+	 */
 	LegoNamedPartListCursor(LegoNamedPartList* p_list) : MxPtrListCursor<LegoNamedPart>(p_list) {}
 };
 

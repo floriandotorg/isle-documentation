@@ -6,360 +6,180 @@
 #include <math.h>
 #include <memory.h>
 
-// FUNCTION: LEGO1 0x10002320
-// FUNCTION: BETA10 0x1000fcb0
-void Matrix4::Equals(float (*p_data)[4])
-{
-	memcpy(m_data, p_data, sizeof(float) * 4 * 4);
-}
+/**
+ * @brief [AI] Copies a 4x4 matrix from an external float array to the internal matrix data.
+ * @param p_data 4x4 float array (column-major order) to copy into this matrix. [AI]
+ * @details [AI] Performs a memory copy of the input data to the matrix's internal storage.
+ */
+void Matrix4::Equals(float (*p_data)[4]);
 
-// FUNCTION: LEGO1 0x10002340
-// FUNCTION: BETA10 0x1000fcf0
-void Matrix4::Equals(const Matrix4& p_matrix)
-{
-	memcpy(m_data, p_matrix.m_data, sizeof(float) * 4 * 4);
-}
+/**
+ * @brief [AI] Copies the values from another Matrix4 into this matrix.
+ * @param p_matrix Source matrix to copy from. [AI]
+ * @details [AI] Uses memcpy for efficient copying of the matrix data.
+ */
+void Matrix4::Equals(const Matrix4& p_matrix);
 
-// FUNCTION: LEGO1 0x10002360
-// FUNCTION: BETA10 0x1000fd30
-void Matrix4::SetData(float (*p_data)[4])
-{
-	m_data = p_data;
-}
+/**
+ * @brief [AI] Sets the internal matrix storage pointer to the given array. (No copy: shallow set) [AI]
+ * @param p_data Pointer to the new 4x4 float array to use as matrix data. [AI]
+ * @details [AI] This does not copy the values. Use with care regarding data ownership.
+ */
+void Matrix4::SetData(float (*p_data)[4]);
 
-// FUNCTION: LEGO1 0x10002370
-// FUNCTION: BETA10 0x1000fd60
-void Matrix4::SetData(UnknownMatrixType& p_matrix)
-{
-	m_data = p_matrix.m_data;
-}
+/**
+ * @brief [AI] Sets the internal matrix storage pointer from an UnknownMatrixType. (No copy: shallow set) [AI]
+ * @param p_matrix Source unknown matrix type whose internal data will be used for this matrix. [AI]
+ * @details [AI] This operation sets the internal data pointer directly.
+ */
+void Matrix4::SetData(UnknownMatrixType& p_matrix);
 
-// FUNCTION: LEGO1 0x10002380
-// FUNCTION: BETA10 0x1000fd90
-float (*Matrix4::GetData())[4]
-{
-	return m_data;
-}
+/**
+ * @brief [AI] Returns a pointer to the raw 4x4 float matrix data. [AI]
+ * @return Pointer to the 4x4 array of floats representing the matrix data. [AI]
+ */
+float (*Matrix4::GetData())[4];
 
-// FUNCTION: LEGO1 0x10002390
-// FUNCTION: BETA10 0x1000fdc0
-float (*Matrix4::GetData() const)[4]
-{
-	return m_data;
-}
+/**
+ * @brief [AI] Const overload for retrieving matrix data pointer.
+ * @return Const pointer to the 4x4 float matrix data. [AI]
+ */
+float (*Matrix4::GetData() const)[4];
 
-// FUNCTION: LEGO1 0x100023a0
-// FUNCTION: BETA10 0x1000fdf0
-float* Matrix4::Element(int p_row, int p_col)
-{
-	return &m_data[p_row][p_col];
-}
+/**
+ * @brief [AI] Returns a pointer to the element at (row, col) in the matrix. [AI]
+ * @param p_row Row index (0-3). [AI]
+ * @param p_col Column index (0-3). [AI]
+ * @return Pointer to the specific float element within the matrix. [AI]
+ */
+float* Matrix4::Element(int p_row, int p_col);
 
-// FUNCTION: LEGO1 0x100023c0
-// FUNCTION: BETA10 0x1000fe30
-const float* Matrix4::Element(int p_row, int p_col) const
-{
-	return &m_data[p_row][p_col];
-}
+/**
+ * @brief [AI] Const overload. Returns a pointer to the (row, col) element in the matrix. [AI]
+ * @param p_row Row index (0-3). [AI]
+ * @param p_col Column index (0-3). [AI]
+ * @return Const pointer to the matrix element at specified row/column. [AI]
+ */
+const float* Matrix4::Element(int p_row, int p_col) const;
 
-// FUNCTION: LEGO1 0x100023e0
-// FUNCTION: BETA10 0x1000fe70
-void Matrix4::Clear()
-{
-	memset(m_data, 0, 16 * sizeof(float));
-}
+/**
+ * @brief [AI] Sets all matrix elements to zero. [AI]
+ * @details [AI] Effectively zeros out the entire matrix.
+ */
+void Matrix4::Clear();
 
-// FUNCTION: LEGO1 0x100023f0
-// FUNCTION: BETA10 0x1000feb0
-void Matrix4::SetIdentity()
-{
-	Clear();
-	m_data[0][0] = 1.0f;
-	m_data[1][1] = 1.0f;
-	m_data[2][2] = 1.0f;
-	m_data[3][3] = 1.0f;
-}
+/**
+ * @brief [AI] Sets this matrix to the identity matrix. [AI]
+ * @details [AI] Clears the matrix and sets the main diagonal to 1.
+ */
+void Matrix4::SetIdentity();
 
-// FUNCTION: LEGO1 0x10002420
-// FUNCTION: BETA10 0x1000ff20
-void Matrix4::operator=(const Matrix4& p_matrix)
-{
-	Equals(p_matrix);
-}
+/**
+ * @brief [AI] Assigns all values from another matrix to this one.
+ * @param p_matrix Source matrix whose values will be copied. [AI]
+ * @details [AI] Equivalent to Equals(const Matrix4&).
+ */
+void Matrix4::operator=(const Matrix4& p_matrix);
 
-// FUNCTION: LEGO1 0x10002430
-// FUNCTION: BETA10 0x1000ff50
-Matrix4& Matrix4::operator+=(float (*p_data)[4])
-{
-	for (int i = 0; i < 16; i++) {
-		((float*) m_data)[i] += ((float*) p_data)[i];
-	}
+/**
+ * @brief [AI] Adds all corresponding elements of a float[4][4] to this matrix.
+ * @param p_data Source float[4][4] whose elements are added to the matrix. [AI]
+ * @return Reference to this matrix, after addition. [AI]
+ * @details [AI] Adds raw values in-place compared to array-style addition.
+ */
+Matrix4& Matrix4::operator+=(float (*p_data)[4]);
 
-	return *this;
-}
+/**
+ * @brief [AI] Adds a translation vector to the translation row of the matrix (usually row 3). [AI]
+ * @param p_x X component of translation. [AI]
+ * @param p_y Y component of translation. [AI]
+ * @param p_z Z component of translation. [AI]
+ * @details [AI] Adjusts only the translation part of the matrix.
+ */
+void Matrix4::TranslateBy(const float& p_x, const float& p_y, const float& p_z);
 
-// FUNCTION: LEGO1 0x10002460
-// FUNCTION: BETA10 0x1000ffc0
-void Matrix4::TranslateBy(const float& p_x, const float& p_y, const float& p_z)
-{
-	m_data[3][0] += p_x;
-	m_data[3][1] += p_y;
-	m_data[3][2] += p_z;
-}
+/**
+ * @brief [AI] Sets the translation portion of the matrix to specified values. [AI]
+ * @param p_x X translation value. [AI]
+ * @param p_y Y translation value. [AI]
+ * @param p_z Z translation value. [AI]
+ * @details [AI] Directly writes the values rather than incrementing (see TranslateBy).
+ */
+void Matrix4::SetTranslation(const float& p_x, const float& p_y, const float& p_z);
 
-// FUNCTION: LEGO1 0x100024a0
-// FUNCTION: BETA10 0x10010040
-void Matrix4::SetTranslation(const float& p_x, const float& p_y, const float& p_z)
-{
-	m_data[3][0] = p_x;
-	m_data[3][1] = p_y;
-	m_data[3][2] = p_z;
-}
+/**
+ * @brief [AI] Multiplies two 4x4 float matrices, storing result in this matrix. [AI]
+ * @param p_a Pointer to first operand 4x4 matrix. [AI]
+ * @param p_b Pointer to second operand 4x4 matrix. [AI]
+ * @details [AI] Standard matrix multiplication: this = p_a * p_b.
+ */
+void Matrix4::Product(float (*p_a)[4], float (*p_b)[4]);
 
-// FUNCTION: LEGO1 0x100024d0
-// FUNCTION: BETA10 0x100100a0
-void Matrix4::Product(float (*p_a)[4], float (*p_b)[4])
-{
-	float* cur = (float*) m_data;
+/**
+ * @brief [AI] Multiplies two Matrix4 objects and stores result in this matrix.
+ * @param p_a First operand matrix. [AI]
+ * @param p_b Second operand matrix. [AI]
+ * @details [AI] Internally calls Product() with their data pointers.
+ */
+void Matrix4::Product(const Matrix4& p_a, const Matrix4& p_b);
 
-	for (int row = 0; row < 4; row++) {
-		for (int col = 0; col < 4; col++) {
-			*cur = 0.0f;
-			for (int k = 0; k < 4; k++) {
-				*cur += p_a[row][k] * p_b[k][col];
-			}
-			cur++;
-		}
-	}
-}
+/**
+ * @brief [AI] Converts this rotation/transform matrix to a quaternion.
+ * @param p_outQuat Output quaternion (Vector4 format: x,y,z,w), filled by the function. [AI]
+ * @details [AI] Handles both general and edge cases for numerical consistency.
+ * Assumes the matrix represents a rotation. [AI]
+ */
+void Matrix4::ToQuaternion(Vector4& p_outQuat);
 
-// FUNCTION: LEGO1 0x10002530
-// FUNCTION: BETA10 0x10010180
-void Matrix4::Product(const Matrix4& p_a, const Matrix4& p_b)
-{
-	Product(p_a.m_data, p_b.m_data);
-}
+/**
+ * @brief [AI] Sets this matrix from a quaternion representing rotation. [AI]
+ * @param p_vec Quaternion (Vector4, x,y,z,w) to construct a rotation matrix. [AI]
+ * @return 0 on success, -1 on failure (e.g., input is not a unit quaternion). [AI]
+ */
+int Matrix4::FromQuaternion(const Vector4& p_vec);
 
-// FUNCTION: LEGO1 0x10002550
-// FUNCTION: BETA10 0x100101c0
-void Matrix4::ToQuaternion(Vector4& p_outQuat)
-{
-	float trace;
-	float localc = m_data[0][0] + m_data[1][1] + m_data[2][2];
+/**
+ * @brief [AI] Scales the matrix by the given x, y, z factors along each respective axis. [AI]
+ * @param p_x Scaling factor for X dimension. [AI]
+ * @param p_y Scaling factor for Y dimension. [AI]
+ * @param p_z Scaling factor for Z dimension. [AI]
+ * @details [AI] Multiplies the respective matrix columns by the factors.
+ */
+void Matrix4::Scale(const float& p_x, const float& p_y, const float& p_z);
 
-	if (localc > 0) {
-		trace = (float) sqrt(localc + 1.0);
-		p_outQuat[3] = trace * 0.5f;
-		trace = 0.5f / trace;
-		p_outQuat[0] = (m_data[2][1] - m_data[1][2]) * trace;
-		p_outQuat[1] = (m_data[0][2] - m_data[2][0]) * trace;
-		p_outQuat[2] = (m_data[1][0] - m_data[0][1]) * trace;
-	}
-	else {
-		// GLOBAL: LEGO1 0x100d4090
-		static int rotateIndex[] = {1, 2, 0};
+/**
+ * @brief [AI] Rotates the matrix around the X axis by the specified angle (in radians). [AI]
+ * @param p_angle Angle in radians to rotate. [AI]
+ * @details [AI] Modifies relevant elements in place using the rotation formula.
+ */
+void Matrix4::RotateX(const float& p_angle);
 
-		// Largest element along the trace
-		int largest = 0;
-		if (m_data[0][0] < m_data[1][1]) {
-			largest = 1;
-		}
-		if (*Element(largest, largest) < m_data[2][2]) {
-			largest = 2;
-		}
+/**
+ * @brief [AI] Rotates the matrix around the Y axis by the specified angle (in radians). [AI]
+ * @param p_angle Angle in radians. [AI]
+ */
+void Matrix4::RotateY(const float& p_angle);
 
-		int next = rotateIndex[largest];
-		int nextNext = rotateIndex[next];
+/**
+ * @brief [AI] Rotates the matrix around the Z axis by the specified angle (in radians). [AI]
+ * @param p_angle Angle in radians. [AI]
+ */
+void Matrix4::RotateZ(const float& p_angle);
 
-		trace = (float) sqrt(*Element(largest, largest) - (*Element(nextNext, nextNext) + *Element(next, next)) + 1.0);
+/**
+ * @brief [AI] Calculates the inverse of this matrix and stores it in p_mat. [AI]
+ * @param p_mat Reference to output matrix that receives the inverse. [AI]
+ * @return 0 for success, -1 if the matrix is singular (non-invertible). [AI]
+ * @details [AI] Uses partial pivoting and Gaussian elimination for inversion.
+ */
+int Matrix4::BETA_1005a590(Matrix4& p_mat);
 
-		p_outQuat[largest] = trace * 0.5f;
-		trace = 0.5f / trace;
-
-		p_outQuat[3] = (*Element(nextNext, next) - *Element(next, nextNext)) * trace;
-		p_outQuat[next] = (*Element(largest, next) + *Element(next, largest)) * trace;
-		p_outQuat[nextNext] = (*Element(largest, nextNext) + *Element(nextNext, largest)) * trace;
-	}
-}
-
-// FUNCTION: LEGO1 0x10002710
-// FUNCTION: BETA10 0x10010550
-int Matrix4::FromQuaternion(const Vector4& p_vec)
-{
-	float local14 = p_vec.LenSquared();
-
-	if (local14 > 0.0f) {
-		local14 = 2.0f / local14;
-
-		float local24 = p_vec[0] * local14;
-		float local34 = p_vec[1] * local14;
-		float local10 = p_vec[2] * local14;
-
-		float local28 = p_vec[3] * local24;
-		float local2c = p_vec[3] * local34;
-		float local30 = p_vec[3] * local10;
-
-		float local38 = p_vec[0] * local24;
-		float local8 = p_vec[0] * local34;
-		float localc = p_vec[0] * local10;
-
-		float local18 = p_vec[1] * local34;
-		float local1c = p_vec[1] * local10;
-		float local20 = p_vec[2] * local10;
-
-		m_data[0][0] = 1.0f - (local18 + local20);
-		m_data[1][0] = local8 + local30;
-		m_data[2][0] = localc - local2c;
-
-		m_data[0][1] = local8 - local30;
-		m_data[1][1] = 1.0f - (local38 + local20);
-		m_data[2][1] = local1c + local28;
-
-		m_data[0][2] = local2c + localc;
-		m_data[1][2] = local1c - local28;
-		m_data[2][2] = 1.0f - (local18 + local38);
-
-		m_data[3][0] = 0.0f;
-		m_data[3][1] = 0.0f;
-		m_data[3][2] = 0.0f;
-		m_data[3][3] = 1.0f;
-
-		m_data[0][3] = 0.0f;
-		m_data[1][3] = 0.0f;
-		m_data[2][3] = 0.0f;
-		return 0;
-	}
-	else {
-		return -1;
-	}
-}
-
-// FUNCTION: LEGO1 0x100a0ff0
-// FUNCTION: BETA10 0x1001fe60
-void Matrix4::Scale(const float& p_x, const float& p_y, const float& p_z)
-{
-	for (int i = 0; i < 4; i++) {
-		m_data[i][0] *= p_x;
-		m_data[i][1] *= p_y;
-		m_data[i][2] *= p_z;
-	}
-}
-
-// FUNCTION: BETA10 0x1001c6a0
-void Matrix4::RotateX(const float& p_angle)
-{
-	float s = sin(p_angle);
-	float c = cos(p_angle);
-	float matrix[4][4];
-	memcpy(matrix, m_data, sizeof(float) * 16);
-
-	for (int i = 0; i < 4; i++) {
-		m_data[i][1] = matrix[i][1] * c - matrix[i][2] * s;
-		m_data[i][2] = matrix[i][2] * c + matrix[i][1] * s;
-	}
-}
-
-// FUNCTION: BETA10 0x1001fd60
-void Matrix4::RotateY(const float& p_angle)
-{
-	float s = sin(p_angle);
-	float c = cos(p_angle);
-	float matrix[4][4];
-	memcpy(matrix, m_data, sizeof(float) * 16);
-
-	for (int i = 0; i < 4; i++) {
-		m_data[i][0] = matrix[i][0] * c + matrix[i][2] * s;
-		m_data[i][2] = matrix[i][2] * c - matrix[i][0] * s;
-	}
-}
-
-// FUNCTION: BETA10 0x1006ab10
-void Matrix4::RotateZ(const float& p_angle)
-{
-	float s = sin(p_angle);
-	float c = cos(p_angle);
-	float matrix[4][4];
-	memcpy(matrix, m_data, sizeof(float) * 16);
-
-	for (int i = 0; i < 4; i++) {
-		m_data[i][0] = matrix[i][0] * c - matrix[i][1] * s;
-		m_data[i][1] = matrix[i][1] * c + matrix[i][0] * s;
-	}
-}
-
-// FUNCTION: BETA10 0x1005a590
-int Matrix4::BETA_1005a590(Matrix4& p_mat)
-{
-	float local5c[4][4];
-	Matrix4 localc(local5c);
-	localc = *this;
-
-	p_mat.SetIdentity();
-
-	for (int i = 0; i < 4; i++) {
-		int local1c = i;
-		int local10;
-
-		for (local10 = i + 1; local10 < 4; local10++) {
-			if (fabs(localc[local1c][i]) < fabs(localc[local10][i])) {
-				local1c = local10;
-			}
-		}
-
-		if (local1c != i) {
-			localc.Swap(local1c, i);
-			p_mat.Swap(local1c, i);
-		}
-
-		if (localc[i][i] < 0.001f && localc[i][i] > -0.001f) {
-			return -1;
-		}
-
-		float local60 = localc[i][i];
-		int local18;
-
-		for (local18 = 0; local18 < 4; local18++) {
-			p_mat[i][local18] /= local60;
-		}
-
-		for (local18 = 0; local18 < 4; local18++) {
-			localc[i][local18] /= local60;
-		}
-
-		for (local10 = 0; local10 < 4; local10++) {
-			if (i != local10) {
-				float afStack70[4];
-
-				for (local18 = 0; local18 < 4; local18++) {
-					afStack70[local18] = p_mat[i][local18] * localc[local10][i];
-				}
-
-				for (local18 = 0; local18 < 4; local18++) {
-					p_mat[local10][local18] -= afStack70[local18];
-				}
-
-				for (local18 = 0; local18 < 4; local18++) {
-					afStack70[local18] = localc[i][local18] * localc[local10][i];
-				}
-
-				for (local18 = 0; local18 < 4; local18++) {
-					localc[local10][local18] -= afStack70[local18];
-				}
-			}
-		}
-	}
-
-	return 0;
-}
-
-// FUNCTION: LEGO1 0x1006b500
-void Matrix4::Swap(int p_d1, int p_d2)
-{
-	for (int i = 0; i < 4; i++) {
-		float e = m_data[p_d1][i];
-		m_data[p_d1][i] = m_data[p_d2][i];
-		m_data[p_d2][i] = e;
-	}
-}
+/**
+ * @brief [AI] Swaps two matrix rows. [AI]
+ * @param p_d1 First row to swap. [AI]
+ * @param p_d2 Second row to swap. [AI]
+ * @details [AI] Used primarily by matrix inversion algorithms for row operations.
+ */
+void Matrix4::Swap(int p_d1, int p_d2);
 
 #endif // MATRIX4D_H

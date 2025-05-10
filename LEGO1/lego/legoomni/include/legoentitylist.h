@@ -16,15 +16,30 @@
 
 // VTABLE: LEGO1 0x100d6458
 // SIZE 0x18
+/**
+ * @brief [AI] A strongly typed list for holding LegoEntity pointers. 
+ * @details [AI] Inherits from MxPtrList<LegoEntity> and provides ownership semantics and entity-comparison specifically for LegoEntity objects. Used to maintain a collection of world or non-world entities, and provides a custom comparison based on pointer equality.
+ */
 class LegoEntityList : public MxPtrList<LegoEntity> {
 public:
+	/**
+	 * @brief [AI] Constructs a LegoEntityList.
+	 * @details [AI] Calls MxPtrList's constructor, optionally taking ownership of the pointed entities according to p_ownership.
+	 * @param p_ownership Whether this list owns the pointers it contains ([AI] if TRUE, destructor deletes objects). Default is FALSE. [AI]
+	 */
 	LegoEntityList(MxBool p_ownership = FALSE) : MxPtrList<LegoEntity>(p_ownership) {}
 
-	// FUNCTION: LEGO1 0x1001e2d0
+	/**
+	 * @brief [AI] Compare two LegoEntity pointers.
+	 * @details [AI] Returns 0 if pointers are equal, -1 if p_a is less than p_b, 1 otherwise. Used to provide pointer-based ordering for list operations.
+	 * @param p_a First LegoEntity pointer. [AI]
+	 * @param p_b Second LegoEntity pointer. [AI]
+	 * @return 0 if equal, -1 if p_a < p_b, 1 if p_a > p_b [AI]
+	 */
 	MxS8 Compare(LegoEntity* p_a, LegoEntity* p_b) override
 	{
 		return p_a == p_b ? 0 : p_a < p_b ? -1 : 1;
-	} // vtable+0x14
+	} // vtable+0x14 [AI] (Compare pointer values of entities)
 };
 
 // VTABLE: LEGO1 0x100d64e8
@@ -35,8 +50,16 @@ public:
 
 // VTABLE: LEGO1 0x100d64d0
 // SIZE 0x10
+/**
+ * @brief [AI] Cursor class for iterating through a LegoEntityList.
+ * @details [AI] Provides an interface for sequential access to LegoEntityList contents (entities), enabling safe, position-based iteration. 
+ */
 class LegoEntityListCursor : public MxPtrListCursor<LegoEntity> {
 public:
+	/**
+	 * @brief [AI] Constructs a cursor attached to a LegoEntityList.
+	 * @param p_list List to iterate over [AI] (must remain valid for lifetime of cursor).
+	 */
 	LegoEntityListCursor(LegoEntityList* p_list) : MxPtrListCursor<LegoEntity>(p_list) {}
 };
 

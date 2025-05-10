@@ -5,197 +5,224 @@
 
 class LegoEventNotificationParam;
 
-// VTABLE: LEGO1 0x100d4b90
-// VTABLE: BETA10 0x101bd610
-// SIZE 0x68
+/// @brief [AI] Entity for the Information Center building in LEGO Island.
+/// @details [AI] The InfoCenterEntity class represents the interactive entity for the Information Center building on LEGO Island.
+/// It provides specific interaction logic for the Info Center context by overriding the HandleClick method.
+/// Serves as a specialization of BuildingEntity, adding Info Center-specific behaviors for player input.
 class InfoCenterEntity : public BuildingEntity {
 public:
-	// FUNCTION: LEGO1 0x1000ea00
-	// FUNCTION: BETA10 0x100a9230
+	/// @brief [AI] Returns the class name ("InfoCenterEntity") for runtime type identification.
+	/// @details [AI] Used for checking type at runtime or for serialization/inspection logic.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// STRING: LEGO1 0x100f035c
 		return "InfoCenterEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000ea10
+	/// @brief [AI] Checks whether this object is of a certain class type or derives from it.
+	/// @details [AI] Compares the provided name with this class and all its parent classes for "is-a" relationships.
+	/// @param p_name Class name string to compare. [AI]
+	/// @return TRUE if the entity is of type p_name or one of its ancestors. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, InfoCenterEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Information Center building.
+	/// @details [AI] Triggers context-dependent actions and cutscenes when the Info Center is clicked,
+	/// depending on the current game state/act. Transitions the player to the information main area.
+	/// @param p_param Event notification parameter, includes information about the click event and context. [AI]
+	/// @return Always returns 1 to indicate the click was handled. [AI]
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override; // vtable+0x50
 
 	// SYNTHETIC: LEGO1 0x1000f7b0
 	// InfoCenterEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d5258
-// VTABLE: BETA10 0x101bd6e0
-// SIZE 0x68
+/// @brief [AI] Entity for the Gas Station building in LEGO Island.
+/// @details [AI] Represents the interactive gas station building, with custom click handling that can trigger the transition
+/// to the garage area and related animation/state changes.
 class GasStationEntity : public BuildingEntity {
 public:
-	// FUNCTION: LEGO1 0x1000eb20
-	// FUNCTION: BETA10 0x100a9490
+	/// @brief [AI] Returns the class name ("GasStationEntity") for runtime type identification.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// STRING: LEGO1 0x100f0348
 		return "GasStationEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000eb30
+	/// @brief [AI] Checks whether this object is (or inherits from) "GasStationEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, GasStationEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Gas Station building.
+	/// @details [AI] When clicked, moves the player to the garage if certain state constraints are met.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override;
 
 	// SYNTHETIC: LEGO1 0x1000f890
 	// GasStationEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d5068
-// VTABLE: BETA10 0x101bd678
-// SIZE 0x68
+/// @brief [AI] Entity for the Hospital building in LEGO Island.
+/// @details [AI] Handles custom player interaction logic for the hospital area.
 class HospitalEntity : public BuildingEntity {
 public:
-	// FUNCTION: LEGO1 0x1000ec40
-	// FUNCTION: BETA10 0x100a9360
+	/// @brief [AI] Returns the class name ("HospitalEntity") for runtime type identification.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// STRING: LEGO1 0x100f0338
 		return "HospitalEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000ec50
+	/// @brief [AI] Checks whether this object is (or inherits from) "HospitalEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, HospitalEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Hospital building.
+	/// @details [AI] When clicked, transitions player to hospital or triggers related actions.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override; // vtable+0x50
 
 	// SYNTHETIC: LEGO1 0x1000f820
 	// HospitalEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d4ab0
-// VTABLE: BETA10 0x101bd748
-// SIZE 0x68
+/// @brief [AI] Entity for the Police building in LEGO Island.
+/// @details [AI] Handles click logic/events for the police station in the island game world.
 class PoliceEntity : public BuildingEntity {
 public:
-	// FUNCTION: LEGO1 0x1000ed60
-	// FUNCTION: BETA10 0x100a95c0
+	/// @brief [AI] Returns the class name ("PoliceEntity") for runtime type identification.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// STRING: LEGO1 0x100f0328
 		return "PoliceEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000ed70
+	/// @brief [AI] Checks whether this object is (or inherits from) "PoliceEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, PoliceEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Police building.
+	/// @details [AI] Triggers transitions and scripting relevant to the police station.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override; // vtable+0x50
 
 	// SYNTHETIC: LEGO1 0x1000f900
 	// PoliceEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d4a18
-// VTABLE: BETA10 0x101bd7b0
-// SIZE 0x68
+/// @brief [AI] Entity for the Beach House building in LEGO Island.
+/// @details [AI] Implements unique click/interaction logic for the beach house location/building.
 class BeachHouseEntity : public BuildingEntity {
 public:
-	// FUNCTION: LEGO1 0x1000ee80
-	// FUNCTION: BETA10 0x100a96f0
+	/// @brief [AI] Returns the class name ("BeachHouseEntity") for runtime type identification.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// STRING: LEGO1 0x100f0314
 		return "BeachHouseEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000ee90
+	/// @brief [AI] Checks whether this object is (or inherits from) "BeachHouseEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, BeachHouseEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Beach House building.
+	/// @details [AI] Initiates a transition to the jet-ski building area on click.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override;
 
 	// SYNTHETIC: LEGO1 0x1000f970
 	// BeachHouseEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d48a8
-// VTABLE: BETA10 0x101bd818
-// SIZE 0x68
+/// @brief [AI] Entity for the Race Stands (grandstands) building in LEGO Island.
+/// @details [AI] Handles interaction logic for moving to the racecar build area or triggering race stand events.
 class RaceStandsEntity : public BuildingEntity {
-	// FUNCTION: LEGO1 0x1000efa0
-	// FUNCTION: BETA10 0x100a9820
+	/// @brief [AI] Returns the class name ("RaceStandsEntity") for runtime type identification.
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// at LEGO1 0x100f0300, needs no annotation
 		return "RaceStandsEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000efb0
+	/// @brief [AI] Checks whether this object is (or inherits from) "RaceStandsEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, RaceStandsEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events for the Race Stands building.
+	/// @details [AI] Drives transitions toward the racecar build area.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override;
 
 	// SYNTHETIC: LEGO1 0x1000f9e0
 	// RaceStandsEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d5200
-// VTABLE: BETA10 0x101bd8e8
-// SIZE 0x68
+/// @brief [AI] Entity for the Jail building in LEGO Island.
+/// @details [AI] Handles click event logic for the jail, often triggering animation or cutscene camera changes.
 class JailEntity : public BuildingEntity {
-	// FUNCTION: LEGO1 0x1000f0c0
-	// FUNCTION: BETA10 0x100a9a80
+	/// @brief [AI] Returns the class name ("RaceStandsEntity") for runtime type identification.
+	/// @details [AI_SUGGESTED_CORRECTED_NAME: Should be "JailEntity"; current return value is likely a copy-paste error.]
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// at LEGO1 0x100f0300, needs no annotation
 		return "RaceStandsEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000f0d0
+	/// @brief [AI] Checks whether this object is (or inherits from) "JailEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, JailEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events specific to the Jail building.
+	/// @details [AI] Triggers a special camera animation relevant to the jail when clicked.
+	/// @param p_param [AI] Event notification parameter containing click context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override;
 
 	// SYNTHETIC: LEGO1 0x1000fac0
 	// JailEntity::`scalar deleting destructor'
 };
 
-// VTABLE: LEGO1 0x100d50c0
-// VTABLE: BETA10 0x101bd880
-// SIZE 0x68
+/// @brief [AI] Entity for the Cave building in LEGO Island.
+/// @details [AI] Handles complex interaction logic involving chest and cave door sub-objects.
+/// Can trigger multiple-scripted actions/cutscenes for these special cave features.
 class CaveEntity : public BuildingEntity {
-	// FUNCTION: LEGO1 0x1000f1e0
-	// FUNCTION: BETA10 0x100a9950
+	/// @brief [AI] Returns the class name ("RaceStandsEntity") for runtime type identification.
+	/// @details [AI_SUGGESTED_CORRECTED_NAME: Should be "CaveEntity"; current return value is likely a copy-paste error.]
 	const char* ClassName() const override // vtable+0x0c
 	{
-		// at LEGO1 0x100f0300, needs no annotation
 		return "RaceStandsEntity";
 	}
 
-	// FUNCTION: LEGO1 0x1000f1f0
+	/// @brief [AI] Checks whether this object is (or inherits from) "CaveEntity".
+	/// @param p_name Class name string to compare. [AI]
 	MxBool IsA(const char* p_name) const override // vtable+0x10
 	{
 		return !strcmp(p_name, CaveEntity::ClassName()) || BuildingEntity::IsA(p_name);
 	}
 
+	/// @brief [AI] Handles click events and scripting logic for cave-interactive objects (like the chest and cave door).
+	/// @details [AI] Differentiates between clicking on the special chest or cave door, triggering corresponding scripts/animations,
+	/// and manages the cycle of script actions used by these objects.
+	/// @param p_param [AI] Event notification parameter containing click and ROI context.
+	/// @return [AI] Always returns 1.
 	MxLong HandleClick(LegoEventNotificationParam& p_param) override;
 
 	// SYNTHETIC: LEGO1 0x1000fa50
