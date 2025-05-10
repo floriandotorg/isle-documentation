@@ -10,6 +10,31 @@
  * Both `ISLE.EXE` and `LEGO1.DLL` are completely decompiled and are functionally identical to the originals.
  * Work is ongoing to improve the accuracy, naming, documentation, and structure of the source code.
  * 
+ * @section architecture Architecture and Core Concepts
+ * 
+ * This codebase implements the game's rendering, user input, game logic, and resource management. 
+ * It uses a combination of custom C++ classes and the Microsoft DirectX 5 API for 3D graphics and sound.
+ * 
+ * The code follows a component-based architecture with separate modules for rendering, input, game logic, and resource management.
+ * The `LegoOmni` class acts as the central hub, coordinating the different subsystems.
+ * 
+ * The architecture combines event-driven programming (for input and notifications) with a tick-based update loop (for game logic and animation).
+ * It makes heavy use of the retained mode features of Direct3DRM for scene management.
+ * 
+ * @section terminology Terminology
+ * 
+ * - **Script**: SI File (originally intended for scripting functionality, but most game logic ended up hard-coded)
+ * - **ROI (Real-time Object Instance)**: Base class for any object placeable in the 3D world. Handles visibility, 
+ *   world bounding volumes (box and sphere), intrinsic importance (for LOD), and contains a list of LOD objects.
+ * - **Mx (Mindscape)**: Prefix for general utility classes provided by Mindscape (the developer), like `MxString`, 
+ *   `MxMatrix`, `MxList`, etc.
+ * - **Omni**: Name of the game engine.
+ * 
+ * @section features Core Features
+ * 
+ * - **Tickling**: MxCore objects can be registered with the MxTickleManager to receive regular updates at set intervals.
+ *   This mechanism is used for loading video frames, updating 3D sound positions, and other time-based functionality.
+ * 
  * @section navigation Documentation Navigation
  * 
  * - <a href="annotated.html">Class List</a>: Browse all classes in the codebase
