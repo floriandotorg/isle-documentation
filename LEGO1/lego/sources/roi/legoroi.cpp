@@ -582,7 +582,7 @@ LegoResult LegoROI::GetTextureInfo(LegoTextureInfo*& p_textureInfo)
 
 // FUNCTION: LEGO1 0x100a9330
 // FUNCTION: BETA10 0x1018b22c
-LegoResult LegoROI::FUN_100a9330(LegoFloat p_red, LegoFloat p_green, LegoFloat p_blue, LegoFloat p_alpha)
+LegoResult LegoROI::SetLodColor2(LegoFloat p_red, LegoFloat p_green, LegoFloat p_blue, LegoFloat p_alpha)
 {
 	return SetLodColor(p_red, p_green, p_blue, p_alpha);
 }
@@ -601,11 +601,11 @@ LegoResult LegoROI::SetLodColor(const LegoChar* p_name)
 
 // FUNCTION: LEGO1 0x100a93b0
 // FUNCTION: BETA10 0x1018b2c0
-LegoResult LegoROI::FUN_100a93b0(const LegoChar* p_name)
+LegoResult LegoROI::SetLodColor2(const LegoChar* p_name)
 {
 	MxFloat red, green, blue, alpha;
 	if (ColorAliasLookup(p_name, red, green, blue, alpha)) {
-		return FUN_100a9330(red, green, blue, alpha);
+		return SetLodColor2(red, green, blue, alpha);
 	}
 
 	return 0;
