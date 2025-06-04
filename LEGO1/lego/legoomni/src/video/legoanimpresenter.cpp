@@ -250,7 +250,7 @@ void LegoAnimPresenter::FUN_100692b0()
 				strlwr(baseName);
 
 				LegoChar* und = FUN_10069150(str);
-				roi = CharacterManager()->FUN_10085a80(und, baseName, TRUE);
+				roi = CharacterManager()->CreateAutoROI2(und, baseName, TRUE);
 
 				if (roi != NULL) {
 					roi->SetVisibility(FALSE);
