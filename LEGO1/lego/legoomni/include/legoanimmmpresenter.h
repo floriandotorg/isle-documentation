@@ -65,33 +65,33 @@ public:
 
 	// SYNTHETIC: LEGO1 0x1004aa40
 	// LegoAnimMMPresenter::`scalar deleting destructor'
-	MxBool FUN_1004b830();
+	MxBool IsStateAtLeast6();
 	void FUN_1004b840();
-	MxBool FUN_1004b8b0();
+	MxBool GetTranInfoUnk0x28();
 	void FUN_1004b8c0();
 
 	LegoAnimPresenter* GetPresenter() { return m_presenter; }
 
 private:
-	MxBool FUN_1004b450();
-	MxBool FUN_1004b530(MxLong p_time);
-	MxBool FUN_1004b570(MxLong p_time);
-	MxBool FUN_1004b580(MxLong p_time);
-	MxBool FUN_1004b5b0(MxLong p_time);
-	MxBool FUN_1004b600(MxLong p_time);
-	MxBool FUN_1004b610(MxLong p_time);
-	MxBool FUN_1004b6b0(MxLong p_time);
+	MxBool ProgressState();
+	MxBool GetTransformsAndMap(MxLong p_time);
+	MxBool CheckProgressState1(MxLong p_time);
+	MxBool CheckTransitionTimeCompleted(MxLong p_time);
+	MxBool ApplyTransforms(MxLong p_time);
+	MxBool CheckProgressState4(MxLong p_time);
+	MxBool CheckProgressState5(MxLong p_time);
+	MxBool CheckProgressState6(MxLong p_time);
 	MxBool FUN_1004b6d0(MxLong p_time);
 
 	LegoAnimPresenter* m_presenter; // 0x4c
-	MxLong m_unk0x50;               // 0x50
+	MxLong m_lastTickleTime;               // 0x50
 	undefined4 m_unk0x54;           // 0x54
-	MxU8 m_unk0x58;                 // 0x58
-	MxU8 m_unk0x59;                 // 0x59
+	MxU8 m_state;                 // 0x58
+	MxU8 m_tanInfo_unk0x10;                 // 0x59
 	MxU32 m_animmanId;              // 0x5c
 	LegoTranInfo* m_tranInfo;       // 0x60
 	LegoWorld* m_world;             // 0x64
-	MxMatrix* m_unk0x68;            // 0x68
+	MxMatrix* m_transforms;         // 0x68
 	LegoROI** m_roiMap;             // 0x6c
 	MxU32 m_roiMapSize;             // 0x70
 };

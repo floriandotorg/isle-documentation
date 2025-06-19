@@ -27,14 +27,14 @@ LegoAnimMMPresenter::LegoAnimMMPresenter()
 {
 	m_presenter = NULL;
 	m_animmanId = 0;
-	m_unk0x59 = 0;
+	m_tanInfo_unk0x10 = 0;
 	m_tranInfo = NULL;
 	m_unk0x54 = 0;
 	m_world = NULL;
-	m_unk0x68 = NULL;
+	m_transforms = NULL;
 	m_roiMap = NULL;
 	m_roiMapSize = 0;
-	m_unk0x58 = e_unk0;
+	m_state = e_unk0;
 }
 
 // FUNCTION: LEGO1 0x1004aa60
@@ -44,7 +44,7 @@ LegoAnimMMPresenter::~LegoAnimMMPresenter()
 		VideoManager()->UnregisterPresenter(*this);
 	}
 
-	delete[] m_unk0x68;
+	delete[] m_transforms;
 
 	NotificationManager()->Unregister(this);
 }
@@ -171,7 +171,7 @@ void LegoAnimMMPresenter::StartingTickle()
 			m_presenter->FUN_1006b140(m_tranInfo->m_unk0x08);
 		}
 
-		m_unk0x50 = Timer()->GetTime();
+		m_lastTickleTime = Timer()->GetTime();
 		ProgressTickleState(e_streaming);
 	}
 }
@@ -180,7 +180,7 @@ void LegoAnimMMPresenter::StartingTickle()
 // FUNCTION: BETA10 0x1004c372
 void LegoAnimMMPresenter::StreamingTickle()
 {
-	if (FUN_1004b450()) {
+	if (ProgressState()) {
 		ProgressTickleState(e_repeating);
 	}
 }
@@ -253,7 +253,7 @@ void LegoAnimMMPresenter::ParseExtra()
 			m_tranInfo = AnimationManager()->GetTranInfo(m_animmanId);
 
 			if (m_tranInfo != NULL) {
-				m_unk0x59 = m_tranInfo->m_unk0x10;
+				m_tanInfo_unk0x10 = m_tranInfo->m_unk0x10;
 				m_tranInfo->m_presenter = this;
 			}
 		}
@@ -262,47 +262,47 @@ void LegoAnimMMPresenter::ParseExtra()
 
 // FUNCTION: LEGO1 0x1004b450
 // FUNCTION: BETA10 0x1004c71d
-MxBool LegoAnimMMPresenter::FUN_1004b450()
+MxBool LegoAnimMMPresenter::ProgressState()
 {
 	MxBool result = FALSE;
-	MxLong time = Timer()->GetTime() - m_unk0x50;
+	MxLong time = Timer()->GetTime() - m_lastTickleTime;
 
-	switch (m_unk0x58) {
+	switch (m_state) {
 	case e_unk0:
-		if (!FUN_1004b530(time)) {
+		if (!GetTransformsAndMap(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk1;
+		m_state = e_unk1;
 	case e_unk1:
-		if (!FUN_1004b570(time)) {
+		if (!CheckProgressState1(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk2;
+		m_state = e_unk2;
 	case e_unk2:
-		if (!FUN_1004b580(time)) {
+		if (!CheckTransitionTimeCompleted(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk3;
+		m_state = e_unk3;
 	case e_unk3:
-		if (!FUN_1004b5b0(time)) {
+		if (!ApplyTransforms(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk4;
+		m_state = e_unk4;
 	case e_unk4:
-		if (!FUN_1004b600(time)) {
+		if (!CheckProgressState4(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk5;
+		m_state = e_unk5;
 	case e_unk5:
-		if (!FUN_1004b610(time)) {
+		if (!CheckProgressState5(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk6;
+		m_state = e_unk6;
 	case e_unk6:
-		if (!FUN_1004b6b0(time)) {
+		if (!CheckProgressState6(time)) {
 			break;
 		}
-		m_unk0x58 = e_unk7;
+		m_state = e_unk7;
 	case e_unk7:
 		FUN_1004b6d0(time);
 		result = TRUE;
@@ -313,10 +313,10 @@ MxBool LegoAnimMMPresenter::FUN_1004b450()
 
 // FUNCTION: LEGO1 0x1004b530
 // FUNCTION: BETA10 0x1004c8c4
-MxBool LegoAnimMMPresenter::FUN_1004b530(MxLong p_time)
+MxBool LegoAnimMMPresenter::GetTransformsAndMap(MxLong p_time)
 {
 	if (m_presenter != NULL) {
-		m_presenter->FUN_1006afc0(m_unk0x68, 0);
+		m_presenter->FUN_1006afc0(m_transforms, 0);
 		m_roiMap = m_presenter->GetROIMap(m_roiMapSize);
 		m_roiMapSize++;
 	}
@@ -326,16 +326,16 @@ MxBool LegoAnimMMPresenter::FUN_1004b530(MxLong p_time)
 
 // FUNCTION: LEGO1 0x1004b570
 // FUNCTION: BETA10 0x1004c9cc
-MxBool LegoAnimMMPresenter::FUN_1004b570(MxLong p_time)
+MxBool LegoAnimMMPresenter::CheckProgressState1(MxLong p_time)
 {
 	return TRUE;
 }
 
 // FUNCTION: LEGO1 0x1004b580
 // FUNCTION: BETA10 0x1004ca3f
-MxBool LegoAnimMMPresenter::FUN_1004b580(MxLong p_time)
+MxBool LegoAnimMMPresenter::CheckTransitionTimeCompleted(MxLong p_time)
 {
-	switch (m_unk0x59) {
+	switch (m_tanInfo_unk0x10) {
 	case 0:
 		if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 != FALSE && m_tranInfo->m_unk0x20 != NULL &&
 			m_tranInfo->m_unk0x20[0] > p_time) {
@@ -355,16 +355,16 @@ MxBool LegoAnimMMPresenter::FUN_1004b580(MxLong p_time)
 
 // FUNCTION: LEGO1 0x1004b5b0
 // FUNCTION: BETA10 0x1004cb09
-MxBool LegoAnimMMPresenter::FUN_1004b5b0(MxLong p_time)
+MxBool LegoAnimMMPresenter::ApplyTransforms(MxLong p_time)
 {
-	switch (m_unk0x59) {
+	switch (m_tanInfo_unk0x10) {
 	case 0:
-		if (m_roiMap != NULL && m_unk0x68 != NULL) {
+		if (m_roiMap != NULL && m_transforms != NULL) {
 			for (MxU32 i = 0; i < m_roiMapSize; i++) {
 				LegoROI* roi = m_roiMap[i];
 
 				if (roi != NULL) {
-					roi->WrappedSetLocal2WorldWithWorldDataUpdate(m_unk0x68[i]);
+					roi->WrappedSetLocal2WorldWithWorldDataUpdate(m_transforms[i]);
 				}
 			}
 		}
@@ -382,14 +382,14 @@ MxBool LegoAnimMMPresenter::FUN_1004b5b0(MxLong p_time)
 
 // FUNCTION: LEGO1 0x1004b600
 // FUNCTION: BETA10 0x1004cbfb
-MxBool LegoAnimMMPresenter::FUN_1004b600(MxLong p_time)
+MxBool LegoAnimMMPresenter::CheckProgressState4(MxLong p_time)
 {
 	return TRUE;
 }
 
 // FUNCTION: LEGO1 0x1004b610
 // FUNCTION: BETA10 0x1004cc6e
-MxBool LegoAnimMMPresenter::FUN_1004b610(MxLong p_time)
+MxBool LegoAnimMMPresenter::CheckProgressState5(MxLong p_time)
 {
 	for (MxCompositePresenterList::iterator it = m_list.begin(); it != m_list.end(); it++) {
 		if ((*it)->IsA("LegoAnimPresenter") || (*it)->IsA("LegoLoopingAnimPresenter")) {
@@ -411,7 +411,7 @@ MxBool LegoAnimMMPresenter::FUN_1004b610(MxLong p_time)
 
 // FUNCTION: LEGO1 0x1004b6b0
 // FUNCTION: BETA10 0x1004cdc5
-MxBool LegoAnimMMPresenter::FUN_1004b6b0(MxLong p_time)
+MxBool LegoAnimMMPresenter::CheckProgressState6(MxLong p_time)
 {
 	if (m_presenter != NULL && m_presenter->GetCurrentTickleState() != e_idle) {
 		return FALSE;
@@ -486,9 +486,9 @@ MxBool LegoAnimMMPresenter::FUN_1004b6d0(MxLong p_time)
 }
 
 // FUNCTION: LEGO1 0x1004b830
-MxBool LegoAnimMMPresenter::FUN_1004b830()
+MxBool LegoAnimMMPresenter::IsStateAtLeast6()
 {
-	return m_unk0x58 >= e_unk6;
+	return m_state >= e_unk6;
 }
 
 // FUNCTION: LEGO1 0x1004b840
@@ -519,7 +519,7 @@ void LegoAnimMMPresenter::FUN_1004b840()
 
 // FUNCTION: LEGO1 0x1004b8b0
 // FUNCTION: BETA10 0x1004d104
-MxBool LegoAnimMMPresenter::FUN_1004b8b0()
+MxBool LegoAnimMMPresenter::GetTranInfoUnk0x28()
 {
 	return m_tranInfo != NULL ? m_tranInfo->m_unk0x28 : TRUE;
 }

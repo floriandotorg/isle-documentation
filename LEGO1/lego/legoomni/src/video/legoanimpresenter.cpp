@@ -829,7 +829,7 @@ void LegoAnimPresenter::StartingTickle()
 	ProgressTickleState(e_streaming);
 
 	if (m_compositePresenter && m_compositePresenter->IsA("LegoAnimMMPresenter")) {
-		m_unk0x96 = ((LegoAnimMMPresenter*) m_compositePresenter)->FUN_1004b8b0();
+		m_unk0x96 = ((LegoAnimMMPresenter*) m_compositePresenter)->GetTranInfoUnk0x28();
 		m_compositePresenter->VTable0x60(this);
 	}
 

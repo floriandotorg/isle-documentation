@@ -2902,7 +2902,7 @@ MxBool LegoAnimationManager::FUN_10064ee0(MxU32 p_objectId)
 		while (cursor.Next(tranInfo)) {
 			if (tranInfo->m_animInfo->m_objectId == p_objectId) {
 				if (tranInfo->m_presenter) {
-					return tranInfo->m_presenter->FUN_1004b830();
+					return tranInfo->m_presenter->IsStateAtLeast6();
 				}
 				else {
 					return FALSE;
