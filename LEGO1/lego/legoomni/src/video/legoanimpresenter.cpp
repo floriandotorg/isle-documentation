@@ -829,7 +829,7 @@ void LegoAnimPresenter::StartingTickle()
 	ProgressTickleState(e_streaming);
 
 	if (m_compositePresenter && m_compositePresenter->IsA("LegoAnimMMPresenter")) {
-		m_localActors = ((LegoAnimMMPresenter*) m_compositePresenter)->FUN_1004b8b0();
+		m_localActors = ((LegoAnimMMPresenter*) m_compositePresenter)->GetTranInfoUnk0x28();
 		m_compositePresenter->AdvanceSerialAction(this);
 	}
 
