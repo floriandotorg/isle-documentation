@@ -206,9 +206,9 @@ MxResult LegoAct2::Tickle()
 		FUN_10052560(Act2mainScript::c_tja009ni_RunAnim, TRUE, TRUE, NULL, NULL, NULL);
 
 		AnimationManager()->EnableCamAnims(TRUE);
-		AnimationManager()->FUN_1005f6d0(TRUE);
-		AnimationManager()->FUN_100604f0(g_unk0x100f43f0, sizeOfArray(g_unk0x100f43f0));
-		AnimationManager()->FUN_10060480(g_unk0x100f4410, sizeOfArray(g_unk0x100f4410));
+		AnimationManager()->SetUnknown0x400(TRUE);
+		AnimationManager()->SetUnkown29PerId(g_unk0x100f43f0, sizeOfArray(g_unk0x100f43f0));
+		AnimationManager()->SetCharacterUnk08ForNames(g_unk0x100f4410, sizeOfArray(g_unk0x100f4410));
 		break;
 	case 4:
 		m_unk0x10d0 += 50;
@@ -413,9 +413,9 @@ MxLong LegoAct2::HandleEndAction(MxEndActionNotificationParam& p_param)
 			FUN_10052560(Act2mainScript::c_tra045la_RunAnim, TRUE, TRUE, NULL, NULL, NULL);
 			((LegoPathActor*) m_pepper->GetEntity())->SetActorState(LegoPathActor::c_disabled);
 			AnimationManager()->EnableCamAnims(TRUE);
-			AnimationManager()->FUN_1005f6d0(TRUE);
-			AnimationManager()->FUN_100604f0(g_unk0x100f4428, sizeOfArray(g_unk0x100f4428));
-			AnimationManager()->FUN_10060480(g_unk0x100f4458, sizeOfArray(g_unk0x100f4458));
+			AnimationManager()->SetUnknown0x400(TRUE);
+			AnimationManager()->SetUnkown29PerId(g_unk0x100f4428, sizeOfArray(g_unk0x100f4428));
+			AnimationManager()->SetCharacterUnk08ForNames(g_unk0x100f4458, sizeOfArray(g_unk0x100f4458));
 			break;
 		case 12: {
 			LegoROI* roi;
@@ -712,10 +712,10 @@ void LegoAct2::FUN_10051900()
 	if (AnimationManager()) {
 		AnimationManager()->Suspend();
 		AnimationManager()->Resume();
-		AnimationManager()->FUN_10060540(FALSE);
-		AnimationManager()->FUN_100604d0(FALSE);
+		AnimationManager()->SetAllUnkown29(FALSE);
+		AnimationManager()->SetAllCharacterUnk08(FALSE);
 		AnimationManager()->EnableCamAnims(FALSE);
-		AnimationManager()->FUN_1005f6d0(FALSE);
+		AnimationManager()->SetUnknown0x400(FALSE);
 	}
 }
 
@@ -753,7 +753,7 @@ void LegoAct2::VTable0x60()
 MxBool LegoAct2::Escape()
 {
 	BackgroundAudioManager()->Stop();
-	AnimationManager()->FUN_10061010(FALSE);
+	AnimationManager()->UnkToggleAnimation(FALSE);
 	DeleteObjects(&m_atomId, Act2mainScript::c_snsx50bu_RunAnim, 999);
 
 	if (UserActor() != NULL) {
@@ -1165,7 +1165,7 @@ MxResult LegoAct2::FUN_10052560(
 					p_objectId,
 					pmatrix,
 					TRUE,
-					LegoAnimationManager::e_unk0,
+					LegoAnimationManager::e_fromAnimation,
 					NULL,
 					TRUE,
 					TRUE,
@@ -1178,7 +1178,7 @@ MxResult LegoAct2::FUN_10052560(
 					p_objectId,
 					pmatrix,
 					TRUE,
-					LegoAnimationManager::e_unk0,
+					LegoAnimationManager::e_fromAnimation,
 					NULL,
 					TRUE,
 					TRUE,

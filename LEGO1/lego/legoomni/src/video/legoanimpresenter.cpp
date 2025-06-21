@@ -550,7 +550,7 @@ void LegoAnimPresenter::FUN_1006ab70()
 		AnimationManager()->FUN_10063270(m_managedActors, this);
 	}
 	else {
-		AnimationManager()->FUN_10063780(m_managedActors);
+		AnimationManager()->AppendActors(m_managedActors);
 	}
 }
 

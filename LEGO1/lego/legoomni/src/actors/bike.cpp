@@ -68,8 +68,8 @@ MxLong Bike::HandleClick()
 		GetCurrentAction().SetObjectId(-1);
 
 		Vector3 position = m_roi->GetWorldPosition();
-		AnimationManager()->FUN_10064670(&position);
-		AnimationManager()->FUN_10064740(&position);
+		AnimationManager()->PlaceBrickster(&position);
+		AnimationManager()->PlaceMamaAndPapa(&position);
 		ControlManager()->Register(this);
 	}
 
@@ -121,7 +121,7 @@ void Bike::ActivateSceneActions()
 			IsleScript::c_sns006in_RunAnim,
 			&mat,
 			TRUE,
-			LegoAnimationManager::e_unk0,
+			LegoAnimationManager::e_fromAnimation,
 			NULL,
 			FALSE,
 			TRUE,

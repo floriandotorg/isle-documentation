@@ -113,7 +113,7 @@ void Helicopter::Exit()
 	RemoveFromCurrentWorld(m_script, 0x1d);
 	RemoveFromCurrentWorld(m_script, 0x1e);
 	RemoveFromCurrentWorld(m_script, 0x1f);
-	AnimationManager()->FUN_1005f6d0(TRUE);
+	AnimationManager()->SetUnknown0x400(TRUE);
 	ControlManager()->Unregister(this);
 }
 
@@ -130,7 +130,7 @@ MxLong Helicopter::HandleClick()
 		assert(m_world);
 	}
 
-	AnimationManager()->FUN_1005f6d0(FALSE);
+	AnimationManager()->SetUnknown0x400(FALSE);
 
 	if (UserActor()) {
 		if (UserActor()->GetActorId() != GameState()->GetActorId()) {
@@ -141,7 +141,7 @@ MxLong Helicopter::HandleClick()
 	switch (GameState()->GetCurrentAct()) {
 	case LegoGameState::e_act1:
 		m_script = *g_isleScript;
-		AnimationManager()->FUN_10064670(NULL);
+		AnimationManager()->PlaceBrickster(NULL);
 		SpawnPlayer(
 			LegoGameState::e_unkInFrontJailFacingLeft,
 			TRUE,

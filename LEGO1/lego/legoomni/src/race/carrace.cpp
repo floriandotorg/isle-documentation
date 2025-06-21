@@ -129,7 +129,7 @@ void CarRace::ReadyWorld()
 	m_unk0x144 = g_unk0x100d5d10[rand() & 7];
 
 	AnimationManager()
-		->FUN_10060dc0(m_unk0x144, NULL, TRUE, LegoAnimationManager::e_unk0, NULL, FALSE, TRUE, FALSE, TRUE);
+		->FUN_10060dc0(m_unk0x144, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, FALSE, TRUE, FALSE, TRUE);
 
 	m_unk0x128 = (MxStillPresenter*) Find("MxPresenter", "CarLocator2");
 	m_unk0x128->SetPosition(m_unk0x130.GetLeft(), m_unk0x130.GetTop());
@@ -163,7 +163,7 @@ MxLong CarRace::HandleEndAction(MxEndActionNotificationParam& p_param)
 		}
 		else if (m_unk0x148 == objectId) {
 			AnimationManager()
-				->FUN_10060dc0(m_unk0x14c, NULL, TRUE, LegoAnimationManager::e_unk0, NULL, FALSE, TRUE, FALSE, TRUE);
+				->FUN_10060dc0(m_unk0x14c, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, FALSE, TRUE, FALSE, TRUE);
 		}
 		else if (m_unk0x14c == objectId) {
 			NotificationManager()->Send(this, MxNotificationParam());
@@ -258,7 +258,7 @@ MxLong CarRace::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 						m_unk0x148,
 						NULL,
 						TRUE,
-						LegoAnimationManager::e_unk0,
+						LegoAnimationManager::e_fromAnimation,
 						NULL,
 						FALSE,
 						TRUE,
@@ -411,7 +411,7 @@ MxBool CarRace::Escape()
 {
 	InvokeAction(Extra::e_stop, *g_carraceScript, CarraceScript::c_irtx08ra_PlayWav, NULL);
 
-	AnimationManager()->FUN_10061010(FALSE);
+	AnimationManager()->UnkToggleAnimation(FALSE);
 	DeleteObjects(&m_atomId, 500, 999);
 	m_act1State->m_state = Act1State::e_none;
 	VariableTable()->SetVariable(g_strHIT_WALL_SOUND, "");

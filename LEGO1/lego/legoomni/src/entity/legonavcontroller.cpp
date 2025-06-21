@@ -105,7 +105,7 @@ MxS32 g_nextAnimation = 0;
 MxU32 g_switchAct = FALSE;
 
 // GLOBAL: LEGO1 0x100f66bc
-LegoAnimationManager::PlayMode g_unk0x100f66bc = LegoAnimationManager::e_unk2;
+LegoAnimationManager::PlayMode g_unk0x100f66bc = LegoAnimationManager::e_false;
 
 // GLOBAL: LEGO1 0x100f66c0
 char g_debugPassword[] = "OGEL";
@@ -675,7 +675,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 			break;
 		}
 		case VK_SPACE: // Interrupt/end animations or free navigation
-			AnimationManager()->FUN_10061010(TRUE);
+			AnimationManager()->UnkToggleAnimation(TRUE);
 			break;
 		case 'Z': { // Make nearby plants "dance"
 			LegoOmni* omni = Lego();
@@ -827,7 +827,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 								TRUE
 							);
 
-							g_unk0x100f66bc = LegoAnimationManager::e_unk2;
+							g_unk0x100f66bc = LegoAnimationManager::e_false;
 						}
 					}
 
@@ -984,11 +984,11 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 					break;
 				case 'V':
 					if (g_nextAnimation > 0 && g_animationCalcStep == 0) {
-						AnimationManager()->FUN_10061010(FALSE);
+						AnimationManager()->UnkToggleAnimation(FALSE);
 					}
 
 					if (g_animationCalcStep != 0) {
-						g_unk0x100f66bc = LegoAnimationManager::e_unk2;
+						g_unk0x100f66bc = LegoAnimationManager::e_false;
 					}
 
 					g_nextAnimation = 0;
@@ -1034,7 +1034,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 					}
 					break;
 				case VK_OEM_MINUS:
-					g_unk0x100f66bc = LegoAnimationManager::e_unk1;
+					g_unk0x100f66bc = LegoAnimationManager::e_true;
 					break;
 				}
 			}
