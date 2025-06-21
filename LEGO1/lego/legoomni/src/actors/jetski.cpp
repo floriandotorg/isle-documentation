@@ -115,8 +115,8 @@ MxLong Jetski::HandleClick()
 #else
 	GetCurrentAction().SetObjectId(-1);
 
-	AnimationManager()->FUN_1005f6d0(FALSE);
-	AnimationManager()->FUN_10064670(NULL);
+	AnimationManager()->SetUnknown0x400(FALSE);
+	AnimationManager()->PlaceBrickster(NULL);
 	Enter();
 	ControlManager()->Register(this);
 #endif
@@ -178,7 +178,7 @@ void Jetski::ActivateSceneActions()
 					IsleScript::c_sjs007in_RunAnim,
 					&mat,
 					TRUE,
-					LegoAnimationManager::e_unk0,
+					LegoAnimationManager::e_fromAnimation,
 					NULL,
 					FALSE,
 					TRUE,

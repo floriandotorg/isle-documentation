@@ -633,7 +633,7 @@ MxLong Act3::Notify(MxParam& p_param)
 		}
 		case c_notificationKeyPress:
 			if (m_state->m_state == Act3State::e_ready && ((LegoEventNotificationParam&) p_param).GetKey() == ' ') {
-				AnimationManager()->FUN_10061010(FALSE);
+				AnimationManager()->UnkToggleAnimation(FALSE);
 				return 1;
 			}
 			break;
@@ -679,12 +679,12 @@ void Act3::ReadyWorld()
 {
 	PlantManager()->SetInitialCounters();
 	BuildingManager()->SetInitialCounters();
-	AnimationManager()->FUN_1005f6d0(FALSE);
+	AnimationManager()->SetUnknown0x400(FALSE);
 	VideoManager()->Get3DManager()->SetFrustrum(90.0f, 0.1f, 125.0f);
 
 	m_unk0x426c = g_unk0x100d95e8[rand() % 3];
 	AnimationManager()
-		->FUN_10060dc0(m_unk0x426c, NULL, TRUE, LegoAnimationManager::e_unk0, NULL, TRUE, FALSE, FALSE, FALSE);
+		->FUN_10060dc0(m_unk0x426c, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, TRUE, FALSE, FALSE, FALSE);
 
 	m_state->m_state = Act3State::e_ready;
 }
@@ -698,7 +698,7 @@ MxResult Act3::Tickle()
 	}
 
 	if (m_unk0x426c != (Act3Script::Script) 0) {
-		if (AnimationManager()->FUN_10064ee0(m_unk0x426c)) {
+		if (AnimationManager()->IsStateAtLeast6(m_unk0x426c)) {
 			Disable(FALSE, LegoOmni::c_disableInput | LegoOmni::c_disable3d | LegoOmni::c_clearScreen);
 			TickleManager()->UnregisterClient(this);
 			m_unk0x426c = (Act3Script::Script) 0;
@@ -976,7 +976,7 @@ void Act3::VTable0x60()
 MxBool Act3::Escape()
 {
 	BackgroundAudioManager()->Stop();
-	AnimationManager()->FUN_10061010(FALSE);
+	AnimationManager()->UnkToggleAnimation(FALSE);
 	DeleteObjects(&m_atomId, Act3Script::c_tlp053in_RunAnim, 999);
 	m_destLocation = LegoGameState::e_infomain;
 	return TRUE;
