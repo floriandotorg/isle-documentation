@@ -76,7 +76,7 @@ public:
 	virtual void VTable0x8c();                                                                     // vtable+0x8c
 	virtual void VTable0x90();                                                                     // vtable+0x90
 	virtual MxU32 VTable0x94(Vector3& p_v1, Vector3& p_v2, float p_f1, float p_f2, Vector3& p_v3); // vtable+0x94
-	virtual MxResult VTable0x98(LegoPathBoundary* p_boundary);                                     // vtable+0x98
+	virtual MxResult AddActors(LegoPathBoundary* p_boundary);                                      // vtable+0x98
 
 	// FUNCTION: LEGO1 0x1000c990
 	virtual LegoROI** GetROIMap(MxU32& p_roiMapSize)
@@ -85,33 +85,33 @@ public:
 		return m_roiMap;
 	} // vtable+0x9c
 
-	virtual void VTable0xa0(Matrix4& p_matrix); // vtable+0xa0
+	virtual void SetTransform(Matrix4& p_matrix); // vtable+0xa0
 
-	MxResult FUN_1006afc0(MxMatrix*& p_matrix, float p_und);
-	MxResult FUN_1006b140(LegoROI* p_roi);
-	void FUN_1006c7a0();
+	MxResult GetTransforms(MxMatrix*& p_matrix, float p_time);
+	MxResult CopyTransform(LegoROI* p_roi);
+	void ApplyFinishedTransform();
 	const char* GetActionObjectName();
 
 	void SetCurrentWorld(LegoWorld* p_currentWorld) { m_currentWorld = p_currentWorld; }
 
 	// FUNCTION: BETA10 0x1005aad0
-	void SetUnknown0x0cTo1() { m_unk0x9c = 1; }
+	void SetRoiTransformApplied() { m_roiTransformApplied = 1; }
 
 	// FUNCTION: BETA10 0x1005ab00
-	void SetUnknown0xa0(Matrix4* p_unk0xa0) { m_unk0xa0 = p_unk0xa0; }
+	void SetRoiTransform(Matrix4* p_roiTransform) { m_roiTransform = p_roiTransform; }
 
 	LegoAnim* GetAnimation() { return m_anim; }
 
 protected:
 	void Init();
 	void Destroy(MxBool p_fromDestructor);
-	LegoChar* FUN_10069150(const LegoChar* p_und1);
-	void FUN_100692b0();
-	void FUN_100695c0();
+	LegoChar* GetActorName(const LegoChar* p_name);
+	void CreateManagedActors();
+	void CreateSceneROIs();
 	LegoChar* GetVariableOrIdentity(const LegoChar* p_varName, const LegoChar* p_prefix);
-	LegoBool FUN_100698b0(const CompoundObject& p_rois, const LegoChar* p_und2);
+	LegoBool AppendROIToScene(const CompoundObject& p_rois, const LegoChar* p_und2);
 	LegoROI* FindROI(const LegoChar* p_name);
-	void FUN_10069b10();
+	void BuildROIMap();
 	void UpdateStructMapAndROIIndex(LegoAnimStructMap& p_map, LegoTreeNode* p_node, LegoROI* p_roi);
 	void UpdateStructMapAndROIIndexForNode(
 		LegoAnimStructMap& p_map,
@@ -119,13 +119,13 @@ protected:
 		const LegoChar* p_und,
 		LegoROI* p_roi
 	);
-	void FUN_1006aa60();
+	void ReleaseManagedActors();
 	void FUN_1006ab70();
-	LegoBool FUN_1006aba0();
-	MxBool FUN_1006abb0(LegoTreeNode* p_node, LegoROI* p_roi);
+	LegoBool VerifyAnimationTree();
+	MxBool VerifyAnimationNode(LegoTreeNode* p_node, LegoROI* p_roi);
 	void SubstituteVariables();
-	void FUN_1006b900(LegoAnim* p_anim, MxLong p_time, Matrix4* p_matrix);
-	void FUN_1006b9a0(LegoAnim* p_anim, MxLong p_time, Matrix4* p_matrix);
+	void ApplyTransform(LegoAnim* p_anim, MxLong p_time, Matrix4* p_matrix);
+	void ApplyTransformWithVisibilityAndCam(LegoAnim* p_anim, MxLong p_time, Matrix4* p_matrix);
 	void SetDisabled(MxBool p_disabled);
 
 	LegoAnim* m_anim;             // 0x64
@@ -133,27 +133,27 @@ protected:
 	MxU32 m_roiMapSize;           // 0x6c
 	LegoROIList* m_sceneROIs;     // 0x70
 	LegoROIList* m_managedActors; // 0x74
-	Matrix4* m_unk0x78;           // 0x78
+	Matrix4* m_transform;         // 0x78
 	MxU32 m_flags;                // 0x7c
 	LegoWorld* m_currentWorld;    // 0x80
 	MxAtomId m_worldAtom;         // 0x84
 	MxS32 m_worldId;              // 0x88
-	LegoROI** m_unk0x8c;          // 0x8c
-	char** m_unk0x90;             // 0x90
-	MxU8 m_unk0x94;               // 0x94
-	MxBool m_unk0x95;             // 0x95
+	LegoROI** m_ptAtCamROI;       // 0x8c
+	char** m_ptAtCamNames;        // 0x90
+	MxU8 m_ptAtCamCount;          // 0x94
+	MxBool m_animationFinished;   // 0x95
 	MxBool m_unk0x96;             // 0x96
 	undefined m_unk0x97;          // 0x97
 	LegoAnimSubstMap* m_substMap; // 0x98
-	MxS16 m_unk0x9c;              // 0x9c
-	Matrix4* m_unk0xa0;           // 0xa0
+	MxS16 m_roiTransformApplied;  // 0x9c
+	Matrix4* m_roiTransform;      // 0xa0
 
 	// SYNTHETIC: LEGO1 0x10068650
 	// LegoAnimPresenter::`scalar deleting destructor'
 
 public:
-	float m_unk0xa4;          // 0xa4
-	Mx3DPointFloat m_unk0xa8; // 0xa8
+	float m_boundingRadius;       // 0xa4
+	Mx3DPointFloat m_centerPoint; // 0xa8
 };
 
 // VTABLE: LEGO1 0x100d4900
