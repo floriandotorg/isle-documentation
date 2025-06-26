@@ -982,7 +982,7 @@ void LegoCharacterManager::SetCustomizeAnimFile(const char* p_value)
 
 // FUNCTION: LEGO1 0x10085210
 // FUNCTION: BETA10 0x10076995
-LegoROI* LegoCharacterManager::CreateAutoROI(const char* p_name, const char* p_lodName, MxBool p_createEntity)
+LegoROI* LegoCharacterManager::CreateAutoROI(const char* p_name, const char* p_roiName, MxBool p_createEntity)
 {
 	LegoROI* roi = NULL;
 
@@ -990,7 +990,7 @@ LegoROI* LegoCharacterManager::CreateAutoROI(const char* p_name, const char* p_l
 	Tgl::Renderer* renderer = VideoManager()->GetRenderer();
 	ViewLODListManager* lodManager = GetViewLODListManager();
 	LegoTextureContainer* textureContainer = TextureContainer();
-	ViewLODList* lodList = lodManager->Lookup(p_lodName);
+	ViewLODList* lodList = lodManager->Lookup(p_roiName);
 
 	if (lodList == NULL || lodList->Size() == 0) {
 		return NULL;
@@ -1084,9 +1084,9 @@ MxResult LegoCharacterManager::UpdateBoundingSphereAndBox(LegoROI* p_roi)
 }
 
 // FUNCTION: LEGO1 0x10085a80
-LegoROI* LegoCharacterManager::CreateAutoROI2(const char* p_name, const char* p_lodName, MxBool p_createEntity)
+LegoROI* LegoCharacterManager::CreateAutoROI2(const char* p_name, const char* p_roiName, MxBool p_createEntity)
 {
-	return CreateAutoROI(p_name, p_lodName, p_createEntity);
+	return CreateAutoROI(p_name, p_roiName, p_createEntity);
 }
 
 // FUNCTION: LEGO1 0x10085aa0

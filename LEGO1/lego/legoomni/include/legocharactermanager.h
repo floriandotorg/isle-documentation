@@ -89,9 +89,9 @@ public:
 	MxU32 GetAnimationId(LegoROI* p_roi);
 	MxU32 GetSoundId(LegoROI* p_roi, MxBool p_basedOnMood);
 	MxU8 GetMood(LegoROI* p_roi);
-	LegoROI* CreateAutoROI(const char* p_name, const char* p_lodName, MxBool p_createEntity);
+	LegoROI* CreateAutoROI(const char* p_name, const char* p_roiName, MxBool p_createEntity);
 	MxResult UpdateBoundingSphereAndBox(LegoROI* p_roi);
-	LegoROI* CreateAutoROI2(const char* p_name, const char* p_lodName, MxBool p_createEntity);
+	LegoROI* CreateAutoROI2(const char* p_name, const char* p_roiName, MxBool p_createEntity);
 
 	static const char* GetCustomizeAnimFile() { return g_customizeAnimFile; }
 
