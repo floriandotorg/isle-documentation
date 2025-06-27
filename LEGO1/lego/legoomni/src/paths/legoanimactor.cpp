@@ -137,7 +137,7 @@ MxResult LegoAnimActor::Animate(float p_time, Matrix4& p_transform)
 			}
 
 			if (m_cameraFlag) {
-				FUN_10010c30();
+				TransformPointOfView();
 			}
 		}
 
