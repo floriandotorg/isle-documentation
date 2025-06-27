@@ -8,13 +8,13 @@ class LegoAnim;
 
 // SIZE 0x20
 struct LegoAnimActorStruct {
-	LegoAnimActorStruct(float p_unk0x00, LegoAnim* p_AnimTreePtr, LegoROI** p_roiMap, MxU32 p_numROIs);
+	LegoAnimActorStruct(float p_worldSpeed, LegoAnim* p_AnimTreePtr, LegoROI** p_roiMap, MxU32 p_numROIs);
 	~LegoAnimActorStruct();
 
 	float GetDuration();
 
 	// FUNCTION: BETA10 0x1000fb10
-	float GetUnknown0x00() { return m_unk0x00; }
+	float GetWorldSpeed() { return m_worldSpeed; }
 
 	// FUNCTION: BETA10 0x10012210
 	LegoAnim* GetAnimTreePtr() { return m_AnimTreePtr; }
@@ -23,7 +23,7 @@ struct LegoAnimActorStruct {
 	LegoROI** GetROIMap() { return m_roiMap; }
 
 	// TODO: Possibly private
-	float m_unk0x00;              // 0x00
+	float m_worldSpeed;           // 0x00
 	LegoAnim* m_AnimTreePtr;      // 0x04
 	LegoROI** m_roiMap;           // 0x08
 	MxU32 m_numROIs;              // 0x0c
@@ -49,7 +49,7 @@ public:
 
 	virtual MxResult FUN_1001c1f0(float& p_und);
 	virtual MxResult FUN_1001c360(float, Matrix4& p_transform);
-	virtual MxResult FUN_1001c450(LegoAnim* p_AnimTreePtr, float p_unk0x00, LegoROI** p_roiMap, MxU32 p_numROIs);
+	virtual MxResult FUN_1001c450(LegoAnim* p_AnimTreePtr, float p_worldSpeed, LegoROI** p_roiMap, MxU32 p_numROIs);
 	virtual void ClearMaps();
 
 	// FUNCTION: LEGO1 0x1000fba0
