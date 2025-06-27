@@ -47,9 +47,9 @@ public:
 	void Animate(float p_time) override;               // vtable+0x70
 	void VTable0x74(Matrix4& p_transform) override;    // vtable+0x74
 
-	virtual MxResult FUN_1001c1f0(float& p_und);
-	virtual MxResult FUN_1001c360(float, Matrix4& p_transform);
-	virtual MxResult FUN_1001c450(LegoAnim* p_AnimTreePtr, float p_worldSpeed, LegoROI** p_roiMap, MxU32 p_numROIs);
+	virtual MxResult GetTimeInCycle(float& p_timeInCycle);
+	virtual MxResult Animate(float p_time, Matrix4& p_transform);
+	virtual MxResult CreateAnimActorStruct(LegoAnim* p_AnimTreePtr, float p_worldSpeed, LegoROI** p_roiMap, MxU32 p_numROIs);
 	virtual void ClearMaps();
 
 	// FUNCTION: LEGO1 0x1000fba0

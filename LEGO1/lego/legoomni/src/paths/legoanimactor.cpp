@@ -50,22 +50,22 @@ LegoAnimActor::~LegoAnimActor()
 
 // FUNCTION: LEGO1 0x1001c1f0
 // FUNCTION: BETA10 0x1003f240
-MxResult LegoAnimActor::FUN_1001c1f0(float& p_und)
+MxResult LegoAnimActor::GetTimeInCycle(float& p_timeInCycle)
 {
 	float duration = (float) m_animMaps[m_curAnim]->m_AnimTreePtr->GetDuration();
-	p_und = m_actorTime - duration * ((MxS32) (m_actorTime / duration));
+	p_timeInCycle = m_actorTime - duration * ((MxS32) (m_actorTime / duration));
 	return SUCCESS;
 }
 
 // FUNCTION: LEGO1 0x1001c240
 void LegoAnimActor::VTable0x74(Matrix4& p_transform)
 {
-	float und;
+	float timeInCycle;
 	LegoPathActor::VTable0x74(p_transform);
 
 	if (m_curAnim >= 0) {
-		FUN_1001c1f0(und);
-		FUN_1001c360(und, p_transform);
+		GetTimeInCycle(timeInCycle);
+		Animate(timeInCycle, p_transform);
 	}
 }
 
@@ -82,9 +82,9 @@ void LegoAnimActor::Animate(float p_time)
 	if (m_actorState == c_initial && !m_userNavFlag && m_worldSpeed <= 0) {
 		if (m_curAnim >= 0) {
 			MxMatrix matrix(m_unk0xec);
-			float f;
-			FUN_1001c1f0(f);
-			FUN_1001c360(f, matrix);
+			float timeInCycle;
+			GetTimeInCycle(timeInCycle);
+			Animate(timeInCycle, matrix);
 		}
 
 		m_lastTime = m_actorTime = p_time;
@@ -96,9 +96,9 @@ void LegoAnimActor::Animate(float p_time)
 
 // FUNCTION: LEGO1 0x1001c360
 // FUNCTION: BETA10 0x1003e2d3
-MxResult LegoAnimActor::FUN_1001c360(float p_und, Matrix4& p_transform)
+MxResult LegoAnimActor::Animate(float p_time, Matrix4& p_transform)
 {
-	if (p_und >= 0) {
+	if (p_time >= 0) {
 		assert((m_curAnim >= 0) && (m_curAnim < m_animMaps.size()));
 
 		LegoROI** roiMap = m_animMaps[m_curAnim]->m_roiMap;
@@ -133,7 +133,7 @@ MxResult LegoAnimActor::FUN_1001c360(float p_und, Matrix4& p_transform)
 			}
 
 			for (MxS32 j = 0; j < n->GetNumChildren(); j++) {
-				LegoROI::ApplyAnimationTransformation(n->GetChild(j), p_transform, p_und, roiMap);
+				LegoROI::ApplyAnimationTransformation(n->GetChild(j), p_transform, p_time, roiMap);
 			}
 
 			if (m_cameraFlag) {
@@ -150,7 +150,7 @@ MxResult LegoAnimActor::FUN_1001c360(float p_und, Matrix4& p_transform)
 
 // FUNCTION: LEGO1 0x1001c450
 // FUNCTION: BETA10 0x1003e590
-MxResult LegoAnimActor::FUN_1001c450(LegoAnim* p_AnimTreePtr, float p_worldSpeed, LegoROI** p_roiMap, MxU32 p_numROIs)
+MxResult LegoAnimActor::CreateAnimActorStruct(LegoAnim* p_AnimTreePtr, float p_worldSpeed, LegoROI** p_roiMap, MxU32 p_numROIs)
 {
 	// the capitalization of `p_AnimTreePtr` was taken from BETA10
 	assert(p_AnimTreePtr && p_roiMap);

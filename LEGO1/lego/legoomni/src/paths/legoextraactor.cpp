@@ -410,7 +410,7 @@ void LegoExtraActor::VTable0xc4()
 		if (b) {
 			float duration = m_animMaps[m_curAnim]->GetDuration();
 			MxMatrix matrix(m_unk0xec);
-			LegoAnimActor::FUN_1001c360(duration, matrix);
+			LegoAnimActor::Animate(duration, matrix);
 		}
 	}
 }
