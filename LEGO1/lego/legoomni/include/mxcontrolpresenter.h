@@ -18,10 +18,10 @@ public:
 	void RepeatingTickle() override {} // vtable+0x24
 
 	// FUNCTION: LEGO1 0x10043fe0
-	MxBool VTable0x64(undefined4 p_undefined) override { return m_unk0x50; } // vtable+0x64
+	MxBool VTable0x64(undefined4 p_undefined) override { return m_actionEnded; } // vtable+0x64
 
 	// FUNCTION: LEGO1 0x10043ff0
-	virtual void VTable0x68(MxBool p_unk0x50) { m_unk0x50 = p_unk0x50; } // vtable+0x68
+	virtual void SetActionEnded(MxBool p_actionEnded) { m_actionEnded = p_actionEnded; } // vtable+0x68
 
 	// FUNCTION: LEGO1 0x10044000
 	// FUNCTION: BETA10 0x100ebf80
@@ -61,7 +61,7 @@ private:
 
 	MxS16 m_style;            // 0x4c
 	MxS16 m_enabledChild;     // 0x4e
-	MxBool m_unk0x50;         // 0x50
+	MxBool m_actionEnded;     // 0x50
 	MxS16 m_columnsOrRows;    // 0x52
 	MxS16 m_rowsOrColumns;    // 0x54
 	MxS16 m_stateOrCellIndex; // 0x56

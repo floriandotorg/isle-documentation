@@ -18,7 +18,7 @@ MxControlPresenter::MxControlPresenter()
 {
 	m_style = e_none;
 	m_enabledChild = -1;
-	m_unk0x50 = FALSE;
+	m_actionEnded = FALSE;
 	m_columnsOrRows = 0;
 	m_states = NULL;
 	m_rowsOrColumns = 0;
@@ -67,7 +67,7 @@ MxResult MxControlPresenter::StartAction(MxStreamController* p_controller, MxDSA
 void MxControlPresenter::EndAction()
 {
 	if (m_action) {
-		m_unk0x50 = TRUE;
+		m_actionEnded = TRUE;
 		MxCompositePresenter::EndAction();
 	}
 }
