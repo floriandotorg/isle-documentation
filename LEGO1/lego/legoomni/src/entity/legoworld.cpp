@@ -520,7 +520,7 @@ void LegoWorld::Remove(MxCore* p_object)
 		if (cursor.Find((MxControlPresenter*) p_object)) {
 			cursor.Detach();
 			((MxControlPresenter*) p_object)->GetAction()->SetOrigin(Lego());
-			((MxControlPresenter*) p_object)->VTable0x68(TRUE);
+			((MxControlPresenter*) p_object)->SetActionEnded(TRUE);
 		}
 	}
 	else if (p_object->IsA("LegoLocomotionAnimPresenter") || p_object->IsA("LegoHideAnimPresenter") || p_object->IsA("LegoLoopingAnimPresenter")) {
