@@ -3,15 +3,6 @@
  * 
  * @section overview Overview
  * 
- * This is a functionally complete decompilation of the construction block game Isle (Version 1.1, English).
- * It aims to be as accurate as possible, matching the recompiled instructions to the original machine code.
- * The goal is to provide a workable codebase that can be modified, improved, and ported to other platforms.
- * 
- * Both `ISLE.EXE` and `LEGO1.DLL` are completely decompiled and are functionally identical to the originals.
- * Work is ongoing to improve the accuracy, naming, documentation, and structure of the source code.
- * 
- * @section architecture Architecture and Core Concepts
- * 
  * This codebase implements the game's rendering, user input, game logic, and resource management. 
  * It uses a combination of custom C++ classes and the Microsoft DirectX 5 API for 3D graphics and sound.
  * 
@@ -34,6 +25,8 @@
  * 
  * - **Tickling**: MxCore objects can be registered with the MxTickleManager to receive regular updates at set intervals.
  *   This mechanism is used for loading video frames, updating 3D sound positions, and other time-based functionality.
+ * - **Presenter**: Everything you see/hear is a descendant of MxPresenter. The presenter normally receive their data directly from the MxStreamer in chunks during streaming. 
+ * - **World**: Every part of the game (info center, gas station, race etc.) is a world. Also the 3D island is a world, but each act is a separate one.
  * 
  * @section navigation Documentation Navigation
  * 
@@ -42,10 +35,5 @@
  * - <a href="namespacemembers.html">Namespace Members</a>: All documented namespace members
  * - <a href="functions.html">Class Members</a>: All documented class members
  * 
- * @section building Building
- * 
- * This project uses the CMake build system. For the most accurate results,
- * Microsoft Visual C++ 4.20 (the same compiler used to build the original game) is recommended.
- * 
- * Refer to the README.md file for detailed build instructions.
- */ 
+ */
+ 
