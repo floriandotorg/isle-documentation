@@ -14,3 +14,7 @@ trim_trailing_whitespace = true
 
 [{CMakeLists.txt,*.cmake}]
 indent_size = 2
+
+[*.hexpat]
+indent_style = space
+indent_size = 4
