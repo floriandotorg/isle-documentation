@@ -117,10 +117,10 @@ MxResult LegoAnimMMPresenter::StartAction(MxStreamController* p_controller, MxDS
 // FUNCTION: BETA10 0x1004c01a
 void LegoAnimMMPresenter::EndAction()
 {
-	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_unk0x1c != NULL &&
-		m_tranInfo->m_unk0x1c[1] != NULL) {
-		m_tranInfo->m_unk0x1c[1]->Enable(FALSE);
-		m_tranInfo->m_unk0x1c[1]->Enable(TRUE);
+	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL &&
+		m_tranInfo->m_sound[1] != NULL) {
+		m_tranInfo->m_sound[1]->Enable(FALSE);
+		m_tranInfo->m_sound[1]->Enable(TRUE);
 	}
 
 	m_tranInfo = NULL;
@@ -145,10 +145,10 @@ void LegoAnimMMPresenter::ReadyTickle()
 {
 	ParseExtra();
 
-	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_unk0x1c != NULL &&
-		m_tranInfo->m_unk0x1c[0] != NULL) {
-		m_tranInfo->m_unk0x1c[0]->Enable(FALSE);
-		m_tranInfo->m_unk0x1c[0]->Enable(TRUE);
+	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL &&
+		m_tranInfo->m_sound[0] != NULL) {
+		m_tranInfo->m_sound[0]->Enable(FALSE);
+		m_tranInfo->m_sound[0]->Enable(TRUE);
 	}
 
 	if (m_tranInfo != NULL && m_tranInfo->m_unk0x0c != NULL) {
@@ -337,8 +337,8 @@ MxBool LegoAnimMMPresenter::CheckTransitionTimeCompleted(MxLong p_time)
 {
 	switch (m_tanInfo_unk0x10) {
 	case 0:
-		if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 != FALSE && m_tranInfo->m_unk0x20 != NULL &&
-			m_tranInfo->m_unk0x20[0] > p_time) {
+		if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 != FALSE && m_tranInfo->m_time != NULL &&
+			m_tranInfo->m_time[0] > p_time) {
 			return FALSE;
 		}
 		break;

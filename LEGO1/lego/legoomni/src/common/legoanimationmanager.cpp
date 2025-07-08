@@ -998,8 +998,8 @@ MxResult LegoAnimationManager::FUN_100605e0(
 			tranInfo->m_unk0x0c = new MxMatrix(*p_matrix);
 		}
 
-		tranInfo->m_unk0x1c = m_transitionSound;
-		tranInfo->m_unk0x20 = m_transitionTime;
+		tranInfo->m_sound = m_transitionSound;
+		tranInfo->m_time = m_transitionTime;
 		tranInfo->m_unk0x28 = p_bool3;
 		tranInfo->m_unk0x29 = p_bool4;
 
@@ -1065,8 +1065,8 @@ MxResult LegoAnimationManager::CreateTranInfo(MxU32 p_objectId, MxMatrix* p_matr
 
 	SetTransitionInfo();
 
-	info->m_unk0x1c = m_transitionSound;
-	info->m_unk0x20 = m_transitionTime;
+	info->m_sound = m_transitionSound;
+	info->m_time = m_transitionTime;
 	info->m_unk0x28 = p_und1;
 	info->m_unk0x29 = p_und2;
 

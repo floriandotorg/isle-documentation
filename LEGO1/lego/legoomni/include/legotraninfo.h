@@ -25,8 +25,8 @@ struct LegoTranInfo {
 		m_unk0x10 = 0;
 		m_location = -1;
 		m_unk0x14 = FALSE;
-		m_unk0x1c = NULL;
-		m_unk0x20 = NULL;
+		m_sound = NULL;
+		m_time = NULL;
 		m_presenter = NULL;
 		m_unk0x15 = TRUE;
 		m_unk0x28 = TRUE;
@@ -46,8 +46,8 @@ struct LegoTranInfo {
 	MxBool m_unk0x14;                 // 0x14
 	MxBool m_unk0x15;                 // 0x15
 	MxU32 m_objectId;                 // 0x18
-	MxPresenter** m_unk0x1c;          // 0x1c
-	MxLong* m_unk0x20;                // 0x20
+	MxPresenter** m_sound;            // 0x1c
+	MxLong* m_time;                   // 0x20
 	LegoAnimMMPresenter* m_presenter; // 0x24
 	MxBool m_unk0x28;                 // 0x28
 	MxBool m_unk0x29;                 // 0x29
