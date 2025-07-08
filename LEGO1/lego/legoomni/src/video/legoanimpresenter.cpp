@@ -1315,7 +1315,7 @@ void LegoLocomotionAnimPresenter::Init()
 	m_unk0xcc = -1;
 	m_unk0xd0 = -1;
 	m_roiMapList = NULL;
-	m_unk0xd4 = 0;
+	m_worldRefCounter = 0;
 }
 
 // FUNCTION: LEGO1 0x1006d0e0
@@ -1384,7 +1384,7 @@ void LegoLocomotionAnimPresenter::ReadyTickle()
 			SendToCompositePresenter(Lego());
 		}
 
-		m_unk0xd4++;
+		m_worldRefCounter++;
 	}
 }
 
@@ -1405,7 +1405,7 @@ void LegoLocomotionAnimPresenter::StartingTickle()
 // FUNCTION: LEGO1 0x1006d660
 void LegoLocomotionAnimPresenter::StreamingTickle()
 {
-	if (m_unk0xd4 == 0) {
+	if (m_worldRefCounter == 0) {
 		EndAction();
 	}
 }
@@ -1420,7 +1420,7 @@ void LegoLocomotionAnimPresenter::EndAction()
 
 // FUNCTION: LEGO1 0x1006d680
 // FUNCTION: BETA10 0x10052b3d
-void LegoLocomotionAnimPresenter::FUN_1006d680(LegoAnimActor* p_actor, MxFloat p_value)
+void LegoLocomotionAnimPresenter::CreateROIAndBuildMap(LegoAnimActor* p_actor, MxFloat p_worldSpeed)
 {
 	// This asserts that LegoLocomotionAnimPresenter is contained in legoanimpresenter.cpp
 	AUTOLOCK(m_criticalSection);
@@ -1435,7 +1435,7 @@ void LegoLocomotionAnimPresenter::FUN_1006d680(LegoAnimActor* p_actor, MxFloat p
 
 	if (m_roiMap != NULL) {
 		m_roiMapList->Append(m_roiMap);
-		p_actor->CreateAnimActorStruct(m_anim, p_value, m_roiMap, m_roiMapSize);
+		p_actor->CreateAnimActorStruct(m_anim, p_worldSpeed, m_roiMap, m_roiMapSize);
 		m_roiMap = NULL;
 	}
 

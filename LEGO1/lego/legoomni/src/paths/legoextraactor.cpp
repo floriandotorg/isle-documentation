@@ -166,7 +166,7 @@ inline void LegoExtraActor::FUN_1002ad8a()
 
 	if (!m_assAnim) {
 		MxS32 index = 0;
-		m_assAnimP->FUN_1006d680(this, -20.0f);
+		m_assAnimP->CreateROIAndBuildMap(this, -20.0f);
 
 		for (MxS32 i = 0; i < m_animMaps.size(); i++) {
 			if (m_animMaps[i]->GetWorldSpeed() == -20.0f) {
@@ -178,7 +178,7 @@ inline void LegoExtraActor::FUN_1002ad8a()
 
 	if (!m_disAnim) {
 		MxS32 index = 0;
-		m_disAnimP->FUN_1006d680(this, -21.0f);
+		m_disAnimP->CreateROIAndBuildMap(this, -21.0f);
 
 		for (MxS32 i = 0; i < m_animMaps.size(); i++) {
 			if (m_animMaps[i]->GetWorldSpeed() == -21.0f) {

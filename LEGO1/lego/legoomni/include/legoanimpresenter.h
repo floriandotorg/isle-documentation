@@ -231,16 +231,16 @@ public:
 	void PutFrame() override;                             // vtable+0x6c
 	MxResult CreateAnim(MxStreamChunk* p_chunk) override; // vtable+0x88
 
-	void FUN_1006d680(LegoAnimActor* p_actor, MxFloat p_value);
+	void CreateROIAndBuildMap(LegoAnimActor* p_actor, MxFloat p_worldSpeed);
 
-	void DecrementUnknown0xd4()
+	void DecrementWorldRefCounter()
 	{
-		if (m_unk0xd4) {
-			--m_unk0xd4;
+		if (m_worldRefCounter) {
+			--m_worldRefCounter;
 		}
 	}
 
-	undefined2 GetUnknown0xd4() { return m_unk0xd4; }
+	undefined2 GetWorldRefCounter() { return m_worldRefCounter; }
 
 	// SYNTHETIC: LEGO1 0x1006cfe0
 	// LegoLocomotionAnimPresenter::`scalar deleting destructor'
@@ -254,7 +254,7 @@ private:
 	LegoROIMapList* m_roiMapList; // 0xc8
 	MxS32 m_unk0xcc;              // 0xcc
 	MxS32 m_unk0xd0;              // 0xd0
-	undefined2 m_unk0xd4;         // 0xd4
+	MxS32 m_worldRefCounter;      // 0xd4
 };
 
 class LegoPathBoundary;
