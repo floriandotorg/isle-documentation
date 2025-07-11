@@ -15,8 +15,8 @@ DECOMP_SIZE_ASSERT(MxCompositeMediaPresenter, 0x50)
 // FUNCTION: LEGO1 0x10073ea0
 MxCompositeMediaPresenter::MxCompositeMediaPresenter()
 {
-	m_unk0x4c = 0;
-	m_unk0x4e = FALSE;
+	m_counter = 0;
+	m_counterReached = FALSE;
 	VideoManager()->RegisterPresenter(*this);
 }
 
@@ -99,25 +99,25 @@ void MxCompositeMediaPresenter::StartingTickle()
 {
 	AUTOLOCK(m_criticalSection);
 
-	if (!m_unk0x4e) {
+	if (!m_counterReached) {
 		for (MxCompositePresenterList::iterator it = m_list.begin(); it != m_list.end(); it++) {
 			if ((*it)->GetCurrentTickleState() < e_streaming) {
 				(*it)->Tickle();
 
 				if ((*it)->GetCurrentTickleState() == e_streaming ||
 					((*it)->GetAction() && (*it)->GetAction()->GetStartTime())) {
-					m_unk0x4c++;
+					m_counter++;
 				}
 			}
 		}
 
-		if (m_list.size() == m_unk0x4c) {
-			m_unk0x4e = TRUE;
-			m_unk0x4c = 0;
+		if (m_list.size() == m_counter) {
+			m_counterReached = TRUE;
+			m_counter = 0;
 
 			for (MxCompositePresenterList::iterator it = m_list.begin(); it != m_list.end(); it++) {
 				if (!(*it)->GetAction()->GetStartTime()) {
-					m_unk0x4c++;
+					m_counter++;
 				}
 			}
 		}
@@ -128,11 +128,11 @@ void MxCompositeMediaPresenter::StartingTickle()
 				!((*it)->GetAction()->GetFlags() & MxDSAction::c_bit9)) {
 				(*it)->Tickle();
 				(*it)->GetAction()->SetFlags((*it)->GetAction()->GetFlags() | MxDSAction::c_bit9);
-				m_unk0x4c--;
+				m_counter--;
 			}
 		}
 
-		if (!m_unk0x4c) {
+		if (!m_counter) {
 			ProgressTickleState(e_streaming);
 			MxLong time = Timer()->GetTime();
 			m_action->SetTimeStarted(time);
