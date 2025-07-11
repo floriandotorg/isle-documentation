@@ -56,7 +56,7 @@ public:
 		MxS32 p_height,
 		MxBool p_RLE
 	); // vtable+0x2c
-	virtual void VTable0x30(
+	virtual void DrawTransparentImage(
 		MxBitmap* p_bitmap,
 		MxS32 p_left,
 		MxS32 p_top,
@@ -66,7 +66,7 @@ public:
 		MxS32 p_height,
 		MxBool p_RLE
 	); // vtable+0x30
-	virtual void VTable0x34(
+	virtual void DrawImage(
 		MxU8* p_pixels,
 		MxS32 p_bpp,
 		MxS32 p_width,
@@ -84,11 +84,11 @@ public:
 	);                                 // vtable+0x38
 	virtual void GetDC(HDC* p_hdc);    // vtable+0x3c
 	virtual void ReleaseDC(HDC p_hdc); // vtable+0x40
-	virtual LPDIRECTDRAWSURFACE VTable0x44(
+	virtual LPDIRECTDRAWSURFACE CreateSurfaceWithBitmap(
 		MxBitmap* p_bitmap,
-		undefined4* p_ret,
-		undefined4 p_doNotWriteToSurface,
-		undefined4 p_transparent
+		MxS32* p_useVideoMemory,
+		MxS32 p_doNotWriteToSurface,
+		MxS32 p_transparent
 	); // vtable+0x44
 
 	void ClearScreen();
@@ -109,7 +109,7 @@ public:
 		MxU8 p_bpp
 	);
 
-	LPDIRECTDRAWSURFACE FUN_100bc8b0(MxS32 p_width, MxS32 p_height);
+	LPDIRECTDRAWSURFACE CreateSurface(MxS32 p_width, MxS32 p_height);
 
 private:
 	MxU8 CountTotalBitsSetTo1(MxU32 p_param);

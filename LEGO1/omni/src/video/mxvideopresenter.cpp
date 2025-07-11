@@ -262,7 +262,7 @@ void MxVideoPresenter::PutFrame()
 			}
 		}
 		else {
-			displaySurface->VTable0x30(
+			displaySurface->DrawTransparentImage(
 				m_frameBitmap,
 				0,
 				0,
@@ -301,7 +301,7 @@ void MxVideoPresenter::PutFrame()
 						}
 					}
 					else {
-						displaySurface->VTable0x30(
+						displaySurface->DrawTransparentImage(
 							m_frameBitmap,
 							regionRect->GetLeft() - GetX(),
 							regionRect->GetTop() - GetY(),

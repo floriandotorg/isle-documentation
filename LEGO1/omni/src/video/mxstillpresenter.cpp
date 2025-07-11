@@ -80,8 +80,8 @@ void MxStillPresenter::LoadFrame(MxStreamChunk* p_chunk)
 	MVideoManager()->InvalidateRect(rect);
 
 	if (UseSurface()) {
-		undefined4 useVideoMemory = 0;
-		m_surface = MxOmni::GetInstance()->GetVideoManager()->GetDisplaySurface()->VTable0x44(
+		MxS32 useVideoMemory = 0;
+		m_surface = MxOmni::GetInstance()->GetVideoManager()->GetDisplaySurface()->CreateSurfaceWithBitmap(
 			m_frameBitmap,
 			&useVideoMemory,
 			DoNotWriteToSurface(),

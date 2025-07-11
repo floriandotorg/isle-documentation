@@ -424,7 +424,7 @@ void LegoVideoManager::DrawFPS()
 		GetTextExtentPoint(dc, zeros, strlen(zeros), &m_fpsSize);
 		ReleaseDC(NULL, dc);
 
-		m_unk0x528 = m_displaySurface->FUN_100bc8b0(m_fpsSize.cx, m_fpsSize.cy);
+		m_unk0x528 = m_displaySurface->CreateSurface(m_fpsSize.cx, m_fpsSize.cy);
 		SetRect(&m_fpsRect, 0, 0, m_fpsSize.cx, m_fpsSize.cy);
 
 		if (m_unk0x528 == NULL) {
