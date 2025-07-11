@@ -495,7 +495,7 @@ void MxDisplaySurface::VTable0x28(
 
 // FUNCTION: LEGO1 0x100bb1d0
 // FUNCTION: BETA10 0x1014088e
-void MxDisplaySurface::VTable0x30(
+void MxDisplaySurface::DrawTransparentImage(
 	MxBitmap* p_bitmap,
 	MxS32 p_left,
 	MxS32 p_top,
@@ -753,7 +753,7 @@ sixteen_bit:
 
 // FUNCTION: LEGO1 0x100bb850
 // FUNCTION: BETA10 0x10141191
-void MxDisplaySurface::VTable0x34(MxU8* p_pixels, MxS32 p_bpp, MxS32 p_width, MxS32 p_height, MxS32 p_x, MxS32 p_y)
+void MxDisplaySurface::DrawImage(MxU8* p_pixels, MxS32 p_bpp, MxS32 p_width, MxS32 p_height, MxS32 p_x, MxS32 p_y)
 {
 	DDSURFACEDESC surfaceDesc;
 	memset(&surfaceDesc, 0, sizeof(surfaceDesc));
@@ -893,11 +893,11 @@ void MxDisplaySurface::ReleaseDC(HDC p_hdc)
 
 // FUNCTION: LEGO1 0x100bbc60
 // FUNCTION: BETA10 0x10141745
-LPDIRECTDRAWSURFACE MxDisplaySurface::VTable0x44(
+LPDIRECTDRAWSURFACE MxDisplaySurface::CreateSurfaceWithBitmap(
 	MxBitmap* p_bitmap,
-	undefined4* p_ret,
-	undefined4 p_doNotWriteToSurface,
-	undefined4 p_transparent
+	MxS32* p_useVideoMemory,
+	MxS32 p_doNotWriteToSurface,
+	MxS32 p_transparent
 )
 {
 	LPDIRECTDRAWSURFACE surface = NULL;
@@ -916,12 +916,12 @@ LPDIRECTDRAWSURFACE MxDisplaySurface::VTable0x44(
 	ddsd.dwWidth = p_bitmap->GetBmiWidth();
 	ddsd.dwHeight = p_bitmap->GetBmiHeightAbs();
 	ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-	*p_ret = 0;
+	*p_useVideoMemory = 0;
 	ddsd.ddsCaps.dwCaps |= DDSCAPS_SYSTEMMEMORY;
 
 	if (draw->CreateSurface(&ddsd, &surface, NULL) != DD_OK) {
-		if (*p_ret) {
-			*p_ret = 0;
+		if (*p_useVideoMemory) {
+			*p_useVideoMemory = 0;
 
 			// Try creating bitmap surface in vram if system ram ran out
 			ddsd.ddsCaps.dwCaps &= ~DDSCAPS_VIDEOMEMORY;
@@ -1371,7 +1371,7 @@ void MxDisplaySurface::VTable0x2c(
 }
 
 // FUNCTION: LEGO1 0x100bc8b0
-LPDIRECTDRAWSURFACE MxDisplaySurface::FUN_100bc8b0(MxS32 p_width, MxS32 p_height)
+LPDIRECTDRAWSURFACE MxDisplaySurface::CreateSurface(MxS32 p_width, MxS32 p_height)
 {
 	LPDIRECTDRAWSURFACE surface = NULL;
 
