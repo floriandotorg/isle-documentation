@@ -15,14 +15,14 @@ public:
 	enum {
 		c_looping = 0x01,
 		c_bit3 = 0x04,
-		c_bit4 = 0x08,
+		c_transparent = 0x08,
 		c_bit5 = 0x10,
 		c_enabled = 0x20,
 		c_bit7 = 0x40,
 		c_world = 0x80,
-		c_bit9 = 0x100,
-		c_bit10 = 0x200,
-		c_bit11 = 0x400,
+		c_tickled = 0x100,
+		c_loadOneFrame = 0x200,
+		c_alwaysEnabled = 0x400,
 	};
 
 	MxDSAction();

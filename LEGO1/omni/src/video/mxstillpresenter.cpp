@@ -85,7 +85,7 @@ void MxStillPresenter::LoadFrame(MxStreamChunk* p_chunk)
 			m_frameBitmap,
 			&useVideoMemory,
 			DoNotWriteToSurface(),
-			m_action->GetFlags() & MxDSAction::c_bit4
+			m_action->GetFlags() & MxDSAction::c_transparent
 		);
 
 		delete m_alpha;

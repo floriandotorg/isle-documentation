@@ -165,7 +165,7 @@ void MxVideoPresenter::NextFrame()
 MxBool MxVideoPresenter::IsHit(MxS32 p_x, MxS32 p_y)
 {
 	MxDSAction* action = GetAction();
-	if ((action == NULL) || (((action->GetFlags() & MxDSAction::c_bit11) == 0) && !IsEnabled()) ||
+	if ((action == NULL) || (((action->GetFlags() & MxDSAction::c_alwaysEnabled) == 0) && !IsEnabled()) ||
 		(!m_frameBitmap && !m_alpha)) {
 		return FALSE;
 	}
@@ -187,7 +187,7 @@ MxBool MxVideoPresenter::IsHit(MxS32 p_x, MxS32 p_y)
 		return (MxBool) *pixel;
 	}
 
-	if ((GetAction()->GetFlags() & MxDSAction::c_bit4) && *pixel == 0) {
+	if ((GetAction()->GetFlags() & MxDSAction::c_transparent) && *pixel == 0) {
 		return FALSE;
 	}
 
@@ -294,7 +294,7 @@ void MxVideoPresenter::PutFrame()
 					dest.bottom = dest.top + regionRect->GetHeight();
 				}
 
-				if (m_action->GetFlags() & MxDSAction::c_bit4) {
+				if (m_action->GetFlags() & MxDSAction::c_transparent) {
 					if (m_surface) {
 						if (PrepareRects(src, dest) >= 0) {
 							ddSurface->Blt(&dest, m_surface, &src, DDBLT_KEYSRC, NULL);
@@ -361,7 +361,7 @@ void MxVideoPresenter::StartingTickle()
 // FUNCTION: LEGO1 0x100b2fe0
 void MxVideoPresenter::StreamingTickle()
 {
-	if (m_action->GetFlags() & MxDSAction::c_bit10) {
+	if (m_action->GetFlags() & MxDSAction::c_loadOneFrame) {
 		if (!m_currentChunk) {
 			MxMediaPresenter::StreamingTickle();
 		}
@@ -405,7 +405,7 @@ void MxVideoPresenter::StreamingTickle()
 void MxVideoPresenter::RepeatingTickle()
 {
 	if (IsEnabled()) {
-		if (m_action->GetFlags() & MxDSAction::c_bit10) {
+		if (m_action->GetFlags() & MxDSAction::c_loadOneFrame) {
 			if (!m_currentChunk) {
 				MxMediaPresenter::RepeatingTickle();
 			}

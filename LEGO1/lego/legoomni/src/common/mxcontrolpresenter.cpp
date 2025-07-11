@@ -55,7 +55,7 @@ MxResult MxControlPresenter::StartAction(MxStreamController* p_controller, MxDSA
 
 	if (m_style == e_map) {
 		MxDSAction* action = (*m_list.begin())->GetAction();
-		action->SetFlags(action->GetFlags() | MxDSAction::c_bit11);
+		action->SetFlags(action->GetFlags() | MxDSAction::c_alwaysEnabled);
 	}
 
 	TickleManager()->RegisterClient(this, 200);
