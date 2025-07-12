@@ -373,7 +373,7 @@ MxLong CarRace::HandleControl(LegoControlManagerNotificationParam& p_param)
 MxLong CarRace::HandleType0Notification(MxNotificationParam&)
 {
 	if (m_raceState->m_unk0x28 == 2) {
-		m_destLocation = LegoGameState::e_unk21;
+		m_destLocation = LegoGameState::e_unkRacetrack;
 		TransitionManager()->StartTransition(MxTransitionManager::e_mosaic, 50, FALSE, FALSE);
 	}
 
