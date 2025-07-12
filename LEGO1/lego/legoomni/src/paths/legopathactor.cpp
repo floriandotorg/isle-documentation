@@ -51,11 +51,11 @@ LegoPathActor::LegoPathActor()
 	m_grec = NULL;
 	m_pathController = NULL;
 	m_collideBox = FALSE;
-	m_unk0x148 = 0;
-	m_unk0x14c = 0;
+	m_canRotate = 0;
+	m_lastRotationAngle = 0;
 	m_unk0x140 = 0.0099999999f;
 	m_unk0x144 = 0.8f;
-	m_unk0x150 = 2.0f;
+	m_linearRotationRatio = 2.0f;
 }
 
 // FUNCTION: LEGO1 0x1002d820
@@ -428,18 +428,18 @@ void LegoPathActor::Animate(float p_time)
 		}
 	}
 
-	if (m_userNavFlag && m_unk0x148) {
+	if (m_userNavFlag && m_canRotate) {
 		LegoNavController* nav = NavController();
 		float vel = (nav->GetLinearVel() > 0)
-						? -(nav->GetRotationalVel() / (nav->GetMaxLinearVel() * m_unk0x150) * nav->GetLinearVel())
+						? -(nav->GetRotationalVel() / (nav->GetMaxLinearVel() * m_linearRotationRatio) * nav->GetLinearVel())
 						: 0;
 
-		if ((MxS32) vel != m_unk0x14c) {
-			m_unk0x14c = vel;
+		if ((MxS32) vel != m_lastRotationAngle) {
+			m_lastRotationAngle = vel;
 			LegoWorld* world = CurrentWorld();
 
 			if (world) {
-				world->GetCameraController()->RotateZ(DTOR(m_unk0x14c));
+				world->GetCameraController()->RotateZ(DTOR(m_lastRotationAngle));
 			}
 		}
 	}

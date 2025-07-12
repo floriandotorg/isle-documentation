@@ -133,7 +133,7 @@ public:
 	virtual void VTable0xc4() {} // vtable+0xc4
 
 	// FUNCTION: LEGO1 0x10002de0
-	virtual void VTable0xc8(MxU8 p_unk0x148) { m_unk0x148 = p_unk0x148; } // vtable+0xc8
+	virtual void VTable0xc8(MxU8 p_unk0x148) { m_canRotate = p_unk0x148; } // vtable+0xc8
 
 	// FUNCTION: LEGO1 0x1000c430
 	// FUNCTION: BETA10 0x10012790
@@ -207,9 +207,9 @@ protected:
 	MxFloat m_maxLinearVel;               // 0x13c
 	MxFloat m_unk0x140;                   // 0x140
 	MxFloat m_unk0x144;                   // 0x144
-	MxU8 m_unk0x148;                      // 0x148
-	MxS32 m_unk0x14c;                     // 0x14c
-	MxFloat m_unk0x150;                   // 0x150
+	MxU8 m_canRotate;                      // 0x148
+	MxS32 m_lastRotationAngle;                     // 0x14c
+	MxFloat m_linearRotationRatio;                   // 0x150
 };
 
 // FUNCTION: LEGO1 0x1002edd0

@@ -52,8 +52,8 @@ LegoCarRaceActor::LegoCarRaceActor()
 	m_unk0x14 = 0.03f;
 	m_unk0x18 = 0.6f;
 	m_unk0x140 = 0.1f;
-	m_unk0x150 = -5.0f;
-	m_unk0x148 = 1;
+	m_linearRotationRatio = -5.0f;
+	m_canRotate = 1;
 	VariableTable()->SetVariable(g_fuel, "0.8");
 }
 
@@ -298,7 +298,7 @@ LegoJetskiRaceActor::LegoJetskiRaceActor()
 	m_unk0x10 = 0.95f;
 	m_unk0x14 = 0.04f;
 	m_unk0x18 = 0.5f;
-	m_unk0x150 = 1.5f;
+	m_linearRotationRatio = 1.5f;
 }
 
 // FUNCTION: LEGO1 0x10081120
