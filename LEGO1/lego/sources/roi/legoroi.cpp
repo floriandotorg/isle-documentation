@@ -627,50 +627,51 @@ LegoU32 LegoROI::FUN_100a9410(
 		v2 *= p_f1;
 		v2 += p_v1;
 
-		Mx4DPointFloat localc0;
-		Mx4DPointFloat local9c;
-		Mx4DPointFloat local168;
-		Mx4DPointFloat local70;
+		Mx4DPointFloat boxMinQ;
+		Mx4DPointFloat boxMaxQ;
+		Mx4DPointFloat boxCenterQ;
+		Mx4DPointFloat tempLocalVector;
 		Mx4DPointFloat local150[6];
 
-		Vector3 local58(&localc0[0]);
-		Vector3 locala8(&local9c[0]);
-		Vector3 local38(&local168[0]);
+		Vector3 boxMin(&boxMinQ[0]);
+		Vector3 boxMax(&boxMaxQ[0]);
+		Vector3 boxCenter(&boxCenterQ[0]);
 
 		Mx3DPointFloat local4c(p_v1);
 
-		local58 = m_bounding_box.Min();
-		locala8 = m_bounding_box.Max();
+		boxMin = m_bounding_box.Min();
+		boxMax = m_bounding_box.Max();
 
-		localc0[3] = local9c[3] = local168[3] = 1.0f;
+		boxMinQ[3] = boxMaxQ[3] = boxCenterQ[3] = 1.0f;
 
-		local38 = local58;
-		local38 += locala8;
-		local38 *= 0.5f;
+		boxCenter = boxMin;
+		boxCenter += boxMax;
+		boxCenter *= 0.5f;
 
-		local70 = localc0;
-		localc0.SetMatrixProduct(local70, (float*) m_local2world.GetData());
+		tempLocalVector = boxMinQ;
+		boxMinQ.SetMatrixProduct(tempLocalVector, (float*) m_local2world.GetData());
 
-		local70 = local9c;
-		local9c.SetMatrixProduct(local70, (float*) m_local2world.GetData());
+		tempLocalVector = boxMaxQ;
+		boxMaxQ.SetMatrixProduct(tempLocalVector, (float*) m_local2world.GetData());
 
-		local70 = local168;
-		local168.SetMatrixProduct(local70, (float*) m_local2world.GetData());
+		tempLocalVector = boxCenterQ;
+		boxCenterQ.SetMatrixProduct(tempLocalVector, (float*) m_local2world.GetData());
 
 		p_v3 = m_local2world[3];
 
 		LegoS32 i;
+		// local150 = [x, y, z, x, y, z]
 		for (i = 0; i < 6; i++) {
 			local150[i] = m_local2world[i % 3];
 
 			if (i > 2) {
-				local150[i][3] = -local58.Dot(local58, local150[i]);
+				local150[i][3] = -boxMin.Dot(boxMin, local150[i]);
 			}
 			else {
-				local150[i][3] = -locala8.Dot(locala8, local150[i]);
+				local150[i][3] = -boxMax.Dot(boxMax, local150[i]);
 			}
 
-			if (local150[i][3] + local38.Dot(local38, local150[i]) < 0.0f) {
+			if (local150[i][3] + boxCenter.Dot(boxCenter, local150[i]) < 0.0f) {
 				local150[i] *= -1.0f;
 			}
 		}
@@ -706,23 +707,23 @@ LegoU32 LegoROI::FUN_100a9410(
 		Mx3DPointFloat v1(p_v1);
 		v1 -= GetWorldBoundingSphere().Center();
 
-		float local10 = GetWorldBoundingSphere().Radius();
-		float local8 = p_v2.Dot(p_v2, p_v2);
+		float radius = GetWorldBoundingSphere().Radius();
+		float lengthV2 = p_v2.Dot(p_v2, p_v2);
 		float localc = p_v2.Dot(p_v2, v1) * 2.0f;
-		float local14 = v1.Dot(v1, v1) - (local10 * local10);
+		float distanceToSphereOutsideSquared = v1.Dot(v1, v1) - (radius * radius);
 
-		if (local8 >= 0.001 || local8 <= -0.001) {
+		if (lengthV2 >= 0.001 || lengthV2 <= -0.001) {
 			float local1c = -1.0f;
-			float local18 = (localc * localc) - (local14 * local8 * 4.0f);
+			float local18 = (localc * localc) - (distanceToSphereOutsideSquared * lengthV2 * 4.0f);
 
 			if (local18 >= -0.001) {
-				local8 *= 2.0f;
+				lengthV2 *= 2.0f;
 				localc = -localc;
 
 				if (local18 > 0.0f) {
 					local18 = sqrt(local18);
-					float local184 = (localc + local18) / local8;
-					float local188 = (localc - local18) / local8;
+					float local184 = (localc + local18) / lengthV2;
+					float local188 = (localc - local18) / lengthV2;
 
 					if (local184 > 0.0f && local188 > local184) {
 						local1c = local184;
@@ -735,7 +736,7 @@ LegoU32 LegoROI::FUN_100a9410(
 					}
 				}
 				else {
-					local1c = localc / local8;
+					local1c = localc / lengthV2;
 				}
 
 				if (local1c >= 0.0f && p_f1 >= local1c) {
