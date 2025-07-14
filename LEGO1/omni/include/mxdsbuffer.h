@@ -59,8 +59,8 @@ public:
 	void AddRef(MxDSChunk* p_chunk);
 	MxResult CalcBytesRemaining(MxU8* p_data);
 	void FUN_100c6f80(MxU32 p_writeOffset);
-	MxU8* FUN_100c6fa0(MxU8* p_data);
-	MxResult FUN_100c7090(MxDSBuffer* p_buf);
+	MxU8* FindNextChunkBoundary(MxU8* p_data);
+	MxResult CopyFromBuffer(MxDSBuffer* p_buf);
 
 	static MxCore* ReadChunk(MxDSBuffer* p_buffer, MxU32* p_chunkData, MxU16 p_flags);
 	static MxResult Append(MxU8* p_buffer1, MxU8* p_buffer2);

@@ -457,7 +457,7 @@ void MxDSBuffer::FUN_100c6f80(MxU32 p_writeOffset)
 
 // FUNCTION: LEGO1 0x100c6fa0
 // FUNCTION: BETA10 0x101582f2
-MxU8* MxDSBuffer::FUN_100c6fa0(MxU8* p_data)
+MxU8* MxDSBuffer::FindNextChunkBoundary(MxU8* p_data)
 {
 	MxU8* volatile current = p_data ? p_data : m_pBuffer;
 
@@ -495,7 +495,7 @@ MxU8* MxDSBuffer::FUN_100c6fa0(MxU8* p_data)
 
 // FUNCTION: LEGO1 0x100c7090
 // FUNCTION: BETA10 0x1015842d
-MxResult MxDSBuffer::FUN_100c7090(MxDSBuffer* p_buf)
+MxResult MxDSBuffer::CopyFromBuffer(MxDSBuffer* p_buf)
 {
 	MxResult result = FAILURE;
 
