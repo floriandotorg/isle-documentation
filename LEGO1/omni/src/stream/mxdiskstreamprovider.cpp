@@ -307,7 +307,7 @@ MxResult MxDiskStreamProvider::FUN_100d1b20(MxDSStreamingAction* p_action)
 	MxU8* data;
 
 	if (p_action->GetUnknowna4()) {
-		buffer->FUN_100c7090(p_action->GetUnknowna4());
+		buffer->CopyFromBuffer(p_action->GetUnknowna4());
 		data = buffer->GetBuffer() + p_action->GetUnknowna4()->GetWriteOffset();
 
 		memcpy(data, p_action->GetUnknowna0()->GetBuffer(), p_action->GetUnknowna0()->GetWriteOffset());
@@ -366,7 +366,7 @@ MxResult MxDiskStreamProvider::FUN_100d1b20(MxDSStreamingAction* p_action)
 			return SUCCESS;
 		}
 
-		data = buffer->FUN_100c6fa0(data);
+		data = buffer->FindNextChunkBoundary(data);
 	}
 
 	p_action->SetUnknown94(GetFileSize() + p_action->GetBufferOffset());
