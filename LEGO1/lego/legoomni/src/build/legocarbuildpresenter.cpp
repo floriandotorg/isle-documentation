@@ -644,7 +644,7 @@ MxBool LegoCarBuildAnimPresenter::StringEqualsShelf(const LegoChar* p_string)
 
 // FUNCTION: LEGO1 0x10079c30
 // FUNCTION: BETA10 0x100726a6
-MxBool LegoCarBuildAnimPresenter::FUN_10079c30(const LegoChar* p_name)
+MxBool LegoCarBuildAnimPresenter::CurrentPartToPlace(const LegoChar* p_name)
 {
 	if (PartIsPlaced(p_name)) {
 		return FALSE;

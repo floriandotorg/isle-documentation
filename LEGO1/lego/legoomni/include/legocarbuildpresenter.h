@@ -83,7 +83,7 @@ public:
 	LegoTreeNode* FindNodeByName(LegoTreeNode* p_treeNode, const LegoChar* p_name);
 	void AddPartToBuildByName(const LegoChar* p_name);
 	void RotateAroundYAxis(MxFloat p_angle);
-	MxBool FUN_10079c30(const LegoChar* p_name);
+	MxBool CurrentPartToPlace(const LegoChar* p_name);
 	MxBool PartIsPlaced(const LegoChar* p_name);
 	void MoveShelfForward();
 	MxBool StringEqualsPlatform(const LegoChar* p_string);
