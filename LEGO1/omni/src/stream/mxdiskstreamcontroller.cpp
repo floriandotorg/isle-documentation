@@ -50,20 +50,20 @@ MxDiskStreamController::~MxDiskStreamController()
 		m_provider = NULL;
 	}
 
-	FUN_100c8720();
+	ReleaseStreamingActions();
 
 	while (m_list0x80.PopFront(object)) {
-		FUN_100c7cb0((MxDSStreamingAction*) object);
+		ReleaseActionBuffer((MxDSStreamingAction*) object);
 	}
 
 	while (m_list0x64.PopFront(object)) {
-		FUN_100c7cb0((MxDSStreamingAction*) object);
+		ReleaseActionBuffer((MxDSStreamingAction*) object);
 	}
 
 	while (!m_list0x74.empty()) {
 		MxDSBuffer* buffer = m_list0x74.front();
 		m_list0x74.pop_front();
-		FUN_100c7ce0(buffer);
+		ReleaseBuffer(buffer);
 	}
 
 	TickleManager()->UnregisterClient(this);
@@ -211,7 +211,7 @@ MxResult MxDiskStreamController::VTable0x30(MxDSAction* p_action)
 		if (item == NULL) {
 			break;
 		}
-		FUN_100c7cb0(item);
+		ReleaseActionBuffer(item);
 	}
 
 	while (TRUE) {
@@ -219,24 +219,24 @@ MxResult MxDiskStreamController::VTable0x30(MxDSAction* p_action)
 		if (item == NULL) {
 			break;
 		}
-		FUN_100c7cb0(item);
+		ReleaseActionBuffer(item);
 	}
 
 	return result;
 }
 
 // FUNCTION: LEGO1 0x100c7cb0
-void MxDiskStreamController::FUN_100c7cb0(MxDSStreamingAction* p_action)
+void MxDiskStreamController::ReleaseActionBuffer(MxDSStreamingAction* p_action)
 {
 	if (p_action->GetUnknowna0()) {
-		FUN_100c7ce0(p_action->GetUnknowna0());
+		ReleaseBuffer(p_action->GetUnknowna0());
 	}
 	p_action->SetUnknowna0(NULL);
 	delete p_action;
 }
 
 // FUNCTION: LEGO1 0x100c7ce0
-void MxDiskStreamController::FUN_100c7ce0(MxDSBuffer* p_buffer)
+void MxDiskStreamController::ReleaseBuffer(MxDSBuffer* p_buffer)
 {
 	switch (p_buffer->GetMode()) {
 	case MxDSBuffer::e_chunk:
@@ -260,7 +260,7 @@ MxResult MxDiskStreamController::FUN_100c7d10()
 
 	if (FUN_100c8360(action) != SUCCESS) {
 		VTable0x24(action);
-		FUN_100c7cb0(action);
+		ReleaseActionBuffer(action);
 		return FAILURE;
 	}
 
@@ -404,7 +404,7 @@ MxResult MxDiskStreamController::FUN_100c8360(MxDSStreamingAction* p_action)
 
 	if (action2) {
 		if (action2->GetUnknowna0() == NULL) {
-			FUN_100c7cb0(action2);
+			ReleaseActionBuffer(action2);
 		}
 		else {
 			if (action2->GetObjectId() == -1) {
@@ -415,7 +415,7 @@ MxResult MxDiskStreamController::FUN_100c8360(MxDSStreamingAction* p_action)
 		}
 	}
 
-	FUN_100c7cb0(p_action);
+	ReleaseActionBuffer(p_action);
 	return SUCCESS;
 }
 
@@ -435,7 +435,7 @@ void MxDiskStreamController::FUN_100c8540()
 		MxDSBuffer* buf = *it;
 		if (buf->GetRefCount() == 0) {
 			m_list0x74.erase(it++);
-			FUN_100c7ce0(buf);
+			ReleaseBuffer(buf);
 		}
 		else {
 			it++;
@@ -446,7 +446,7 @@ void MxDiskStreamController::FUN_100c8540()
 		while (!m_list0x64.empty()) {
 			MxDSStreamingAction* action = (MxDSStreamingAction*) m_list0x64.front();
 			m_list0x64.pop_front();
-			FUN_100c7cb0(action);
+			ReleaseActionBuffer(action);
 		}
 	}
 }
@@ -460,7 +460,7 @@ MxResult MxDiskStreamController::Tickle()
 	}
 
 	FUN_100c8540();
-	FUN_100c8720();
+	ReleaseStreamingActions();
 
 	if (m_unk0x70) {
 		FUN_100c7980();
@@ -470,21 +470,21 @@ MxResult MxDiskStreamController::Tickle()
 }
 
 // FUNCTION: LEGO1 0x100c8670
-void MxDiskStreamController::FUN_100c8670(MxDSStreamingAction* p_streamingAction)
+void MxDiskStreamController::AddStreamingAction(MxDSStreamingAction* p_streamingAction)
 {
-	AUTOLOCK(m_critical9c);
-	m_list0xb8.push_back(p_streamingAction);
+	AUTOLOCK(m_streamingActionsSection);
+	m_streamingActions.push_back(p_streamingAction);
 }
 
 // FUNCTION: LEGO1 0x100c8720
-void MxDiskStreamController::FUN_100c8720()
+void MxDiskStreamController::ReleaseStreamingActions()
 {
-	AUTOLOCK(m_critical9c);
+	AUTOLOCK(m_streamingActionsSection);
 
 	MxDSStreamingAction* action;
-	while (!m_list0xb8.empty()) {
-		action = (MxDSStreamingAction*) m_list0xb8.front();
-		m_list0xb8.pop_front();
-		FUN_100c7cb0(action);
+	while (!m_streamingActions.empty()) {
+		action = (MxDSStreamingAction*) m_streamingActions.front();
+		m_streamingActions.pop_front();
+		ReleaseActionBuffer(action);
 	}
 }
