@@ -132,7 +132,7 @@ MxResult MxDSBuffer::FUN_100c67b0(
 						(*p_streamingAction)->ClearUnknowna0();
 					}
 
-					((MxDiskStreamController*) p_controller)->FUN_100c7cb0(*p_streamingAction);
+					((MxDiskStreamController*) p_controller)->ReleaseActionBuffer(*p_streamingAction);
 					*p_streamingAction = NULL;
 				}
 				else {

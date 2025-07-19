@@ -46,11 +46,11 @@ public:
 	MxBool GetUnk0xc4() const { return m_unk0xc4; }
 
 	MxResult FUN_100c7890(MxDSStreamingAction* p_action);
-	void FUN_100c7cb0(MxDSStreamingAction* p_action);
+	void ReleaseActionBuffer(MxDSStreamingAction* p_action);
 	void FUN_100c7f40(MxDSStreamingAction* p_streamingaction);
 	void FUN_100c8120(MxDSAction* p_action);
 	void InsertToList74(MxDSBuffer* p_buffer);
-	void FUN_100c8670(MxDSStreamingAction* p_streamingAction);
+	void AddStreamingAction(MxDSStreamingAction* p_streamingAction);
 
 private:
 	MxDSObjectList m_list0x64;      // 0x64
@@ -59,18 +59,18 @@ private:
 	MxDSObjectList m_list0x80;      // 0x80
 	undefined2 m_unk0x8c;           // 0x8c
 	MxDSObjectList m_list0x90;      // 0x90
-	MxCriticalSection m_critical9c; // 0x9c
-	MxDSObjectList m_list0xb8;      // 0xb8
+	MxCriticalSection m_streamingActionsSection; // 0x9c
+	MxDSObjectList m_streamingActions;      // 0xb8
 	MxBool m_unk0xc4;               // 0xc4
 
 	void FUN_100c7970();
-	void FUN_100c7ce0(MxDSBuffer* p_buffer);
+	void ReleaseBuffer(MxDSBuffer* p_buffer);
 	MxResult FUN_100c7d10();
 	void FUN_100c7980();
 	MxDSStreamingAction* FUN_100c7db0();
 	MxResult FUN_100c8360(MxDSStreamingAction* p_action);
 	void FUN_100c8540();
-	void FUN_100c8720();
+	void ReleaseStreamingActions();
 };
 
 // TEMPLATE: LEGO1 0x100c14d0
