@@ -118,7 +118,7 @@ void LegoPathBoundary::SwitchBoundary(
 			}
 		} while (p_edge != e);
 
-		MxBool localc = TRUE;
+		MxBool useCounterclockwise = TRUE;
 		MxS32 local8 = local10 - 1;
 
 		if (local10 <= 1) {
@@ -128,11 +128,11 @@ void LegoPathBoundary::SwitchBoundary(
 			local8 = 1;
 		}
 		else {
-			p_actor->VTable0xa4(localc, local8);
+			p_actor->VTable0xa4(useCounterclockwise, local8);
 		}
 
 		while (local8 > 0) {
-			if (localc) {
+			if (useCounterclockwise) {
 				p_edge = (LegoOrientedEdge*) p_edge->GetCounterclockwiseEdge(*newBoundary);
 			}
 			else {
