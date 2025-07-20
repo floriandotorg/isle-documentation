@@ -104,12 +104,12 @@ public:
 	);
 	MxResult PlaceActor(LegoPathActor* p_actor);
 	MxResult RemoveActor(LegoPathActor* p_actor);
-	void FUN_100468f0(LegoAnimPresenter* p_presenter);
+	void AddPresenterIfInRange(LegoAnimPresenter* p_presenter);
 	void RemovePresenterFromBoundaries(LegoAnimPresenter* p_presenter);
 	MxResult FUN_10046b30(LegoPathBoundary*& p_boundaries, MxS32& p_numL);
 	LegoPathBoundary* GetPathBoundary(const char* p_name);
 	void Enable(MxBool p_enable);
-	void FUN_10046bb0(LegoWorld* p_world);
+	void SetWorld(LegoWorld* p_world);
 	MxResult FUN_10048310(
 		LegoPathEdgeContainer* p_grec,
 		const Vector3& p_oldPosition,

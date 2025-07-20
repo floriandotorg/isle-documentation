@@ -377,7 +377,7 @@ void LegoWorld::RemovePresenterFromBoundaries(LegoAnimPresenter* p_presenter)
 // FUNCTION: LEGO1 0x1001ff80
 void LegoWorld::AddPath(LegoPathController* p_controller)
 {
-	p_controller->FUN_10046bb0(this);
+	p_controller->SetWorld(this);
 	m_pathControllerList.Append(p_controller);
 }
 

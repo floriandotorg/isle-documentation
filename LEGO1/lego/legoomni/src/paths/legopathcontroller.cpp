@@ -343,7 +343,7 @@ MxResult LegoPathController::RemoveActor(LegoPathActor* p_actor)
 
 // FUNCTION: LEGO1 0x100468f0
 // FUNCTION: BETA10 0x100b72f7
-void LegoPathController::FUN_100468f0(LegoAnimPresenter* p_presenter)
+void LegoPathController::AddPresenterIfInRange(LegoAnimPresenter* p_presenter)
 {
 	for (MxS32 i = 0; i < m_numL; i++) {
 		if (!(m_boundaries[i].m_flags & LegoWEGEdge::c_bit3)) {
@@ -403,7 +403,7 @@ LegoPathBoundary* LegoPathController::GetPathBoundary(const char* p_name)
 
 // FUNCTION: LEGO1 0x10046bb0
 // FUNCTION: BETA10 0x100b75bc
-void LegoPathController::FUN_10046bb0(LegoWorld* p_world)
+void LegoPathController::SetWorld(LegoWorld* p_world)
 {
 	for (MxS32 i = 0; i < m_numT; i++) {
 		m_structs[i].SetWorld(p_world);
