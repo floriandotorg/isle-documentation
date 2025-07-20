@@ -81,7 +81,7 @@ void LegoAnimActor::Animate(float p_time)
 
 	if (m_actorState == c_initial && !m_userNavFlag && m_worldSpeed <= 0) {
 		if (m_curAnim >= 0) {
-			MxMatrix matrix(m_unk0xec);
+			MxMatrix matrix(m_local2World);
 			float timeInCycle;
 			GetTimeInCycle(timeInCycle);
 			Animate(timeInCycle, matrix);

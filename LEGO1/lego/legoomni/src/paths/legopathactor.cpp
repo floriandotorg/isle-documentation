@@ -165,7 +165,7 @@ MxResult LegoPathActor::VTable0x88(
 		TransformPointOfView();
 	}
 
-	m_unk0xec = m_roi->GetLocal2World();
+	m_local2World = m_roi->GetLocal2World();
 	return SUCCESS;
 }
 
@@ -236,7 +236,7 @@ MxResult LegoPathActor::VTable0x84(
 		m_boundary->AddActor(this);
 	}
 
-	m_unk0xec = m_roi->GetLocal2World();
+	m_local2World = m_roi->GetLocal2World();
 	return SUCCESS;
 }
 
@@ -363,7 +363,7 @@ MxS32 LegoPathActor::VTable0x8c(float p_time, Matrix4& p_transform)
 		assert(r == 0); // SUCCESS
 
 		Vector3 pos1(p_transform[3]);
-		Vector3 pos2(m_unk0xec[3]);
+		Vector3 pos2(m_local2World[3]);
 		Mx3DPointFloat p1;
 
 		if (VTable0x68(pos2, pos1, p1) > 0) {
@@ -420,7 +420,7 @@ void LegoPathActor::Animate(float p_time)
 			break;
 		}
 
-		m_unk0xec = transform;
+		m_local2World = transform;
 		b = TRUE;
 
 		if (m_unk0xe9 != 0) {
@@ -556,22 +556,22 @@ MxS32 LegoPathActor::VTable0x68(Vector3& p_v1, Vector3& p_v2, Vector3& p_v3)
 {
 	assert(m_boundary && m_roi);
 
-	Mx3DPointFloat v2(p_v2);
-	v2 -= p_v1;
+	Mx3DPointFloat fromV1toV2(p_v2);
+	fromV1toV2 -= p_v1;
 
-	float len = v2.LenSquared();
+	float len = fromV1toV2.LenSquared();
 
 	if (len <= 0.001) {
 		return 0;
 	}
 
 	len = sqrt((double) len);
-	v2 /= len;
+	fromV1toV2 /= len;
 
 	float radius = m_roi->GetWorldBoundingSphere().Radius();
 	list<LegoPathBoundary*> boundaries;
 
-	return FUN_1002edd0(boundaries, m_boundary, p_v1, v2, len, radius, p_v3, 0);
+	return FUN_1002edd0(boundaries, m_boundary, p_v1, fromV1toV2, len, radius, p_v3, 0);
 }
 
 // FUNCTION: LEGO1 0x1002f020
@@ -666,9 +666,9 @@ MxResult LegoPathActor::VTable0x9c()
 		local48.Unitize();
 	}
 
-	Vector3 rightRef(m_unk0xec[0]);
-	Vector3 upRef(m_unk0xec[1]);
-	Vector3 dirRef(m_unk0xec[2]);
+	Vector3 rightRef(m_local2World[0]);
+	Vector3 upRef(m_local2World[1]);
+	Vector3 dirRef(m_local2World[2]);
 
 	upRef = *m_boundary->GetUp();
 
@@ -678,8 +678,8 @@ MxResult LegoPathActor::VTable0x9c()
 	dirRef.EqualsCross(rightRef, upRef);
 	dirRef.Unitize();
 
-	Mx3DPointFloat localc0(m_unk0xec[3]);
-	Mx3DPointFloat local84(m_unk0xec[2]);
+	Mx3DPointFloat localc0(m_local2World[3]);
+	Mx3DPointFloat local84(m_local2World[2]);
 	Mx3DPointFloat local70(local34);
 
 	local70 -= localc0;
@@ -740,11 +740,11 @@ void LegoPathActor::VTable0xa4(MxBool& p_und1, MxS32& p_und2)
 void LegoPathActor::VTable0xa8()
 {
 	m_lastTime = Timer()->GetTime();
-	m_roi->SetLocal2World(m_unk0xec);
+	m_roi->SetLocal2World(m_local2World);
 	m_roi->WrappedUpdateWorldData();
 
 	if (m_userNavFlag) {
-		m_roi->WrappedSetLocal2WorldWithWorldDataUpdate(m_unk0xec);
+		m_roi->WrappedSetLocal2WorldWithWorldDataUpdate(m_local2World);
 		TransformPointOfView();
 	}
 }

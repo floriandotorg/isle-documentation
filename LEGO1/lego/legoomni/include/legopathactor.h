@@ -201,15 +201,15 @@ protected:
 	MxBool m_collideBox;                  // 0xe8
 	MxBool m_unk0xe9;                     // 0xe9
 	MxBool m_userNavFlag;                 // 0xea
-	MxMatrix m_unk0xec;                   // 0xec
+	MxMatrix m_local2World;               // 0xec
 	LegoPathEdgeContainer* m_grec;        // 0x134
 	LegoPathController* m_pathController; // 0x138
 	MxFloat m_maxLinearVel;               // 0x13c
 	MxFloat m_unk0x140;                   // 0x140
 	MxFloat m_unk0x144;                   // 0x144
-	MxU8 m_canRotate;                      // 0x148
-	MxS32 m_lastRotationAngle;                     // 0x14c
-	MxFloat m_linearRotationRatio;                   // 0x150
+	MxU8 m_canRotate;                     // 0x148
+	MxS32 m_lastRotationAngle;            // 0x14c
+	MxFloat m_linearRotationRatio;        // 0x150
 };
 
 // FUNCTION: LEGO1 0x1002edd0

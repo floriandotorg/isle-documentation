@@ -131,10 +131,10 @@ void LegoExtraActor::VTable0xa4(MxBool& p_und1, MxS32& p_und2)
 MxResult LegoExtraActor::FUN_1002aae0()
 {
 	LegoPathBoundary* oldEdge = m_boundary;
-	Vector3 rightRef(m_unk0xec[0]);
-	Vector3 upRef(m_unk0xec[1]);
-	Vector3 dirRef(m_unk0xec[2]);
-	Vector3 positionRef(m_unk0xec[3]);
+	Vector3 rightRef(m_local2World[0]);
+	Vector3 upRef(m_local2World[1]);
+	Vector3 dirRef(m_local2World[2]);
+	Vector3 positionRef(m_local2World[3]);
 
 	dirRef *= -1.0f;
 	rightRef.EqualsCross(upRef, dirRef);
@@ -409,7 +409,7 @@ void LegoExtraActor::VTable0xc4()
 
 		if (b) {
 			float duration = m_animMaps[m_curAnim]->GetDuration();
-			MxMatrix matrix(m_unk0xec);
+			MxMatrix matrix(m_local2World);
 			LegoAnimActor::Animate(duration, matrix);
 		}
 	}

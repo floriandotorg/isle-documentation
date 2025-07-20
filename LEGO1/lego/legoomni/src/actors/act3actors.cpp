@@ -328,7 +328,7 @@ MxResult Act3Cop::FUN_10040360()
 	LegoPathEdgeContainer* grec = NULL;
 	Act3* a3 = (Act3*) m_world;
 
-	MxMatrix local74(m_unk0xec);
+	MxMatrix local74(m_local2World);
 	Vector3 local2c(local74[3]);
 	Vector3 local20(local74[2]);
 
@@ -456,7 +456,7 @@ MxResult Act3Cop::FUN_10040360()
 			vecUnk = m_grec->m_position;
 			m_boundary = m_grec->m_boundary;
 
-			m_grec->m_direction = m_unk0xec[3];
+			m_grec->m_direction = m_local2World[3];
 			m_grec->m_direction -= vecUnk;
 		}
 		else {
@@ -488,10 +488,10 @@ MxResult Act3Cop::FUN_10040360()
 			vecUnk += *v1;
 		}
 
-		Vector3 v1(m_unk0xec[0]);
-		Vector3 v2(m_unk0xec[1]);
-		Vector3 v3(m_unk0xec[2]);
-		Vector3 v4(m_unk0xec[3]);
+		Vector3 v1(m_local2World[0]);
+		Vector3 v2(m_local2World[1]);
+		Vector3 v3(m_local2World[2]);
+		Vector3 v4(m_local2World[3]);
 
 		v3 = v4;
 		v3 -= vecUnk;
@@ -618,7 +618,7 @@ void Act3Brickster::Animate(float p_time)
 		}
 		else {
 			MxMatrix local70;
-			local70 = m_unk0xec;
+			local70 = m_local2World;
 
 			Vector3 local14(local70[0]);
 			Vector3 local28(local70[1]);
@@ -663,7 +663,7 @@ void Act3Brickster::Animate(float p_time)
 		}
 		else {
 			MxMatrix locale4;
-			locale4 = m_unk0xec;
+			locale4 = m_local2World;
 
 			Vector3 local88(locale4[0]);
 			Vector3 local9c(locale4[1]);
@@ -793,7 +793,7 @@ MxResult Act3Brickster::FUN_100417c0()
 	LegoPathEdgeContainer* grec = NULL;
 	Act3* a3 = (Act3*) m_world;
 
-	MxMatrix local70(m_unk0xec);
+	MxMatrix local70(m_local2World);
 	Vector3 local28(local70[3]);
 	Vector3 local20(local70[2]);
 
@@ -950,7 +950,7 @@ MxResult Act3Brickster::FUN_100417c0()
 			vecUnk = m_grec->m_position;
 			m_boundary = m_grec->m_boundary;
 
-			m_grec->m_direction = m_unk0xec[3];
+			m_grec->m_direction = m_local2World[3];
 			m_grec->m_direction -= vecUnk;
 
 			local150 = m_grec->m_direction;
@@ -983,10 +983,10 @@ MxResult Act3Brickster::FUN_100417c0()
 			vecUnk += *v1;
 		}
 
-		Vector3 v1(m_unk0xec[0]);
-		Vector3 v2(m_unk0xec[1]);
-		Vector3 v3(m_unk0xec[2]);
-		Vector3 v4(m_unk0xec[3]);
+		Vector3 v1(m_local2World[0]);
+		Vector3 v2(m_local2World[1]);
+		Vector3 v3(m_local2World[2]);
+		Vector3 v4(m_local2World[3]);
 
 		v3 = v4;
 		v3 -= vecUnk;
