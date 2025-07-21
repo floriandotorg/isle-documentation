@@ -18,7 +18,7 @@ public:
 	void RepeatingTickle() override {} // vtable+0x24
 
 	// FUNCTION: LEGO1 0x10043fe0
-	MxBool VTable0x64(undefined4 p_undefined) override { return m_actionEnded; } // vtable+0x64
+	MxBool GetActionEnded(undefined4 p_undefined) override { return m_actionEnded; } // vtable+0x64
 
 	// FUNCTION: LEGO1 0x10043ff0
 	virtual void SetActionEnded(MxBool p_actionEnded) { m_actionEnded = p_actionEnded; } // vtable+0x68
