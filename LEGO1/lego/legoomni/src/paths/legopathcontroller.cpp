@@ -336,7 +336,7 @@ MxResult LegoPathController::RemoveActor(LegoPathActor* p_actor)
 {
 	MxResult result = FAILURE;
 
-	p_actor->VTable0xc4();
+	p_actor->EmptyFunction_0xc4();
 	m_actors.erase(p_actor);
 
 	for (MxS32 i = 0; i < m_numBoundaries; i++) {

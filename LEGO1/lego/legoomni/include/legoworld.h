@@ -61,7 +61,7 @@ public:
 	virtual MxBool WaitForTransition() { return FALSE; } // vtable+0x5c
 
 	// FUNCTION: LEGO1 0x100010a0
-	virtual void VTable0x60() {} // vtable+0x60
+	virtual void EmptyFunction_0x60() {} // vtable+0x60
 
 	// FUNCTION: LEGO1 0x1001d680
 	virtual MxBool Escape() { return FALSE; } // vtable+0x64

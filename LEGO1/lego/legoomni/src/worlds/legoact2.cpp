@@ -748,7 +748,7 @@ void LegoAct2::HideMaPaInfo()
 }
 
 // FUNCTION: LEGO1 0x100519c0
-void LegoAct2::VTable0x60()
+void LegoAct2::EmptyFunction_0x60()
 {
 	// empty
 }

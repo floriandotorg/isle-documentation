@@ -1318,10 +1318,10 @@ LegoLocomotionAnimPresenter::~LegoLocomotionAnimPresenter()
 // FUNCTION: LEGO1 0x1006d0b0
 void LegoLocomotionAnimPresenter::Init()
 {
-	m_unk0xc0 = 0;
-	m_unk0xc4 = NULL;
-	m_unk0xcc = -1;
-	m_unk0xd0 = -1;
+	m_unused1 = 0;
+	m_unused2 = NULL;
+	m_unused3 = -1;
+	m_unused4 = -1;
 	m_roiMapList = NULL;
 	m_worldRefCounter = 0;
 }
@@ -1331,8 +1331,8 @@ void LegoLocomotionAnimPresenter::Destroy(MxBool p_fromDestructor)
 {
 	ENTER(m_criticalSection);
 
-	if (m_unk0xc4) {
-		delete[] m_unk0xc4;
+	if (m_unused2) {
+		delete[] m_unused2;
 	}
 
 	if (m_roiMapList) {

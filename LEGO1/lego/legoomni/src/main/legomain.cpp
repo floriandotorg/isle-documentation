@@ -157,7 +157,7 @@ void LegoOmni::Destroy()
 
 #ifdef BETA10
 // FUNCTION: BETA10 0x100d4e5e
-void EmptyFunction(int p_unknown)
+void EmptyFunction_100d4e5e(int p_unknown)
 {
 }
 #endif
@@ -314,7 +314,7 @@ MxResult LegoOmni::Create(MxOmniCreateParam& p_param)
 
 #ifdef BETA10
 		NotificationManager()->Register(this);
-		EmptyFunction(0);
+		EmptyFunction_100d4e5e(0);
 #else
 		m_notificationManager->Register(this);
 		SetAppCursor(e_cursorBusy);

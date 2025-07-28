@@ -255,11 +255,11 @@ private:
 	void Init();
 	void Destroy(MxBool p_fromDestructor);
 
-	undefined4 m_unk0xc0;         // 0xc0
-	undefined4* m_unk0xc4;        // 0xc4
+	undefined4 m_unused1;         // 0xc0
+	undefined4* m_unused2;        // 0xc4
 	LegoROIMapList* m_roiMapList; // 0xc8
-	MxS32 m_unk0xcc;              // 0xcc
-	MxS32 m_unk0xd0;              // 0xd0
+	MxS32 m_unused3;              // 0xcc
+	MxS32 m_unused4;              // 0xd0
 	MxS16 m_worldRefCounter;      // 0xd4
 };
 
