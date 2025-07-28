@@ -612,7 +612,7 @@ MxResult PizzaMissionState::Serialize(LegoStorage* p_storage)
 
 	if (p_storage->IsReadMode()) {
 		for (MxS16 i = 0; i < 5; i++) {
-			p_storage->ReadS16(m_missions[i].m_unk0x06);
+			p_storage->ReadS16(m_missions[i].m_unused2);
 			p_storage->ReadS16(m_missions[i].m_counter);
 			p_storage->ReadS16(m_missions[i].m_score);
 			p_storage->ReadS16(m_missions[i].m_hiScore);
@@ -620,7 +620,7 @@ MxResult PizzaMissionState::Serialize(LegoStorage* p_storage)
 	}
 	else if (p_storage->IsWriteMode()) {
 		for (MxS16 i = 0; i < 5; i++) {
-			p_storage->WriteS16(m_missions[i].m_unk0x06);
+			p_storage->WriteS16(m_missions[i].m_unused2);
 			p_storage->WriteS16(m_missions[i].m_counter);
 			p_storage->WriteS16(m_missions[i].m_score);
 			p_storage->WriteS16(m_missions[i].m_hiScore);

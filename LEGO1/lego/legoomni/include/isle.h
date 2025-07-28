@@ -95,7 +95,7 @@ public:
 	MxBool m_planeActive;                         // 0x020
 	MxBool m_spawnInInfocenter;                   // 0x021
 	MxBool m_playedExitExplanation;               // 0x022
-	undefined m_unk0x023;                         // 0x023
+	undefined m_unused;                           // 0x023
 	LegoNamedPlane m_motocyclePlane;              // 0x024
 	LegoNamedPlane m_bikePlane;                   // 0x070
 	LegoNamedPlane m_skateboardPlane;             // 0x0bc
