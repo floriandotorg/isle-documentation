@@ -47,7 +47,7 @@ public:
 	// SYNTHETIC: LEGO1 0x100260a0
 	// LegoVehicleBuildState::`scalar deleting destructor'
 
-	Playlist m_unk0x08[4]; // 0x08
+	Playlist m_unused[4]; // 0x08
 
 	// This can be one of the following:
 	// * LegoRaceCarBuildState
@@ -192,7 +192,7 @@ private:
 	ResetPlacedSelectedPart m_resetPlacedSelectedPart; // 0xf8
 	MxS16 m_rotateBuild;                               // 0xfc
 	MxS32 m_clickState;                                // 0x100
-	undefined4 m_unk0x104;                             // 0x104
+	undefined4 m_unused1;                              // 0x104
 
 	// name verified by BETA10 0x1006ebba
 	MxS8 m_numAnimsRun; // 0x108
@@ -251,7 +251,7 @@ private:
 
 	MxPresenter* m_jukeboxPresenter;      // 0x338
 	MxControlPresenter* m_tickledControl; // 0x33c
-	undefined4 m_unk0x340;                // 0x340
+	undefined4 m_unused2;                 // 0x340
 	MxS32 m_playingActorScript;           // 0x344
 	MxU8 m_presentersEnabled;             // 0x348
 

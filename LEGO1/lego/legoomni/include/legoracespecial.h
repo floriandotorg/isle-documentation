@@ -47,7 +47,7 @@ public:
 	void SwitchBoundary(
 		LegoPathBoundary*& p_boundary,
 		LegoOrientedEdge*& p_edge,
-		float& p_unk0xe4
+		float& p_unused
 	) override;                          // vtable+0x98
 	MxResult CalculateSpline() override; // vtable+0x9c
 
@@ -85,8 +85,8 @@ public:
 	// LegoCarRaceActor::~LegoCarRaceActor
 
 protected:
-	MxFloat m_unk0x08; // 0x08
-	MxU8 m_animState;  // 0x0c
+	MxFloat m_unused; // 0x08
+	MxU8 m_animState; // 0x0c
 
 	// Could be a multiplier for the maximum speed when going straight
 	MxFloat m_unk0x10; // 0x10

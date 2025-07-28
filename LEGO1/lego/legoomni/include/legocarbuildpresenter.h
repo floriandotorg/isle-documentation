@@ -144,8 +144,8 @@ private:
 	MxFloat m_shelfFrameInterval;    // 0x138
 	MxULong m_flashingPartTimeState; // 0x13c
 	LegoEntity* m_carBuildEntity;    // 0x140
-	MxS32 m_unk0x144;                // 0x144
-	MxS32 m_unk0x148;                // 0x148
+	MxS32 m_unused1;                 // 0x144
+	MxS32 m_unused2;                 // 0x148
 
 	// name verified by BETA10 0x10070d63
 	LegoChar* m_mainSourceId; // 0x14c

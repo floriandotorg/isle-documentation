@@ -47,8 +47,8 @@ public:
 
 private:
 	MxS32 m_registerDialogueTimer;    // 0xf8
-	undefined m_unk0xfc;              // 0xfc
-	undefined m_unk0xfd[3];           // 0xfd
+	undefined m_unused1;              // 0xfc
+	undefined m_unused2[3];           // 0xfd
 	MxStillPresenter* m_alphabet[26]; // 0x100
 	MxStillPresenter* m_name[10][7];  // 0x168
 	struct {
@@ -58,9 +58,9 @@ private:
 	MxControlPresenter* m_checkmark[10];   // 0x290
 	undefined2 m_vehiclesToPosition;       // 0x2b8
 	InfocenterState* m_infocenterState;    // 0x2bc
-	undefined m_unk0x2c0;                  // 0x2c0
+	undefined m_unused3;                   // 0x2c0
 	undefined m_awaitLoad;                 // 0x2c1
-	undefined m_unk0x2c2[0x02];            // 0x2c2
+	undefined m_unused4[0x02];             // 0x2c2
 	LPDIRECTDRAWSURFACE m_checkboxHilite;  // 0x2c4
 	LPDIRECTDRAWSURFACE m_checkboxSurface; // 0x2c8
 	LPDIRECTDRAWSURFACE m_checkboxNormal;  // 0x2cc

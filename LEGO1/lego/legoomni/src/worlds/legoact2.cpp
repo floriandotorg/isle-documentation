@@ -79,7 +79,7 @@ LegoAct2::LegoAct2()
 	m_pepper = NULL;
 	m_ambulance = NULL;
 	m_ready = FALSE;
-	m_unk0x1130 = 0;
+	m_unused2 = 0;
 	m_nextBrick = 0;
 	m_removedBricks = 0;
 	m_unk0x1138 = NULL;
@@ -88,7 +88,7 @@ LegoAct2::LegoAct2()
 	m_destLocation = LegoGameState::e_undefined;
 	m_music = JukeboxScript::c_MusicTheme1;
 	m_siFile = "";
-	m_unk0x113c = 5;
+	m_unused4 = 5;
 	NotificationManager()->Register(this);
 }
 
@@ -611,7 +611,7 @@ MxLong LegoAct2::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 			StartAction(Act2mainScript::c_tra032ni_RunAnim, TRUE, TRUE, NULL, NULL, NULL);
 		}
 
-		m_unk0x112c = 50;
+		m_unused1 = 50;
 		m_state = LegoAct2::e_atResidentialArea;
 		m_timeSinceLastStage = 0;
 	}

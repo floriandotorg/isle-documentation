@@ -142,14 +142,14 @@ private:
 	MxMatrix m_transformOnDisable;             // 0x10dc
 	LegoPathBoundary* m_boundaryOnDisable;     // 0x1124
 	LegoROI* m_ambulance;                      // 0x1128
-	undefined4 m_unk0x112c;                    // 0x112c
-	undefined4 m_unk0x1130;                    // 0x1130
-	undefined4 m_unk0x1134;                    // 0x1134
+	undefined4 m_unused1;                      // 0x112c
+	undefined4 m_unused2;                      // 0x1130
+	undefined4 m_unused3;                      // 0x1134
 	Act2Actor* m_unk0x1138;                    // 0x1138
-	undefined m_unk0x113c;                     // 0x113c
+	undefined m_unused4;                       // 0x113c
 	Act2mainScript::Script m_currentAction;    // 0x1140
 	Act2mainScript::Script m_infomanDirecting; // 0x1144
-	undefined4 m_unk0x1148;                    // 0x1148
+	undefined4 m_unused5;                      // 0x1148
 	undefined m_firstBrick;                    // 0x114c
 	undefined m_secondBrick;                   // 0x114d
 	undefined m_thirdBrick;                    // 0x114e

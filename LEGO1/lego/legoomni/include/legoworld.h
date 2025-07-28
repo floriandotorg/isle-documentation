@@ -142,7 +142,7 @@ protected:
 
 	MxS16 m_startupTicks;  // 0xf4
 	MxBool m_worldStarted; // 0xf6
-	undefined m_unk0xf7;   // 0xf7
+	undefined m_unused1;   // 0xf7
 };
 
 // clang-format off

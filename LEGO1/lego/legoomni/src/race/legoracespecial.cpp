@@ -42,7 +42,7 @@ MxFloat g_unk0x100da044 = 8.0f;
 // FUNCTION: BETA10 0x100cd6b0
 LegoCarRaceActor::LegoCarRaceActor()
 {
-	m_unk0x08 = 1.0f;
+	m_unused = 1.0f;
 	m_lastPathStruct = 0.0f;
 	m_animState = 0;
 	m_maxLinearVel = 0.0f;
@@ -214,7 +214,7 @@ MxS32 LegoCarRaceActor::VTable0x1c(LegoPathBoundary* p_boundary, LegoEdge* p_edg
 
 // FUNCTION: LEGO1 0x10080b40
 // FUNCTION: BETA10 0x100cdb3c
-void LegoCarRaceActor::SwitchBoundary(LegoPathBoundary*& p_boundary, LegoOrientedEdge*& p_edge, float& p_unk0xe4)
+void LegoCarRaceActor::SwitchBoundary(LegoPathBoundary*& p_boundary, LegoOrientedEdge*& p_edge, float& p_unused)
 {
 	LegoPathActor::SwitchBoundary(m_boundary, m_destEdge, m_destScale);
 }

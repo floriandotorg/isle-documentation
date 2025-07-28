@@ -42,7 +42,7 @@ MxLong g_checkboxBlinkTimer = 0;
 MxBool g_nextCheckbox = FALSE;
 
 // FUNCTION: LEGO1 0x10076d20
-RegistrationBook::RegistrationBook() : m_registerDialogueTimer(0x80000000), m_unk0xfc(1)
+RegistrationBook::RegistrationBook() : m_registerDialogueTimer(0x80000000), m_unused1(1)
 {
 	memset(m_alphabet, 0, sizeof(m_alphabet));
 	memset(m_name, 0, sizeof(m_name));

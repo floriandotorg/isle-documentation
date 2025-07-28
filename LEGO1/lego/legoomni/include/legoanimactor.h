@@ -27,7 +27,7 @@ struct LegoAnimActorStruct {
 	LegoAnim* m_AnimTreePtr;      // 0x04
 	LegoROI** m_roiMap;           // 0x08
 	MxU32 m_numROIs;              // 0x0c
-	vector<undefined*> m_unk0x10; // 0x10
+	vector<undefined*> m_unused1; // 0x10
 };
 
 // VTABLE: LEGO1 0x100d5440 LegoPathActor

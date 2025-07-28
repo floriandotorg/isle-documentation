@@ -29,8 +29,8 @@ LegoAnimActorStruct::LegoAnimActorStruct(
 // FUNCTION: LEGO1 0x1001c0a0
 LegoAnimActorStruct::~LegoAnimActorStruct()
 {
-	for (MxU16 i = 0; i < m_unk0x10.size(); i++) {
-		delete m_unk0x10[i];
+	for (MxU16 i = 0; i < m_unused1.size(); i++) {
+		delete m_unused1[i];
 	}
 }
 

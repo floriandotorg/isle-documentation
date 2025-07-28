@@ -49,7 +49,7 @@ MxFloat g_lastAnimationTime = 0.0f;
 MxBool g_nextEntityIsBuilding = FALSE;
 
 // GLOBAL: LEGO1 0x100f0f24
-MxBool g_unk0x100f0f24 = FALSE;
+MxBool g_unused = FALSE;
 
 // GLOBAL: LEGO1 0x100f0f28
 // GLOBAL: BETA10 0x101dbe44
@@ -126,7 +126,7 @@ Act2Actor::Act2Actor()
 	m_visitedLocations = 0;
 	m_nextEntity = NULL;
 	m_cachedShootSound = NULL;
-	m_unk0x3c = 0;
+	m_unused = 0;
 
 	// Odd: The code says < 10, but there are 11 entries in the array
 	for (MxS32 i = 0; i < 10; i++) {
@@ -569,7 +569,7 @@ MxU32 Act2Actor::UpdateShot(MxFloat p_time)
 	if (!m_nextEntity) {
 		g_nextEntityIsBuilding = FALSE;
 		m_nextEntity = GetNextEntity(&g_nextEntityIsBuilding);
-		g_unk0x100f0f24 = FALSE;
+		g_unused = FALSE;
 		g_playedShootSound = FALSE;
 	}
 
@@ -602,7 +602,7 @@ MxU32 Act2Actor::UpdateShot(MxFloat p_time)
 		m_nextEntity = GetNextEntity(&g_nextEntityIsBuilding);
 		m_shootAnimEnd = m_shootAnim->GetDuration() + p_time;
 		m_entityAnimationTime = m_shootAnimEnd - 1300.0f;
-		g_unk0x100f0f24 = FALSE;
+		g_unused = FALSE;
 		g_playedShootSound = FALSE;
 		return FALSE;
 	}

@@ -149,7 +149,7 @@ protected:
 	MxU8 m_ptAtCamCount;          // 0x94
 	MxBool m_animationFinished;   // 0x95
 	MxBool m_localActors;         // 0x96
-	undefined m_unk0x97;          // 0x97
+	undefined m_unused1;          // 0x97
 	LegoAnimSubstMap* m_substMap; // 0x98
 	MxS16 m_roiTransformApplied;  // 0x9c
 	Matrix4* m_roiTransform;      // 0xa0
@@ -196,7 +196,7 @@ public:
 	// LegoLoopingAnimPresenter::`scalar deleting destructor'
 
 private:
-	undefined4 m_unk0xbc; // 0xbc
+	undefined4 m_unused1; // 0xbc
 };
 
 class LegoAnimActor;

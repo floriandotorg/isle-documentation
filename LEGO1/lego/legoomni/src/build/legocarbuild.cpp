@@ -120,7 +120,7 @@ LegoCarBuild::LegoCarBuild()
 	m_Decals_Ctl7 = NULL;
 	m_tickledControl = NULL;
 	m_buildState = NULL;
-	m_unk0x104 = 0;
+	m_unused1 = 0;
 	m_missclickCounter = 0;
 	m_numAnimsRun = 0;
 	m_jukeboxPresenter = 0;

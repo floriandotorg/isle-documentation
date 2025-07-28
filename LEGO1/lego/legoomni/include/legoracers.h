@@ -182,9 +182,9 @@ public:
 	// LegoRaceCar::`scalar deleting destructor'
 
 private:
-	MxU8 m_kickState;         // 0x54
-	float m_kickStart;        // 0x58
-	Mx3DPointFloat m_unk0x5c; // 0x5c
+	MxU8 m_kickState;        // 0x54
+	float m_kickStart;       // 0x58
+	Mx3DPointFloat m_unused; // 0x5c
 
 	// Names verified by BETA10 0x100cb4a9
 	LegoAnimActorStruct* m_skelKick1Anim; // 0x70

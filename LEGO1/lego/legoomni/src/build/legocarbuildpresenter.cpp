@@ -34,8 +34,8 @@ LegoCarBuildAnimPresenter::LegoCarBuildAnimPresenter()
 	m_shelfFrameInterval = 0;
 	m_flashingPartTimeState = 0;
 	m_carBuildEntity = NULL;
-	m_unk0x144 = -1;
-	m_unk0x148 = -1;
+	m_unused1 = -1;
+	m_unused2 = -1;
 	m_mainSourceId = NULL;
 }
 

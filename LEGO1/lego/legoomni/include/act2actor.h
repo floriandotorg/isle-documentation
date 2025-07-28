@@ -80,7 +80,7 @@ private:
 	MxFloat m_entityAnimationTime;      // 0x30
 	LegoAnimActorStruct* m_shootAnim;   // 0x34
 	LegoCacheSound* m_cachedShootSound; // 0x38
-	undefined4 m_unk0x3c;               // 0x3c
+	undefined4 m_unused;                // 0x3c
 	MxBool m_initializing;              // 0x40
 	MxFloat m_resetWorldSpeedAt;        // 0x44
 	MxS8 m_visitedLocations;            // 0x48

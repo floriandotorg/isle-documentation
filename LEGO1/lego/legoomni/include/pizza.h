@@ -32,9 +32,9 @@ public:
 		{
 			m_numActions = p_numActions;
 			m_actorId = p_actorId;
-			m_unk0x04 = p_unk0x04;
-			m_unk0x06 = 1;
-			m_unk0x08 = 1;
+			m_unused1 = p_unk0x04;
+			m_unused2 = 1;
+			m_unused3 = 1;
 			m_finishTimes = p_finishTimes;
 			m_startTime = INT_MIN;
 			m_counter = 1;
@@ -47,9 +47,9 @@ public:
 		Mission& operator=(const Mission& p_mission)
 		{
 			m_actorId = p_mission.m_actorId;
-			m_unk0x04 = p_mission.m_unk0x04;
-			m_unk0x06 = p_mission.m_unk0x06;
-			m_unk0x08 = p_mission.m_unk0x08;
+			m_unused1 = p_mission.m_unused1;
+			m_unused2 = p_mission.m_unused2;
+			m_unused3 = p_mission.m_unused3;
 			m_finishTimes = p_mission.m_finishTimes;
 			m_startTime = p_mission.m_startTime;
 			m_counter = p_mission.m_counter;
@@ -95,9 +95,9 @@ public:
 
 		MxS16 m_numActions;            // 0x00
 		MxU8 m_actorId;                // 0x02
-		undefined2 m_unk0x04;          // 0x04
-		MxS16 m_unk0x06;               // 0x06
-		undefined m_unk0x08;           // 0x08
+		undefined2 m_unused1;          // 0x04
+		MxS16 m_unused2;               // 0x06
+		undefined m_unused3;           // 0x08
 		MxLong* m_finishTimes;         // 0x0c
 		MxLong m_startTime;            // 0x10
 		MxS16 m_counter;               // 0x14

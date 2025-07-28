@@ -174,7 +174,7 @@ LegoRaceCar::LegoRaceCar()
 	m_kickState = LEGORACECAR_NONE;
 	m_skelKick1Anim = 0;
 	m_skelKick2Anim = 0;
-	m_unk0x5c.Clear();
+	m_unused.Clear();
 	m_kickStart = 0;
 	m_kick1B = 0;
 	m_kick2B = 0;
