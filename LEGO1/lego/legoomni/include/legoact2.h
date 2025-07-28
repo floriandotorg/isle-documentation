@@ -69,7 +69,7 @@ public:
 	// FUNCTION: LEGO1 0x1004fe10
 	MxBool EnabledAfterDestruction() override { return TRUE; } // vtable+0x5c
 
-	void VTable0x60() override;            // vtable+0x60
+	void EmptyFunction() override;         // vtable+0x60
 	MxBool Escape() override;              // vtable+0x64
 	void Enable(MxBool p_enable) override; // vtable+0x68
 

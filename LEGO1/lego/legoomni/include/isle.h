@@ -153,7 +153,7 @@ public:
 	MxResult Create(MxDSAction& p_dsAction) override;   // vtable+0x18
 	void ReadyWorld() override;                         // vtable+0x50
 	void Add(MxCore* p_object) override;                // vtable+0x58
-	void VTable0x60() override;                         // vtable+0x60
+	void EmptyFunction() override;                      // vtable+0x60
 	MxBool Escape() override;                           // vtable+0x64
 	void Enable(MxBool p_enable) override;              // vtable+0x68
 	virtual void RemoveVehicle(LegoPathActor* p_actor); // vtable+0x6c

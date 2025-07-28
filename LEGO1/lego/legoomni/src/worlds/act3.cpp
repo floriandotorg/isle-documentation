@@ -967,7 +967,7 @@ void Act3::Enable(MxBool p_enable)
 }
 
 // FUNCTION: LEGO1 0x10073e40
-void Act3::VTable0x60()
+void Act3::EmptyFunction()
 {
 	// empty
 }

@@ -1197,7 +1197,7 @@ void Isle::CreateState()
 }
 
 // FUNCTION: LEGO1 0x10033170
-void Isle::VTable0x60()
+void Isle::EmptyFunction()
 {
 	// empty
 }

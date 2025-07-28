@@ -744,7 +744,7 @@ void LegoAct2::FUN_10051960()
 }
 
 // FUNCTION: LEGO1 0x100519c0
-void LegoAct2::VTable0x60()
+void LegoAct2::EmptyFunction()
 {
 	// empty
 }
