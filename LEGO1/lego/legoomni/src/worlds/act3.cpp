@@ -578,7 +578,7 @@ MxLong Act3::Notify(MxParam& p_param)
 					action.SetObjectId(Act3Script::c_pzhitdn_PlayWav);
 
 					BackgroundAudioManager()->PlayMusic(action, 5, MxPresenter::e_repeating);
-					m_brickster->FUN_100417c0();
+					m_brickster->Hit();
 
 					m_cop1->SetActorState(LegoPathActor::c_initial);
 					m_cop1->SetWorldSpeed(2.0f);
@@ -713,7 +713,7 @@ MxResult Act3::Tickle()
 MxResult Act3::FUN_10073360(Act3Ammo& p_ammo, const Vector3& p_param2)
 {
 	assert(m_brickster);
-	m_brickster->FUN_100417a0(p_ammo, p_param2);
+	m_brickster->Hit(p_ammo, p_param2);
 	TriggerHitSound(1);
 	return SUCCESS;
 }
@@ -725,10 +725,10 @@ MxResult Act3::FUN_10073390(Act3Ammo& p_ammo, const Vector3& p_param2)
 	assert(m_cop1 && m_cop2);
 
 	if (!(g_unk0x100f7814 & 1)) {
-		m_cop1->FUN_10040350(p_ammo, p_param2);
+		m_cop1->Hit(p_ammo, p_param2);
 	}
 	else {
-		m_cop2->FUN_10040350(p_ammo, p_param2);
+		m_cop2->Hit(p_ammo, p_param2);
 	}
 
 	TriggerHitSound(3);

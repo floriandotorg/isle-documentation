@@ -200,7 +200,7 @@ MxResult Act3Cop::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 
 		assert(SoundManager()->GetCacheSoundManager());
 		SoundManager()->GetCacheSoundManager()->Play("eatdn", NULL, FALSE);
-		FUN_10040360();
+		Hit();
 	}
 	else {
 		if (((Act3*) m_world)->m_brickster->GetROI() != roi) {
@@ -233,7 +233,7 @@ void Act3Cop::ParseAction(char* p_extra)
 		assert(g_copDest[i].m_boundary);
 
 		if (g_copDest[i].m_boundary) {
-			Mx3DPointFloat point(g_copDest[i].m_unk0x08[0], g_copDest[i].m_unk0x08[1], g_copDest[i].m_unk0x08[2]);
+			Mx3DPointFloat point(g_copDest[i].m_position[0], g_copDest[i].m_position[1], g_copDest[i].m_position[2]);
 			LegoPathBoundary* boundary = g_copDest[i].m_boundary;
 
 			for (MxS32 j = 0; j < boundary->GetNumEdges(); j++) {
@@ -251,9 +251,10 @@ void Act3Cop::ParseAction(char* p_extra)
 				continue;
 			}
 
-			g_copDest[i].m_unk0x08[1] = -(boundary0x14->index_operator(3) + boundary0x14->index_operator(0) * point[0] +
-										  boundary0x14->index_operator(2) * point[2]) /
-										boundary0x14->index_operator(1);
+			g_copDest[i].m_position[1] =
+				-(boundary0x14->index_operator(3) + boundary0x14->index_operator(0) * point[0] +
+				  boundary0x14->index_operator(2) * point[2]) /
+				boundary0x14->index_operator(1);
 
 			MxTrace(
 				"Act3 cop destination %d (%g, %g, %g) is not on plane of boundary %s...adjusting to (%g, %g, %g)\n",
@@ -263,7 +264,7 @@ void Act3Cop::ParseAction(char* p_extra)
 				point[2],
 				boundary->GetName(),
 				point[0],
-				g_copDest[i].m_unk0x08[1],
+				g_copDest[i].m_position[1],
 				point[2]
 			);
 		}
@@ -304,41 +305,41 @@ void Act3Cop::Animate(float p_time)
 
 		if (distance < 25.0f) {
 			brickster->SetActorState(c_disabled);
-			FUN_10040360();
+			Hit();
 			return;
 		}
 	}
 
 	if (m_grec == NULL) {
-		FUN_10040360();
+		Hit();
 	}
 }
 
 // FUNCTION: LEGO1 0x10040350
 // FUNCTION: BETA10 0x10018c4a
-MxResult Act3Cop::FUN_10040350(Act3Ammo& p_ammo, const Vector3&)
+MxResult Act3Cop::Hit(Act3Ammo& p_ammo, const Vector3&)
 {
-	return FUN_10040360();
+	return Hit();
 }
 
 // FUNCTION: LEGO1 0x10040360
 // FUNCTION: BETA10 0x10018c6a
-MxResult Act3Cop::FUN_10040360()
+MxResult Act3Cop::Hit()
 {
 	LegoPathEdgeContainer* grec = NULL;
 	Act3* a3 = (Act3*) m_world;
 
 	MxMatrix local74(m_local2World);
-	Vector3 local2c(local74[3]);
-	Vector3 local20(local74[2]);
+	Vector3 position(local74[3]);
+	Vector3 direction(local74[2]);
 
-	Mx3DPointFloat local7c;
-	local7c = a3->m_brickster->GetROI()->GetLocal2World()[3];
-	local7c -= local2c;
+	Mx3DPointFloat newPosition;
+	newPosition = a3->m_brickster->GetROI()->GetLocal2World()[3];
+	newPosition -= position;
 
-	if (local7c.LenSquared() < 144.0f) {
-		local7c = a3->m_brickster->GetROI()->GetLocal2World()[3];
-		Mx3DPointFloat local5c(a3->m_brickster->GetROI()->GetLocal2World()[2]);
+	if (newPosition.LenSquared() < 144.0f) {
+		newPosition = a3->m_brickster->GetROI()->GetLocal2World()[3];
+		Mx3DPointFloat newDirection(a3->m_brickster->GetROI()->GetLocal2World()[2]);
 		LegoPathBoundary* boundary = a3->m_brickster->GetBoundary();
 
 		grec = new LegoPathEdgeContainer();
@@ -347,11 +348,11 @@ MxResult Act3Cop::FUN_10040360()
 		MxFloat local34;
 		if (m_pathController->FindPath(
 				grec,
-				local2c,
-				local20,
+				position,
+				direction,
 				m_boundary,
-				local7c,
-				local5c,
+				newPosition,
+				newDirection,
 				boundary,
 				LegoOrientedEdge::c_bit1,
 				&local34
@@ -362,7 +363,7 @@ MxResult Act3Cop::FUN_10040360()
 	}
 
 	if (grec == NULL) {
-		float local18;
+		float minDistance;
 
 		for (MxS32 i = 0; i < MAX_DONUTS; i++) {
 			Act3Ammo* donut = &a3->m_donuts[i];
@@ -375,46 +376,46 @@ MxResult Act3Cop::FUN_10040360()
 				MxMatrix locald0 = proi->GetLocal2World();
 				Vector3 local88(locald0[3]);
 				Mx3DPointFloat localec(local88);
-				localec -= local2c;
+				localec -= position;
 
-				LegoPathEdgeContainer* r2 = new LegoPathEdgeContainer();
-				assert(r2);
+				LegoPathEdgeContainer* currentGrec = new LegoPathEdgeContainer();
+				assert(currentGrec);
 
-				MxFloat locald8;
+				MxFloat distance;
 				LegoPathEdgeContainer *local138, *local134, *local140, *local13c; // unused
 
 				if (m_pathController->FindPath(
-						r2,
-						local2c,
-						local20,
+						currentGrec,
+						position,
+						direction,
 						m_boundary,
 						local88,
 						localec,
 						donut->GetBoundary(),
 						LegoOrientedEdge::c_bit1,
-						&locald8
+						&distance
 					) == SUCCESS &&
-					(grec == NULL || locald8 < local18)) {
+					(grec == NULL || distance < minDistance)) {
 					if (grec != NULL) {
 						local134 = local138 = grec;
 						delete grec;
 					}
 
-					grec = r2;
-					local18 = locald8;
+					grec = currentGrec;
+					minDistance = distance;
 				}
 
-				if (grec != r2) {
-					local13c = local140 = r2;
-					delete r2;
+				if (grec != currentGrec) {
+					local13c = local140 = currentGrec;
+					delete currentGrec;
 				}
 			}
 		}
 
 		if (grec == NULL) {
 			MxS32 random = rand() % (MxS32) sizeOfArray(g_copDest);
-			Vector3 localf8(g_copDest[random].m_unk0x08);
-			Vector3 local108(g_copDest[random].m_unk0x14);
+			Vector3 newPosition(g_copDest[random].m_position);
+			Vector3 newDirection(g_copDest[random].m_direction);
 
 			grec = new LegoPathEdgeContainer();
 			LegoPathBoundary* boundary = g_copDest[random].m_boundary;
@@ -425,11 +426,11 @@ MxResult Act3Cop::FUN_10040360()
 
 				if (m_pathController->FindPath(
 						grec,
-						local2c,
-						local20,
+						position,
+						direction,
 						m_boundary,
-						localf8,
-						local108,
+						newPosition,
+						newDirection,
 						boundary,
 						LegoOrientedEdge::c_bit1,
 						&local100
@@ -450,14 +451,14 @@ MxResult Act3Cop::FUN_10040360()
 		}
 
 		m_grec = grec;
-		Mx3DPointFloat vecUnk;
+		Mx3DPointFloat newPosition;
 
 		if (m_grec->size() == 0) {
-			vecUnk = m_grec->m_position;
+			newPosition = m_grec->m_position;
 			m_boundary = m_grec->m_boundary;
 
 			m_grec->m_direction = m_local2World[3];
-			m_grec->m_direction -= vecUnk;
+			m_grec->m_direction -= newPosition;
 		}
 		else {
 			Mx3DPointFloat local128;
@@ -482,10 +483,10 @@ MxResult Act3Cop::FUN_10040360()
 			v1 = edge->CWVertex(*boundary);
 			v2 = edge->CCWVertex(*boundary);
 
-			vecUnk = *v2;
-			vecUnk -= *v1;
-			vecUnk *= m_destScale;
-			vecUnk += *v1;
+			newPosition = *v2;
+			newPosition -= *v1;
+			newPosition *= m_destScale;
+			newPosition += *v1;
 		}
 
 		Vector3 v1(m_local2World[0]);
@@ -494,7 +495,7 @@ MxResult Act3Cop::FUN_10040360()
 		Vector3 v4(m_local2World[3]);
 
 		v3 = v4;
-		v3 -= vecUnk;
+		v3 -= newPosition;
 		v3.Unitize();
 		v1.EqualsCross(v2, v3);
 		v1.Unitize();
@@ -514,7 +515,7 @@ MxResult Act3Cop::CalculateSpline()
 		delete m_grec;
 		m_grec = NULL;
 		m_transformTime = Timer()->GetTime();
-		FUN_10040360();
+		Hit();
 		return SUCCESS;
 	}
 
@@ -585,7 +586,7 @@ void Act3Brickster::Animate(float p_time)
 
 	switch (m_unk0x38) {
 	case 1:
-		FUN_100417c0();
+		Hit();
 		break;
 	case 2:
 		m_unk0x58++;
@@ -601,7 +602,7 @@ void Act3Brickster::Animate(float p_time)
 			SoundManager()->GetCacheSoundManager()->Play("eatpz", NULL, FALSE);
 		}
 
-		FUN_100417c0();
+		Hit();
 		break;
 	case 3:
 		assert(m_shootAnim && m_pInfo);
@@ -614,7 +615,7 @@ void Act3Brickster::Animate(float p_time)
 			assert(SoundManager()->GetCacheSoundManager());
 			SoundManager()->GetCacheSoundManager()->Play("thpt", NULL, FALSE);
 			m_unk0x58 = 0;
-			FUN_100417c0();
+			Hit();
 		}
 		else {
 			MxMatrix local70;
@@ -659,7 +660,7 @@ void Act3Brickster::Animate(float p_time)
 				}
 			}
 
-			FUN_100417c0();
+			Hit();
 		}
 		else {
 			MxMatrix locale4;
@@ -727,7 +728,7 @@ void Act3Brickster::Animate(float p_time)
 		break;
 	case 9:
 		if (m_unk0x24 < p_time) {
-			FUN_100417c0();
+			Hit();
 		}
 		else if (m_unk0x24 - 9000.0f < p_time) {
 			FUN_10042300();
@@ -774,10 +775,10 @@ MxResult Act3Brickster::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 
 // FUNCTION: LEGO1 0x100417a0
 // FUNCTION: BETA10 0x1001a3cf
-MxResult Act3Brickster::FUN_100417a0(Act3Ammo& p_ammo, const Vector3&)
+MxResult Act3Brickster::Hit(Act3Ammo& p_ammo, const Vector3&)
 {
 	if (m_unk0x58 < 8) {
-		return FUN_100417c0();
+		return Hit();
 	}
 
 	return SUCCESS;
@@ -785,7 +786,7 @@ MxResult Act3Brickster::FUN_100417a0(Act3Ammo& p_ammo, const Vector3&)
 
 // FUNCTION: LEGO1 0x100417c0
 // FUNCTION: BETA10 0x1001a407
-MxResult Act3Brickster::FUN_100417c0()
+MxResult Act3Brickster::Hit()
 {
 	m_pInfo = NULL;
 	m_bInfo = NULL;
@@ -798,7 +799,7 @@ MxResult Act3Brickster::FUN_100417c0()
 	Vector3 local20(local70[2]);
 
 	if (m_unk0x58 < 8 && m_unk0x24 + 5000.0f < m_transformTime) {
-		float local18;
+		float minDistance;
 
 		for (MxS32 i = 0; i < MAX_PIZZAS; i++) {
 			Act3Ammo* pizza = &a3->m_pizzas[i];
@@ -817,14 +818,14 @@ MxResult Act3Brickster::FUN_100417c0()
 					((Act3*) m_world)->m_shark->EatPizza(pizza);
 				}
 				else {
-					LegoPathEdgeContainer* r2 = new LegoPathEdgeContainer();
-					assert(r2);
+					LegoPathEdgeContainer* currentGrec = new LegoPathEdgeContainer();
+					assert(currentGrec);
 
-					MxFloat locald8;
+					MxFloat distance;
 					LegoPathEdgeContainer *local16c, *local168, *local174, *local170; // unused
 
 					if (m_pathController->FindPath(
-							r2,
+							currentGrec,
 							local28,
 							local20,
 							m_boundary,
@@ -832,21 +833,21 @@ MxResult Act3Brickster::FUN_100417c0()
 							localec,
 							pizza->GetBoundary(),
 							LegoOrientedEdge::c_bit1,
-							&locald8
+							&distance
 						) == SUCCESS &&
-						(grec == NULL || locald8 < local18)) {
+						(grec == NULL || distance < minDistance)) {
 						if (grec != NULL) {
 							local168 = local16c = grec;
 							delete grec;
 						}
 
-						grec = r2;
-						local18 = locald8;
+						grec = currentGrec;
+						minDistance = distance;
 					}
 
-					if (grec != r2) {
-						local170 = local174 = r2;
-						delete r2;
+					if (grec != currentGrec) {
+						local170 = local174 = currentGrec;
+						delete currentGrec;
 					}
 				}
 			}
@@ -1017,30 +1018,30 @@ MxS32 Act3Brickster::FUN_10042300()
 	assert(a3 && a3->m_cop1 && a3->m_cop2);
 	assert(a3->m_cop1->GetROI() && a3->m_cop2->GetROI() && GetROI());
 
-	Mx3DPointFloat local64[2];
-	Mx3DPointFloat local38;
-	Mx3DPointFloat local18;
+	Mx3DPointFloat copPositions[2];
+	Mx3DPointFloat pos;
+	Mx3DPointFloat pointToCop;
 
-	MxS32 local1c = 0;
-	float local24[2];
+	MxS32 closestCop = 0;
+	float copDistance[2];
 
-	local64[0] = a3->m_cop1->GetROI()->GetLocal2World()[3];
-	local64[1] = a3->m_cop2->GetROI()->GetLocal2World()[3];
-	local38 = GetROI()->GetLocal2World()[3];
+	copPositions[0] = a3->m_cop1->GetROI()->GetLocal2World()[3];
+	copPositions[1] = a3->m_cop2->GetROI()->GetLocal2World()[3];
+	pos = GetROI()->GetLocal2World()[3];
 
-	local18 = local64[0];
-	local18 -= local38;
-	local24[0] = local18.LenSquared();
+	pointToCop = copPositions[0];
+	pointToCop -= pos;
+	copDistance[0] = pointToCop.LenSquared();
 
-	local18 = local64[1];
-	local18 -= local38;
-	local24[1] = local18.LenSquared();
+	pointToCop = copPositions[1];
+	pointToCop -= pos;
+	copDistance[1] = pointToCop.LenSquared();
 
-	if (local24[1] < local24[0]) {
-		local1c = 1;
+	if (copDistance[1] < copDistance[0]) {
+		closestCop = 1;
 	}
 
-	if (local24[local1c] < 225.0f) {
+	if (copDistance[closestCop] < 225.0f) {
 		m_unk0x38 = 8;
 
 		if (m_grec != NULL) {
@@ -1058,36 +1059,37 @@ MxS32 Act3Brickster::FUN_10042300()
 		LegoOrientedEdge* maxE = NULL;
 		boundaries[0] = m_boundary;
 
-		if (m_destEdge->FUN_10048c40(local38)) {
+		if (m_destEdge->FUN_10048c40(pos)) {
 			boundaries[1] = (LegoPathBoundary*) m_destEdge->OtherFace(m_boundary);
 		}
 		else {
 			boundaries[1] = NULL;
 		}
 
-		float local78, local98;
+		float maxDistance, distanceToCop;
 		for (MxS32 i = 0; i < (MxS32) sizeOfArray(boundaries); i++) {
 			if (boundaries[i] != NULL) {
 				for (MxS32 j = 0; j < boundaries[i]->GetNumEdges(); j++) {
 					LegoOrientedEdge* e = boundaries[i]->GetEdges()[j];
 
 					if (e->GetMask0x03()) {
-						Mx3DPointFloat local94(*e->GetPointA());
-						local94 += *e->GetPointB();
-						local94 /= 2.0f;
+						Mx3DPointFloat midPoint(*e->GetPointA());
+						midPoint += *e->GetPointB();
+						midPoint /= 2.0f;
 
-						local18 = local94;
-						local18 -= local64[local1c];
-						local98 = local18.LenSquared();
+						pointToCop = midPoint;
+						pointToCop -= copPositions[closestCop];
+						distanceToCop = pointToCop.LenSquared();
 
-						local94 -= local38;
-						local18 = local64[local1c];
-						local18 -= local38;
+						midPoint -= pos;
+						pointToCop = copPositions[closestCop];
+						pointToCop -= pos;
 
-						if (maxE == NULL || (local18.Dot(local94, local18) < 0.0f && local78 < local98)) {
+						if (maxE == NULL ||
+							(pointToCop.Dot(midPoint, pointToCop) < 0.0f && maxDistance < distanceToCop)) {
 							maxE = e;
 							m_boundary = boundaries[i];
-							local78 = local98;
+							maxDistance = distanceToCop;
 						}
 					}
 				}
