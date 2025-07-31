@@ -111,7 +111,7 @@ Act3Script::Script g_unk0x100d95e8[] =
 // FUNCTION: LEGO1 0x10071d40
 void Act3List::Insert(MxS32 p_objectId, InsertMode p_option)
 {
-	if (m_unk0x0c) {
+	if (m_cleared) {
 		return;
 	}
 
@@ -153,7 +153,7 @@ void Act3List::DeleteActionWrapper()
 // FUNCTION: LEGO1 0x10071fb0
 void Act3List::Clear()
 {
-	m_unk0x0c = 1;
+	m_cleared = TRUE;
 	BackgroundAudioManager()->Stop();
 
 	if (empty()) {
@@ -176,7 +176,7 @@ void Act3List::Clear()
 // FUNCTION: LEGO1 0x100720d0
 void Act3List::RemoveByObjectIdOrFirst(MxU32 p_objectId)
 {
-	if (m_unk0x0c) {
+	if (m_cleared) {
 		return;
 	}
 
@@ -214,7 +214,7 @@ void Act3List::RemoveByObjectIdOrFirst(MxU32 p_objectId)
 		it++;
 
 		while (it != end()) {
-			if ((*it).m_unk0x04 == 1) {
+			if ((*it).m_insertMode == Act3List::e_replaceAction) {
 				for (Act3List::iterator it2 = begin(); it2 != it; erase(it2++)) {
 					if ((*it2).m_hasStarted) {
 						DeleteActionWrapper();
