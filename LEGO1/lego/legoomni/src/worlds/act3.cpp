@@ -239,7 +239,7 @@ void Act3List::RemoveByObjectIdOrFirst(MxU32 p_objectId)
 Act3::Act3()
 {
 	m_state = NULL;
-	m_unk0x41fc = 0;
+	m_unused1 = 0;
 	m_cop1 = NULL;
 	m_cop2 = NULL;
 	m_brickster = NULL;
