@@ -200,7 +200,7 @@ MxResult Act3Cop::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 
 		assert(SoundManager()->GetCacheSoundManager());
 		SoundManager()->GetCacheSoundManager()->Play("eatdn", NULL, FALSE);
-		FUN_10040360();
+		Hit();
 	}
 	else {
 		if (((Act3*) m_world)->m_brickster->GetROI() != roi) {
@@ -304,26 +304,26 @@ void Act3Cop::Animate(float p_time)
 
 		if (distance < 25.0f) {
 			brickster->SetActorState(c_disabled);
-			FUN_10040360();
+			Hit();
 			return;
 		}
 	}
 
 	if (m_grec == NULL) {
-		FUN_10040360();
+		Hit();
 	}
 }
 
 // FUNCTION: LEGO1 0x10040350
 // FUNCTION: BETA10 0x10018c4a
-MxResult Act3Cop::FUN_10040350(Act3Ammo& p_ammo, const Vector3&)
+MxResult Act3Cop::Hit(Act3Ammo& p_ammo, const Vector3&)
 {
-	return FUN_10040360();
+	return Hit();
 }
 
 // FUNCTION: LEGO1 0x10040360
 // FUNCTION: BETA10 0x10018c6a
-MxResult Act3Cop::FUN_10040360()
+MxResult Act3Cop::Hit()
 {
 	LegoPathEdgeContainer* grec = NULL;
 	Act3* a3 = (Act3*) m_world;
@@ -514,7 +514,7 @@ MxResult Act3Cop::VTable0x9c()
 		delete m_grec;
 		m_grec = NULL;
 		m_lastTime = Timer()->GetTime();
-		FUN_10040360();
+		Hit();
 		return SUCCESS;
 	}
 
@@ -585,7 +585,7 @@ void Act3Brickster::Animate(float p_time)
 
 	switch (m_unk0x38) {
 	case 1:
-		FUN_100417c0();
+		Hit();
 		break;
 	case 2:
 		m_unk0x58++;
@@ -601,7 +601,7 @@ void Act3Brickster::Animate(float p_time)
 			SoundManager()->GetCacheSoundManager()->Play("eatpz", NULL, FALSE);
 		}
 
-		FUN_100417c0();
+		Hit();
 		break;
 	case 3:
 		assert(m_shootAnim && m_pInfo);
@@ -614,7 +614,7 @@ void Act3Brickster::Animate(float p_time)
 			assert(SoundManager()->GetCacheSoundManager());
 			SoundManager()->GetCacheSoundManager()->Play("thpt", NULL, FALSE);
 			m_unk0x58 = 0;
-			FUN_100417c0();
+			Hit();
 		}
 		else {
 			MxMatrix local70;
@@ -659,7 +659,7 @@ void Act3Brickster::Animate(float p_time)
 				}
 			}
 
-			FUN_100417c0();
+			Hit();
 		}
 		else {
 			MxMatrix locale4;
@@ -727,7 +727,7 @@ void Act3Brickster::Animate(float p_time)
 		break;
 	case 9:
 		if (m_unk0x24 < p_time) {
-			FUN_100417c0();
+			Hit();
 		}
 		else if (m_unk0x24 - 9000.0f < p_time) {
 			FUN_10042300();
@@ -774,10 +774,10 @@ MxResult Act3Brickster::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 
 // FUNCTION: LEGO1 0x100417a0
 // FUNCTION: BETA10 0x1001a3cf
-MxResult Act3Brickster::FUN_100417a0(Act3Ammo& p_ammo, const Vector3&)
+MxResult Act3Brickster::Hit(Act3Ammo& p_ammo, const Vector3&)
 {
 	if (m_unk0x58 < 8) {
-		return FUN_100417c0();
+		return Hit();
 	}
 
 	return SUCCESS;
@@ -785,7 +785,7 @@ MxResult Act3Brickster::FUN_100417a0(Act3Ammo& p_ammo, const Vector3&)
 
 // FUNCTION: LEGO1 0x100417c0
 // FUNCTION: BETA10 0x1001a407
-MxResult Act3Brickster::FUN_100417c0()
+MxResult Act3Brickster::Hit()
 {
 	m_pInfo = NULL;
 	m_bInfo = NULL;

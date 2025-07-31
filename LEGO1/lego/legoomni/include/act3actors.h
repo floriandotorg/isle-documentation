@@ -111,8 +111,8 @@ public:
 
 	void SetUnknown0x20(MxFloat p_unk0x20) { m_unk0x20 = p_unk0x20; }
 
-	MxResult FUN_10040350(Act3Ammo& p_ammo, const Vector3&);
-	MxResult FUN_10040360();
+	MxResult Hit(Act3Ammo& p_ammo, const Vector3&);
+	MxResult Hit();
 
 	// SYNTHETIC: LEGO1 0x10043120
 	// Act3Cop::`scalar deleting destructor'
@@ -153,8 +153,8 @@ public:
 	void SetUnknown0x24(MxFloat p_unk0x24) { m_unk0x24 = p_unk0x24; }
 	void SetUnknown0x50(MxFloat p_unk0x50) { m_unk0x50 = p_unk0x50; }
 
-	MxResult FUN_100417a0(Act3Ammo& p_ammo, const Vector3&);
-	MxResult FUN_100417c0();
+	MxResult Hit(Act3Ammo& p_ammo, const Vector3&);
+	MxResult Hit();
 
 	// SYNTHETIC: LEGO1 0x10043250
 	// Act3Brickster::`scalar deleting destructor'
