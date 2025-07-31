@@ -111,43 +111,43 @@ MxResult Act3Ammo::Create(Act3* p_world, MxU32 p_isPizza, MxS32 p_index)
 
 // FUNCTION: LEGO1 0x10053b40
 // FUNCTION: BETA10 0x1001db2a
-MxResult Act3Ammo::FUN_10053b40(const Vector3& p_srcLoc, const Vector3& p_srcDir, const Vector3& p_srcUp)
+MxResult Act3Ammo::CalculateEq(const Vector3& p_srcLoc, const Vector3& p_srcDir, const Vector3& p_srcUp)
 {
 	assert(p_srcDir[1] != 0);
 
-	MxFloat local1c = -(p_srcLoc[1] / p_srcDir[1]);
-	Mx3DPointFloat local18(p_srcDir);
-	Mx3DPointFloat local34;
+	MxFloat yRatioLocDir = -(p_srcLoc[1] / p_srcDir[1]);
+	Mx3DPointFloat direction(p_srcDir);
+	Mx3DPointFloat negNormalUp;
 
-	local18 *= local1c;
-	local18 += p_srcLoc;
+	direction *= yRatioLocDir;
+	direction += p_srcLoc;
 
-	local34[0] = local34[2] = 0.0f;
-	local34[1] = -1.0f;
+	negNormalUp[0] = negNormalUp[2] = 0.0f;
+	negNormalUp[1] = -1.0f;
 
 	m_eq[1] = p_srcUp;
 	m_eq[2] = p_srcLoc;
 
-	Mx3DPointFloat local48(local34);
-	local48 -= m_eq[1];
+	Mx3DPointFloat upRelative(negNormalUp);
+	upRelative -= m_eq[1];
 
 	for (MxS32 i = 0; i < 3; i++) {
-		if (local18[0] == p_srcLoc[0]) {
+		if (direction[0] == p_srcLoc[0]) {
 			return FAILURE;
 		}
 
-		m_eq[0][i] = (local48[i] * local48[i] + local48[i] * m_eq[1][i] * 2.0f) / ((local18[i] - p_srcLoc[i]) * 4.0f);
+		m_eq[0][i] = (upRelative[i] * upRelative[i] + upRelative[i] * m_eq[1][i] * 2.0f) / ((direction[i] - p_srcLoc[i]) * 4.0f);
 	}
 
 	assert(m_eq[0][0] > 0.000001 || m_eq[0][0] < -0.000001);
 
-	m_unk0x19c = local48[0] / (m_eq[0][0] * 2.0f);
+	m_unk0x19c = upRelative[0] / (m_eq[0][0] * 2.0f);
 	return SUCCESS;
 }
 
 // FUNCTION: LEGO1 0x10053cb0
 // FUNCTION: BETA10 0x1001ddf4
-MxResult Act3Ammo::FUN_10053cb0(LegoPathController* p_p, LegoPathBoundary* p_boundary, MxFloat p_unk0x19c)
+MxResult Act3Ammo::Shoot(LegoPathController* p_p, LegoPathBoundary* p_boundary, MxFloat p_unk0x19c)
 {
 	assert(p_p);
 	assert(IsValid());
@@ -173,12 +173,12 @@ MxResult Act3Ammo::FUN_10053cb0(LegoPathController* p_p, LegoPathBoundary* p_bou
 
 // FUNCTION: LEGO1 0x10053d30
 // FUNCTION: BETA10 0x1001df73
-MxResult Act3Ammo::FUN_10053d30(LegoPathController* p_p, MxFloat p_unk0x19c)
+MxResult Act3Ammo::Shoot(LegoPathController* p_p, MxFloat p_unk0x19c)
 {
 	assert(p_p);
 	assert(IsValid());
 
-	SetBit4(TRUE);
+	SetShootWithoutBoundary(TRUE);
 
 	if (IsPizza()) {
 		assert(SoundManager()->GetCacheSoundManager());
@@ -257,7 +257,7 @@ void Act3Ammo::Animate(float p_time)
 	case c_one:
 		break;
 	case c_two:
-		m_unk0x158 = p_time + 2000.0f;
+		m_rotateTimeout = p_time + 2000.0f;
 		m_actorState = c_three;
 		return;
 	case c_three:
@@ -266,7 +266,7 @@ void Act3Ammo::Animate(float p_time)
 
 		transform = m_roi->GetLocal2World();
 
-		if (m_unk0x158 > p_time) {
+		if (m_rotateTimeout > p_time) {
 			Mx3DPointFloat position;
 
 			position = positionRef;
@@ -279,7 +279,7 @@ void Act3Ammo::Animate(float p_time)
 		}
 		else {
 			m_actorState = c_initial;
-			m_unk0x158 = 0;
+			m_rotateTimeout = 0;
 
 			positionRef -= g_unk0x10104f08;
 			m_roi->SetLocal2World(transform);
@@ -375,7 +375,7 @@ void Act3Ammo::Animate(float p_time)
 	Vector3 local68(local104[3]);
 
 	if (localb8) {
-		if (IsBit4()) {
+		if (IsShootWithoutBoundary()) {
 			if (IsPizza()) {
 				m_world->RemovePizza(*this);
 				m_world->TriggerHitSound(2);
