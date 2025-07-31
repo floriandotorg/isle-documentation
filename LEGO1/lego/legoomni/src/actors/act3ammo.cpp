@@ -482,10 +482,10 @@ void Act3Ammo::Animate(float p_time)
 
 		if (!local14) {
 			if (IsPizza()) {
-				m_world->FUN_10073360(*this, local68);
+				m_world->HitBrickster(*this, local68);
 			}
 			else {
-				m_world->FUN_10073390(*this, local68);
+				m_world->HitCop(*this, local68);
 			}
 
 			m_worldSpeed = -1.0f;
