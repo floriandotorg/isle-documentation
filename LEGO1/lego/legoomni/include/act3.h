@@ -174,7 +174,7 @@ protected:
 	Act3State* m_state;                        // 0xf8
 	Act3Ammo m_pizzas[MAX_PIZZAS];             // 0xfc
 	Act3Ammo m_donuts[MAX_DONUTS];             // 0x217c
-	undefined m_unk0x41fc;                     // 0x41fc
+	undefined m_unused1;                       // 0x41fc
 	Act3Cop* m_cop1;                           // 0x4200
 	Act3Cop* m_cop2;                           // 0x4204
 	Act3Brickster* m_brickster;                // 0x4208
