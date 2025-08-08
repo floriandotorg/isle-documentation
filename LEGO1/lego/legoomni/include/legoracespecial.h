@@ -105,7 +105,7 @@ protected:
 	// Could be the current timestamp for time-based movement
 	MxFloat m_lastAcceleration; // 0x1c
 
-	static MxFloat g_unk0x100f7aec;
+	static MxFloat g_maxSpeed;
 };
 
 // VTABLE: LEGO1 0x100da208 LegoCarRaceActor

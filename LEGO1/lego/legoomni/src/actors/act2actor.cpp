@@ -287,7 +287,7 @@ void Act2Actor::Animate(float p_time)
 			}
 
 			SetWorldSpeed(0.0f);
-			((LegoAct2*) CurrentWorld())->FUN_100517b0();
+			((LegoAct2*) CurrentWorld())->CreateBrick2();
 			return;
 		}
 #endif

@@ -82,7 +82,7 @@ LegoAct2::LegoAct2()
 	m_unused2 = 0;
 	m_nextBrick = 0;
 	m_removedBricks = 0;
-	m_unk0x1138 = NULL;
+	m_ambulanceActor = NULL;
 	m_currentAction = (Act2mainScript::Script) 0;
 	m_infomanDirecting = (Act2mainScript::Script) 0;
 	m_destLocation = LegoGameState::e_undefined;
@@ -249,7 +249,7 @@ MxResult LegoAct2::Tickle()
 			else {
 				m_state = LegoAct2::e_goingToHide;
 				m_timeSinceLastStage = 0;
-				m_unk0x1138->GoingToHide();
+				m_ambulanceActor->GoingToHide();
 			}
 		}
 
@@ -634,7 +634,7 @@ MxLong LegoAct2::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 			m_currentAction = Act2mainScript::c_VOhide_PlayWav;
 		}
 
-		m_unk0x1138->Hide();
+		m_ambulanceActor->Hide();
 
 		m_state = LegoAct2::e_hidden;
 		m_timeSinceLastStage = 0;
@@ -647,7 +647,7 @@ MxLong LegoAct2::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 		MxMatrix local2world = m_ambulance->GetLocal2World();
 		MxMatrix local2world2 = local2world;
 
-		LegoPathBoundary* boundary = m_unk0x1138->GetBoundary();
+		LegoPathBoundary* boundary = m_ambulanceActor->GetBoundary();
 		local2world[3][1] += 1.5;
 		local2world2[3][1] -= 0.1;
 
@@ -671,7 +671,7 @@ MxResult LegoAct2::CreateBrick()
 	MxMatrix local2world = m_ambulance->GetLocal2World();
 	MxMatrix local2world2 = local2world;
 
-	LegoPathBoundary* boundary = m_unk0x1138->GetBoundary();
+	LegoPathBoundary* boundary = m_ambulanceActor->GetBoundary();
 	local2world[3][1] += 1.3;
 	local2world2[3][1] -= 0.1;
 
@@ -683,7 +683,7 @@ MxResult LegoAct2::CreateBrick()
 }
 
 // FUNCTION: LEGO1 0x100517b0
-void LegoAct2::FUN_100517b0()
+void LegoAct2::CreateBrick2()
 {
 	Act2Brick& brick = m_bricks[m_nextBrick];
 	brick.Create(m_nextBrick);
@@ -934,7 +934,7 @@ MxResult LegoAct2::BadEnding()
 		m_bricks[i].Remove();
 	}
 
-	LegoPathActor* actor = m_unk0x1138;
+	LegoPathActor* actor = m_ambulanceActor;
 	actor->SetActorState(LegoPathActor::c_disabled);
 
 	m_gameState->SetState(LegoAct2State::c_badEnding);
@@ -1204,28 +1204,28 @@ MxResult LegoAct2::StartAction(
 // FUNCTION: BETA10 0x10014aa8
 MxResult LegoAct2::InitializeShooting()
 {
-	LegoPathActor* actor = m_unk0x1138;
+	LegoPathActor* actor = m_ambulanceActor;
 	LegoLocomotionAnimPresenter* ap;
 
 	PlaceActor(actor, "EDG01_27", 2, 0.5f, 0, 0.5f);
 
 	ap = (LegoLocomotionAnimPresenter*) Find("LegoAnimPresenter", "Ambul_Anim0");
 	assert(ap);
-	ap->CreateROIAndBuildMap(m_unk0x1138, 0.0f);
+	ap->CreateROIAndBuildMap(m_ambulanceActor, 0.0f);
 
 	ap = (LegoLocomotionAnimPresenter*) Find("LegoAnimPresenter", "Ambul_Anim2");
 	assert(ap);
-	ap->CreateROIAndBuildMap(m_unk0x1138, 6.0f);
+	ap->CreateROIAndBuildMap(m_ambulanceActor, 6.0f);
 
 	ap = (LegoLocomotionAnimPresenter*) Find("LegoAnimPresenter", "Ambul_Anim3");
 	assert(ap);
-	ap->CreateROIAndBuildMap(m_unk0x1138, 3.0f);
+	ap->CreateROIAndBuildMap(m_ambulanceActor, 3.0f);
 
 	ap = (LegoLocomotionAnimPresenter*) Find("LegoAnimPresenter", "BrShoot");
 	assert(ap);
-	ap->CreateROIAndBuildMap(m_unk0x1138, -1.0f);
+	ap->CreateROIAndBuildMap(m_ambulanceActor, -1.0f);
 
 	actor->SetWorldSpeed(0.0f);
-	m_unk0x1138->InitializeNextShot();
+	m_ambulanceActor->InitializeNextShot();
 	return SUCCESS;
 }

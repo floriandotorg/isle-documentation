@@ -77,11 +77,11 @@ public:
 	MxBool Escape() override;              // vtable+0x64
 	void Enable(MxBool p_enable) override; // vtable+0x68
 
-	void SetUnknown0x1138(Act2Actor* p_unk0x1138) { m_unk0x1138 = p_unk0x1138; }
+	void SetActor(Act2Actor* p_actor) { m_ambulanceActor = p_actor; }
 	void SetDestLocation(LegoGameState::Area p_destLocation) { m_destLocation = p_destLocation; }
 
 	MxResult CreateBrick();
-	void FUN_100517b0();
+	void CreateBrick2();
 	MxResult BadEnding();
 	MxResult StartAction(
 		Act2mainScript::Script p_objectId,
@@ -145,7 +145,7 @@ private:
 	undefined4 m_unused1;                      // 0x112c
 	undefined4 m_unused2;                      // 0x1130
 	undefined4 m_unused3;                      // 0x1134
-	Act2Actor* m_unk0x1138;                    // 0x1138
+	Act2Actor* m_ambulanceActor;               // 0x1138
 	undefined m_unused4;                       // 0x113c
 	Act2mainScript::Script m_currentAction;    // 0x1140
 	Act2mainScript::Script m_infomanDirecting; // 0x1144

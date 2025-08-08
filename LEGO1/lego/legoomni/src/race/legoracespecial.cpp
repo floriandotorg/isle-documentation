@@ -32,7 +32,7 @@ const char* g_fuel = "FUEL";
 const char* g_racing = "RACING";
 
 // GLOBAL: LEGO1 0x100f7aec
-MxFloat LegoCarRaceActor::g_unk0x100f7aec = 8.0f;
+MxFloat LegoCarRaceActor::g_maxSpeed = 8.0f;
 
 // GLOBAL: LEGO1 0x100da044
 // GLOBAL: BETA10 0x101be9fc
@@ -114,9 +114,9 @@ void LegoCarRaceActor::UpdateWorldSpeed(float p_time)
 // FUNCTION: BETA10 0x100cece0
 MxS32 LegoCarRaceActor::HandleJump(LegoPathBoundary* p_boundary, LegoEdge* p_edge)
 {
-	Mx3DPointFloat pointUnknown;
+	Mx3DPointFloat targetPosition;
 	Mx3DPointFloat destEdgeUnknownVector;
-	Mx3DPointFloat crossProduct;
+	Mx3DPointFloat targetDirection;
 
 	if (m_actorState == c_ready) {
 		m_boundary = NULL;
@@ -148,8 +148,8 @@ MxS32 LegoCarRaceActor::HandleJump(LegoPathBoundary* p_boundary, LegoEdge* p_edg
 			if (LegoPathController::GetControlEdgeA(i) == p_edge) {
 				m_actorState = c_ready;
 
-				if (m_worldSpeed < g_unk0x100f7aec) {
-					m_worldSpeed = g_unk0x100f7aec;
+				if (m_worldSpeed < g_maxSpeed) {
+					m_worldSpeed = g_maxSpeed;
 				}
 
 				m_destEdge = LegoPathController::GetControlEdgeA(i + 1);
@@ -168,12 +168,12 @@ MxS32 LegoCarRaceActor::HandleJump(LegoPathBoundary* p_boundary, LegoEdge* p_edg
 			Vector3* v2 = m_destEdge->CWVertex(*m_boundary);
 			assert(v1 && v2);
 
-			LERP3(pointUnknown, *v1, *v2, m_destScale);
+			LERP3(targetPosition, *v1, *v2, m_destScale);
 
 			m_destEdge->GetFaceNormal(*m_boundary, destEdgeUnknownVector);
 
-			crossProduct.EqualsCross(*m_boundary->GetUp(), destEdgeUnknownVector);
-			crossProduct.Unitize();
+			targetDirection.EqualsCross(*m_boundary->GetUp(), destEdgeUnknownVector);
+			targetDirection.Unitize();
 
 			Mx3DPointFloat worldDirection(Vector3(m_roi->GetWorldDirection()));
 
@@ -182,10 +182,10 @@ MxS32 LegoCarRaceActor::HandleJump(LegoPathBoundary* p_boundary, LegoEdge* p_edg
 			}
 
 			worldDirection *= 5.0f;
-			crossProduct *= 5.0f;
+			targetDirection *= 5.0f;
 
 			MxResult callResult =
-				SetSpline(Vector3(m_roi->GetWorldPosition()), worldDirection, pointUnknown, crossProduct);
+				SetSpline(Vector3(m_roi->GetWorldPosition()), worldDirection, targetPosition, targetDirection);
 
 			if (callResult) {
 				m_traveledDistance = 0;
@@ -257,27 +257,27 @@ MxResult LegoCarRaceActor::CalculateSpline()
 		Vector3* v2 = m_destEdge->CCWVertex(*m_boundary);
 		assert(v1 && v2);
 
-		Mx3DPointFloat point1;
-		LERP3(point1, *v1, *v2, m_destScale);
+		Mx3DPointFloat end;
+		LERP3(end, *v1, *v2, m_destScale);
 
-		Mx3DPointFloat point2;
-		Mx3DPointFloat point3;
-		Mx3DPointFloat point4;
-		Mx3DPointFloat point5;
+		Mx3DPointFloat startEdgeNormal;
+		Mx3DPointFloat endEdgeNormal;
+		Mx3DPointFloat startDirection;
+		Mx3DPointFloat endDirection;
 
-		d->GetFaceNormal(*b, point2);
-		m_destEdge->GetFaceNormal(*m_boundary, point3);
+		d->GetFaceNormal(*b, startEdgeNormal);
+		m_destEdge->GetFaceNormal(*m_boundary, endEdgeNormal);
 
-		point4.EqualsCross(point2, *m_boundary->GetUp());
-		point5.EqualsCross(*m_boundary->GetUp(), point3);
+		startDirection.EqualsCross(startEdgeNormal, *m_boundary->GetUp());
+		endDirection.EqualsCross(*m_boundary->GetUp(), endEdgeNormal);
 
-		point4.Unitize();
-		point5.Unitize();
+		startDirection.Unitize();
+		endDirection.Unitize();
 
-		point4 *= 5.0f;
-		point5 *= 5.0f;
+		startDirection *= 5.0f;
+		endDirection *= 5.0f;
 
-		MxResult res = SetSpline(m_roi->GetWorldPosition(), point4, point1, point5);
+		MxResult res = SetSpline(m_roi->GetWorldPosition(), startDirection, end, endDirection);
 
 #ifdef BETA10
 		if (res) {
