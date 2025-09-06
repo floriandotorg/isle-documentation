@@ -41,7 +41,7 @@ DECOMP_SIZE_ASSERT(AnimInfo, 0x30)
 DECOMP_SIZE_ASSERT(ModelInfo, 0x30)
 
 // GLOBAL: LEGO1 0x100d8b28
-MxU8 g_actorMask[] = {0, 1, 2, 4, 8, 16};
+MxU8 g_actorIdToMaskBit[] = {0, 1, 2, 4, 8, 16};
 
 // GLOBAL: LEGO1 0x100f6d20
 LegoAnimationManager::Vehicle g_vehicles[] = {
@@ -381,7 +381,7 @@ LegoAnimationManager::~LegoAnimationManager()
 // FUNCTION: BETA10 0x1003fbc0
 void LegoAnimationManager::Reset(MxBool p_und)
 {
-	m_unk0x402 = FALSE;
+	m_cameraAnimationEnabled = FALSE;
 
 	if (p_und && m_animState != NULL) {
 		m_animState->Reset();
@@ -404,7 +404,7 @@ void LegoAnimationManager::Reset(MxBool p_und)
 	m_suspended = suspended;
 	m_suspendedEnableCamAnims = m_enableCamAnims;
 	m_unk0x400AfterResume = m_unk0x400;
-	m_unk0x42a = m_unk0x402;
+	m_unk0x42a = m_cameraAnimationEnabled;
 }
 
 // FUNCTION: LEGO1 0x1005ef10
@@ -424,8 +424,8 @@ void LegoAnimationManager::Suspend()
 		m_suspended = TRUE;
 		m_suspendedEnableCamAnims = m_enableCamAnims;
 		m_unk0x400AfterResume = m_unk0x400;
-		m_unk0x42a = m_unk0x402;
-		m_unk0x402 = FALSE;
+		m_unk0x42a = m_cameraAnimationEnabled;
+		m_cameraAnimationEnabled = FALSE;
 
 		UnkToggleAnimation(FALSE);
 
@@ -485,7 +485,7 @@ void LegoAnimationManager::Resume()
 		m_unk0x410 = 5000;
 		m_enableCamAnims = m_suspendedEnableCamAnims;
 		m_unk0x400 = m_unk0x400AfterResume;
-		m_unk0x402 = m_unk0x42a;
+		m_cameraAnimationEnabled = m_unk0x42a;
 		m_suspended = FALSE;
 	}
 }
@@ -494,7 +494,7 @@ void LegoAnimationManager::Resume()
 // FUNCTION: BETA10 0x1003ffb7
 void LegoAnimationManager::Init()
 {
-	m_unk0x402 = FALSE;
+	m_cameraAnimationEnabled = FALSE;
 	m_worldId = LegoOmni::e_undefined;
 	m_animCount = 0;
 	m_anims = NULL;
@@ -529,7 +529,7 @@ void LegoAnimationManager::Init()
 	m_unk0x401 = FALSE;
 	m_suspended = FALSE;
 	m_unk0x430 = FALSE;
-	m_unk0x42c = NULL;
+	m_currentTranInfo = NULL;
 	m_unk0x408 = m_FUN_10063d10_interval = m_lastActionTime = Timer()->GetTime();
 	m_unk0x410 = 5000;
 
@@ -604,7 +604,7 @@ MxResult LegoAnimationManager::LoadWorldInfo(LegoOmni::World p_worldId)
 		m_transitionSoundsFound = FALSE;
 		m_animRunning = FALSE;
 		m_unk0x430 = FALSE;
-		m_unk0x42c = NULL;
+		m_currentTranInfo = NULL;
 
 		for (j = 0; j < (MxS32) sizeOfArray(g_characters); j++) {
 			g_characters[j].m_active = FALSE;
@@ -680,13 +680,13 @@ MxResult LegoAnimationManager::LoadWorldInfo(LegoOmni::World p_worldId)
 			}
 
 			m_anims[j].m_characterIndex = GetCharacterIndex(m_anims[j].m_name + strlen(m_anims[j].m_name) - 2);
-			m_anims[j].m_unk0x29 = FALSE;
+			m_anims[j].m_active = FALSE;
 
 			for (k = 0; k < 3; k++) {
 				m_anims[j].m_modelIndices[k] = -1;
 			}
 
-			if (m_anims[j].m_location == -1) {
+			if (m_anims[j].m_locationIndex == -1) {
 				for (MxS32 l = 0; l < m_anims[j].m_modelCount; l++) {
 					MxS32 index = GetCharacterIndex(m_anims[j].m_models[l].m_name);
 
@@ -713,10 +713,10 @@ MxResult LegoAnimationManager::LoadWorldInfo(LegoOmni::World p_worldId)
 		m_tranInfoList = new LegoTranInfoList();
 		m_tranInfoList2 = new LegoTranInfoList();
 
-		DetermineIndicesForLocation(-1, m_firstIndex, m_lastIndex);
+		GetFirstAndLastAnimationIndexForLocation(-1, m_firstIndex, m_lastIndex);
 
 		result = SUCCESS;
-		m_unk0x402 = TRUE;
+		m_cameraAnimationEnabled = TRUE;
 
 		if (m_suspended) {
 			m_suspendedEnableCamAnims = m_enableCamAnims;
@@ -724,7 +724,7 @@ MxResult LegoAnimationManager::LoadWorldInfo(LegoOmni::World p_worldId)
 			m_unk0x42a = TRUE;
 			m_enableCamAnims = FALSE;
 			m_unk0x400 = FALSE;
-			m_unk0x402 = FALSE;
+			m_cameraAnimationEnabled = FALSE;
 		}
 
 		if (p_worldId == 0) {
@@ -774,10 +774,10 @@ MxResult LegoAnimationManager::ReadAnimInfo(LegoStorage* p_storage, AnimInfo* p_
 		goto done;
 	}
 
-	if (p_storage->Read(&p_info->m_location, sizeof(MxS16)) == FAILURE) {
+	if (p_storage->Read(&p_info->m_locationIndex, sizeof(MxS16)) == FAILURE) {
 		goto done;
 	}
-	if (p_storage->Read(&p_info->m_playMode, sizeof(MxU8)) == FAILURE) {
+	if (p_storage->Read(&p_info->m_hasCameraAnimation, sizeof(MxU8)) == FAILURE) {
 		goto done;
 	}
 	if (p_storage->Read(&p_info->m_unk0x0b, sizeof(MxU8)) == FAILURE) {
@@ -903,12 +903,12 @@ void LegoAnimationManager::SetEnableAllCharacters(MxBool p_enabled)
 
 // FUNCTION: LEGO1 0x100604f0
 // FUNCTION: BETA10 0x1004137b
-void LegoAnimationManager::SetUnkown29PerId(MxS32 p_objectIds[], MxU32 p_numObjectIds)
+void LegoAnimationManager::SetActive(MxS32 p_objectIds[], MxU32 p_numObjectIds)
 {
 	for (MxS32 i = 0; i < p_numObjectIds; i++) {
 		for (MxS32 j = 0; j < m_animCount; j++) {
 			if (m_anims[j].m_objectId == p_objectIds[i]) {
-				m_anims[j].m_unk0x29 = TRUE;
+				m_anims[j].m_active = TRUE;
 			}
 		}
 	}
@@ -916,10 +916,10 @@ void LegoAnimationManager::SetUnkown29PerId(MxS32 p_objectIds[], MxU32 p_numObje
 
 // FUNCTION: LEGO1 0x10060540
 // FUNCTION: BETA10 0x1004140f
-void LegoAnimationManager::SetAllUnkown29(MxBool p_unk0x29)
+void LegoAnimationManager::SetAllActive(MxBool p_active)
 {
 	for (MxS32 i = 0; i < m_animCount; i++) {
-		m_anims[i].m_unk0x29 = p_unk0x29;
+		m_anims[i].m_active = p_active;
 	}
 }
 
@@ -929,11 +929,11 @@ void LegoAnimationManager::FUN_10060570(MxBool p_unk0x1a)
 {
 	m_animRunning = FALSE;
 	m_unk0x430 = FALSE;
-	m_unk0x42c = NULL;
+	m_currentTranInfo = NULL;
 
 	if (m_unk0x1a != p_unk0x1a && (m_unk0x1a = p_unk0x1a)) {
 		do {
-			if (FUN_100605e0(m_unk0x18, TRUE, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE) != FAILURE) {
+			if (PlayAnimation(m_unk0x18, TRUE, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE) != FAILURE) {
 				return;
 			}
 
@@ -947,16 +947,16 @@ void LegoAnimationManager::FUN_10060570(MxBool p_unk0x1a)
 
 // FUNCTION: LEGO1 0x100605e0
 // FUNCTION: BETA10 0x1004152b
-MxResult LegoAnimationManager::FUN_100605e0(
+MxResult LegoAnimationManager::PlayAnimation(
 	MxU32 p_index,
-	MxBool p_unk0x0a,
+	MxBool p_hasCameraAnimation,
 	MxMatrix* p_matrix,
-	MxBool p_bool1,
+	MxBool p_skipChecks,
 	LegoROI* p_roi,
 	MxBool p_bool2,
 	MxBool p_bool3,
 	MxBool p_bool4,
-	MxBool p_bool5
+	MxBool p_cameraAnimationEnabled
 )
 {
 	MxResult result = FAILURE;
@@ -968,8 +968,8 @@ MxResult LegoAnimationManager::FUN_100605e0(
 		MxDSAction action;
 		AnimInfo& animInfo = m_anims[p_index];
 
-		if (!p_bool1) {
-			if (m_animRunning || !animInfo.m_unk0x29) {
+		if (!p_skipChecks) {
+			if (m_animRunning || !animInfo.m_active) {
 				return FAILURE;
 			}
 
@@ -989,8 +989,8 @@ MxResult LegoAnimationManager::FUN_100605e0(
 		tranInfo->m_index = ++m_previousIndex;
 		tranInfo->m_unk0x10 = 0;
 		tranInfo->m_unk0x08 = p_roi;
-		tranInfo->m_location = m_anims[p_index].m_location;
-		tranInfo->m_unk0x14 = p_unk0x0a;
+		tranInfo->m_location = m_anims[p_index].m_locationIndex;
+		tranInfo->m_hasCameraAnimation = p_hasCameraAnimation;
 		tranInfo->m_objectId = animInfo.m_objectId;
 		tranInfo->m_unk0x15 = p_bool2;
 
@@ -1018,13 +1018,13 @@ MxResult LegoAnimationManager::FUN_100605e0(
 		if (StartActionIfInitialized(action) == SUCCESS) {
 			BackgroundAudioManager()->LowerVolume();
 			tranInfo->m_flags |= LegoTranInfo::c_bit2;
-			animInfo.m_unk0x22++;
+			animInfo.m_numPlayed++;
 			m_lastActionTime = Timer()->GetTime();
 
-			if (p_bool5) {
-				FUN_100648f0(tranInfo, m_lastActionTime);
+			if (p_cameraAnimationEnabled) {
+				StartCameraAnimation(tranInfo, m_lastActionTime);
 			}
-			else if (p_unk0x0a) {
+			else if (p_hasCameraAnimation) {
 				LegoPathActor* actor = UserActor();
 
 				if (actor != NULL) {
@@ -1056,7 +1056,7 @@ MxResult LegoAnimationManager::CreateTranInfo(MxU32 p_objectId, MxMatrix* p_matr
 	info->m_unk0x10 = 0;
 	info->m_unk0x08 = NULL;
 	info->m_location = -1;
-	info->m_unk0x14 = FALSE;
+	info->m_hasCameraAnimation = FALSE;
 	info->m_objectId = p_objectId;
 
 	if (p_matrix != NULL) {
@@ -1160,7 +1160,7 @@ MxResult LegoAnimationManager::FUN_10060dc0(
 
 			switch (p_playMode) {
 			case e_fromAnimation:
-				playMode = m_anims[i].m_playMode;
+				playMode = m_anims[i].m_hasCameraAnimation;
 				break;
 			case e_true:
 				playMode = TRUE;
@@ -1170,7 +1170,7 @@ MxResult LegoAnimationManager::FUN_10060dc0(
 				break;
 			}
 
-			result = FUN_100605e0(i, playMode, p_matrix, p_param3, p_roi, p_param6, p_param7, p_param8, p_param9);
+			result = PlayAnimation(i, playMode, p_matrix, p_param3, p_roi, p_param6, p_param7, p_param8, p_param9);
 			break;
 		}
 	}
@@ -1184,42 +1184,47 @@ MxResult LegoAnimationManager::FUN_10060dc0(
 
 // FUNCTION: LEGO1 0x10060eb0
 // FUNCTION: BETA10 0x1004206c
-void LegoAnimationManager::CameraTriggerFire(LegoPathActor* p_actor, MxBool, MxU32 p_location, MxBool p_bool)
+void LegoAnimationManager::CameraTriggerFire(
+	LegoPathActor* p_actor,
+	MxBool,
+	MxU32 p_locationIndex,
+	MxBool p_skipMissingModelCheck
+)
 {
 	if (Lego()->m_initialized && m_enableCamAnims && !m_animRunning) {
-		LegoLocation* location = LegoNavController::GetLocation(p_location);
+		LegoLocation* location = LegoNavController::GetLocation(p_locationIndex);
 
 		if (location != NULL) {
 			if (location->m_frequency == 0) {
 				return;
 			}
 
-			if (location->m_unk0x5c && location->m_frequency < rand() % 100) {
+			if (location->m_animationPlayedAtLocation && location->m_frequency < rand() % 100) {
 				return;
 			}
 		}
 
 		MxU16 firstIndex, lastIndex;
-		if (DetermineIndicesForLocation(p_location, firstIndex, lastIndex) == SUCCESS) {
+		if (GetFirstAndLastAnimationIndexForLocation(p_locationIndex, firstIndex, lastIndex) == SUCCESS) {
 			MxU16 index = firstIndex;
-			MxU32 unk0x22 = -1;
+			MxU32 lastAnimationNumPlayed = UINT_MAX;
 			MxBool success = FALSE;
 
 			for (MxU16 i = firstIndex; i <= lastIndex; i++) {
 				AnimInfo& animInfo = m_anims[i];
 
-				if ((p_bool || !OverlapsEntityMissingModel(animInfo)) && !IsActorModel(animInfo) &&
-					animInfo.m_unk0x29 && animInfo.m_unk0x22 < unk0x22 &&
-					(animInfo.m_unk0x22 == 0 || *animInfo.m_name != 'i') && *animInfo.m_name != 'I') {
+				if ((p_skipMissingModelCheck || !OverlapsEntityMissingModel(animInfo)) && !IsActorModel(animInfo) &&
+					animInfo.m_active && animInfo.m_numPlayed < lastAnimationNumPlayed &&
+					(animInfo.m_numPlayed == 0 || *animInfo.m_name != 'i') && *animInfo.m_name != 'I') {
 					index = i;
-					unk0x22 = animInfo.m_unk0x22;
+					lastAnimationNumPlayed = animInfo.m_numPlayed;
 					success = TRUE;
 				}
 			}
 
 			if (success) {
-				FUN_100605e0(index, m_anims[index].m_playMode, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE);
-				location->m_unk0x5c = TRUE;
+				PlayAnimation(index, m_anims[index].m_hasCameraAnimation, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE);
+				location->m_animationPlayedAtLocation = TRUE;
 			}
 		}
 	}
@@ -1272,7 +1277,7 @@ void LegoAnimationManager::UnkToggleAnimation(MxBool p_und)
 		while (cursor.Next(tranInfo)) {
 			if (tranInfo->m_presenter) {
 				// LINE: LEGO1 0x100610e6
-				if (tranInfo->m_unk0x14 && tranInfo->m_location != -1 && p_und) {
+				if (tranInfo->m_hasCameraAnimation && tranInfo->m_location != -1 && p_und) {
 					if (tranInfo->m_presenter->GetPresenter() &&
 						tranInfo->m_presenter->GetPresenter()->GetAnimation() &&
 						tranInfo->m_presenter->GetPresenter()->GetAnimation()->GetCamAnim()) {
@@ -1282,14 +1287,14 @@ void LegoAnimationManager::UnkToggleAnimation(MxBool p_und)
 						}
 
 						tranInfo->m_presenter->FUN_1004b840();
-						tranInfo->m_unk0x14 = FALSE;
+						tranInfo->m_hasCameraAnimation = FALSE;
 					}
 					else {
 						MxTrace("Releasing user from %d\n", tranInfo->m_objectId);
 						// LINE: LEGO1 0x10061137
 						tranInfo->m_presenter->FUN_1004b8c0();
 						animRunning = TRUE;
-						tranInfo->m_unk0x14 = FALSE;
+						tranInfo->m_hasCameraAnimation = FALSE;
 					}
 				}
 				else {
@@ -1353,18 +1358,22 @@ void LegoAnimationManager::FUN_10061530()
 
 // FUNCTION: LEGO1 0x100617c0
 // FUNCTION: BETA10 0x1004240b
-MxResult LegoAnimationManager::DetermineIndicesForLocation(MxS32 p_location, MxU16& p_firstIndex, MxU16& p_lastIndex)
+MxResult LegoAnimationManager::GetFirstAndLastAnimationIndexForLocation(
+	MxS32 p_locationIndex,
+	MxU16& p_firstIndex,
+	MxU16& p_lastIndex
+)
 {
 	MxResult result = FAILURE;
 	MxU16 firstIndex = 0;
 	MxU16 lastIndex = 0;
 	MxBool success = FALSE;
 
-	if (p_location == -1) {
+	if (p_locationIndex == -1) {
 		MxS32 i;
 
 		for (i = 0; i < m_animCount; i++) {
-			if (m_anims[i].m_location == p_location) {
+			if (m_anims[i].m_locationIndex == p_locationIndex) {
 				firstIndex = i;
 				success = TRUE;
 				break;
@@ -1372,7 +1381,7 @@ MxResult LegoAnimationManager::DetermineIndicesForLocation(MxS32 p_location, MxU
 		}
 
 		if (success) {
-			for (; i < m_animCount && m_anims[i].m_location == p_location; i++) {
+			for (; i < m_animCount && m_anims[i].m_locationIndex == p_locationIndex; i++) {
 				lastIndex = i;
 			}
 		}
@@ -1380,8 +1389,8 @@ MxResult LegoAnimationManager::DetermineIndicesForLocation(MxS32 p_location, MxU
 	else {
 		MxS32 i;
 
-		for (i = 0; m_animCount > i && m_anims[i].m_location != -1; i++) {
-			if (m_anims[i].m_location == p_location) {
+		for (i = 0; m_animCount > i && m_anims[i].m_locationIndex != -1; i++) {
+			if (m_anims[i].m_locationIndex == p_locationIndex) {
 				firstIndex = i;
 				success = TRUE;
 				break;
@@ -1389,7 +1398,7 @@ MxResult LegoAnimationManager::DetermineIndicesForLocation(MxS32 p_location, MxU
 		}
 
 		if (success) {
-			for (; i < m_animCount && m_anims[i].m_location == p_location; i++) {
+			for (; i < m_animCount && m_anims[i].m_locationIndex == p_locationIndex; i++) {
 				lastIndex = i;
 			}
 		}
@@ -1428,7 +1437,7 @@ MxLong LegoAnimationManager::Notify(MxParam& p_param)
 {
 	if (((MxNotificationParam&) p_param).GetSender() == this) {
 		if (((MxNotificationParam&) p_param).GetNotification() == c_notificationEndAnim) {
-			FUN_100605e0(m_unk0x18, TRUE, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE);
+			PlayAnimation(m_unk0x18, TRUE, NULL, TRUE, NULL, FALSE, TRUE, TRUE, TRUE);
 		}
 	}
 	else if (((MxNotificationParam&) p_param).GetNotification() == c_notificationEndAnim && m_tranInfoList != NULL) {
@@ -1440,7 +1449,7 @@ MxLong LegoAnimationManager::Notify(MxParam& p_param)
 
 		while (cursor.Next(tranInfo)) {
 			if (tranInfo->m_index == index) {
-				if (m_unk0x430 && m_unk0x42c == tranInfo) {
+				if (m_unk0x430 && m_currentTranInfo == tranInfo) {
 					FUN_10064b50(-1);
 				}
 
@@ -1492,7 +1501,7 @@ MxResult LegoAnimationManager::Tickle()
 {
 	FUN_10061530();
 
-	if (!m_unk0x402) {
+	if (!m_cameraAnimationEnabled) {
 		return SUCCESS;
 	}
 
@@ -1559,7 +1568,7 @@ MxResult LegoAnimationManager::Tickle()
 		MxU8 actorId = GameState()->GetActorId();
 
 		if (actorId <= LegoActor::c_laura) {
-			actorMask = g_actorMask[actorId];
+			actorMask = g_actorIdToMaskBit[actorId];
 		}
 
 		for (MxS32 i = 0; i < (MxS32) sizeOfArray(m_extras); i++) {
@@ -1573,7 +1582,7 @@ MxResult LegoAnimationManager::Tickle()
 					MxMatrix mat;
 					mat = roi->GetLocal2World();
 
-					if (FUN_100605e0(result & USHRT_MAX, FALSE, &mat, TRUE, roi, FALSE, TRUE, TRUE, TRUE) == SUCCESS) {
+					if (PlayAnimation(result & USHRT_MAX, FALSE, &mat, TRUE, roi, FALSE, TRUE, TRUE, TRUE) == SUCCESS) {
 						m_lastActionTime = time;
 						return SUCCESS;
 					}
@@ -1652,7 +1661,7 @@ MxU16 LegoAnimationManager::FUN_10062110(
 
 					for (MxU16 i = m_firstIndex; i <= m_lastIndex; i++) {
 						if (m_anims[i].m_characterIndex == index && m_anims[i].m_actorMask & p_actorMask &&
-							m_anims[i].m_unk0x29) {
+							m_anims[i].m_active) {
 							MxS32 vehicleId = g_characters[index].m_vehicleId;
 							if (vehicleId >= 0) {
 								MxBool found = FALSE;
@@ -1670,13 +1679,13 @@ MxU16 LegoAnimationManager::FUN_10062110(
 							}
 
 							MxU16 result = i;
-							MxU16 unk0x22 = m_anims[i].m_unk0x22;
+							MxU16 unk0x22 = m_anims[i].m_numPlayed;
 
 							for (i = i + 1; i <= m_lastIndex; i++) {
 								if (m_anims[i].m_characterIndex == index && m_anims[i].m_actorMask & p_actorMask &&
-									m_anims[i].m_unk0x29 && m_anims[i].m_unk0x22 < unk0x22) {
+									m_anims[i].m_active && m_anims[i].m_numPlayed < unk0x22) {
 									result = i;
-									unk0x22 = m_anims[i].m_unk0x22;
+									unk0x22 = m_anims[i].m_numPlayed;
 								}
 							}
 
@@ -1828,7 +1837,7 @@ MxBool LegoAnimationManager::IsActorModel(AnimInfo& p_info)
 	MxU8 actorId = GameState()->GetActorId();
 
 	if (actorId <= LegoActor::c_laura) {
-		actorMask = g_actorMask[actorId];
+		actorMask = g_actorIdToMaskBit[actorId];
 	}
 
 	if (!(actorMask & p_info.m_actorMask)) {
@@ -2820,22 +2829,22 @@ MxResult LegoAnimationManager::SetCharacterDurationAndUnkown10(const char* p_nam
 
 // FUNCTION: LEGO1 0x100648f0
 // FUNCTION: BETA10 0x10045daf
-void LegoAnimationManager::FUN_100648f0(LegoTranInfo* p_tranInfo, MxLong p_unk0x404)
+void LegoAnimationManager::StartCameraAnimation(LegoTranInfo* p_tranInfo, MxLong p_startTime)
 {
 	if (
 #ifndef BETA10
-		m_unk0x402 &&
+		m_cameraAnimationEnabled &&
 #endif
-			p_tranInfo->m_unk0x14) {
+			p_tranInfo->m_hasCameraAnimation) {
 		p_tranInfo->m_flags |= LegoTranInfo::c_bit1;
 		m_unk0x430 = TRUE;
-		m_unk0x42c = p_tranInfo;
-		m_unkSomeStartTime = p_unk0x404;
-		m_unkSomeEndTime = p_unk0x404 + 1000;
+		m_currentTranInfo = p_tranInfo;
+		m_cameraAnimationStartTime = p_startTime;
+		m_cameraAnimationEndTime = p_startTime + 1000;
 
 		ViewROI* viewROI = VideoManager()->GetViewROI();
-		m_unk0x43c = viewROI->GetLocal2World();
-		p_tranInfo->m_unk0x2c = m_unk0x43c;
+		m_cameraAnimationStart = viewROI->GetLocal2World();
+		p_tranInfo->m_viewROIWorldMatrix = m_cameraAnimationStart;
 
 		LegoPathActor* actor = UserActor();
 		if (actor != NULL) {
@@ -2845,10 +2854,10 @@ void LegoAnimationManager::FUN_100648f0(LegoTranInfo* p_tranInfo, MxLong p_unk0x
 
 		const LegoLocation* location = NavController()->GetLocation(p_tranInfo->m_location);
 		if (location != NULL) {
-			CalcLocalTransform(location->m_position, location->m_direction, location->m_up, m_unk0x484);
-			m_unk0x4cc.SetStartEnd(m_unk0x43c, m_unk0x484);
+			CalcLocalTransform(location->m_position, location->m_direction, location->m_up, m_cameraAnimationEnd);
+			m_cameraAnimationTransformer.SetStartEnd(m_cameraAnimationStart, m_cameraAnimationEnd);
 #ifndef BETA10
-			m_unk0x4cc.NormalizeDirection();
+			m_cameraAnimationTransformer.NormalizeDirection();
 		}
 		else {
 			p_tranInfo->m_flags &= ~LegoTranInfo::c_bit1;
@@ -2866,27 +2875,30 @@ void LegoAnimationManager::FUN_100648f0(LegoTranInfo* p_tranInfo, MxLong p_unk0x
 // FUNCTION: BETA10 0x10045f14
 void LegoAnimationManager::FUN_10064b50(MxLong p_time)
 {
-	if (m_unk0x430 && m_unk0x42c != NULL) {
+	if (m_unk0x430 && m_currentTranInfo != NULL) {
 		MxMatrix mat;
 
-		if (p_time < 0 || m_unkSomeEndTime <= p_time) {
+		if (p_time < 0 || m_cameraAnimationEndTime <= p_time) {
 			m_unk0x430 = FALSE;
-			m_unk0x42c->m_flags &= ~LegoTranInfo::c_bit1;
-			m_unk0x42c = NULL;
-			mat = m_unk0x484;
+			m_currentTranInfo->m_flags &= ~LegoTranInfo::c_bit1;
+			m_currentTranInfo = NULL;
+			mat = m_cameraAnimationEnd;
 		}
 		else {
-			float unkSomeTimeRatio =
-				(float) (p_time - m_unkSomeStartTime) / (float) (m_unkSomeEndTime - m_unkSomeStartTime);
+			float unkSomeTimeRatio = (float) (p_time - m_cameraAnimationStartTime) /
+									 (float) (m_cameraAnimationEndTime - m_cameraAnimationStartTime);
 
 			float sub[3];
-			sub[0] = (m_unk0x484[3][0] - m_unk0x43c[3][0]) * unkSomeTimeRatio;
-			sub[1] = (m_unk0x484[3][1] - m_unk0x43c[3][1]) * unkSomeTimeRatio;
-			sub[2] = (m_unk0x484[3][2] - m_unk0x43c[3][2]) * unkSomeTimeRatio;
+			sub[0] = (m_cameraAnimationEnd[3][0] - m_cameraAnimationStart[3][0]) * unkSomeTimeRatio;
+			sub[1] = (m_cameraAnimationEnd[3][1] - m_cameraAnimationStart[3][1]) * unkSomeTimeRatio;
+			sub[2] = (m_cameraAnimationEnd[3][2] - m_cameraAnimationStart[3][2]) * unkSomeTimeRatio;
 
-			m_unk0x4cc.InterpolateToMatrix(mat, (float) (p_time - m_unkSomeStartTime) / 1000.0f);
+			m_cameraAnimationTransformer.InterpolateToMatrix(
+				mat,
+				(float) (p_time - m_cameraAnimationStartTime) / 1000.0f
+			);
 
-			VPV3(mat[3], m_unk0x43c[3], sub);
+			VPV3(mat[3], m_cameraAnimationStart[3], sub);
 			mat[3][3] = 1.0f;
 		}
 
@@ -2946,7 +2958,7 @@ void AnimState::CopyToAnims(MxU32, AnimInfo* p_anims, MxU32& p_outExtraCharacter
 {
 	if (m_unk0x10 != NULL) {
 		for (MxS32 i = 0; i < m_unk0x0c; i++) {
-			p_anims[i].m_unk0x22 = m_unk0x10[i];
+			p_anims[i].m_numPlayed = m_unk0x10[i];
 		}
 
 		p_outExtraCharacterId = m_extraCharacterId;
@@ -2954,7 +2966,7 @@ void AnimState::CopyToAnims(MxU32, AnimInfo* p_anims, MxU32& p_outExtraCharacter
 		for (MxS32 j = 0; j < m_locationsFlagsLength; j++) {
 			LegoLocation* location = LegoNavController::GetLocation(j);
 			if (location != NULL) {
-				location->m_unk0x5c = m_locationsFlags[j];
+				location->m_animationPlayedAtLocation = m_locationsFlags[j];
 			}
 		}
 	}
@@ -2974,13 +2986,13 @@ void AnimState::InitFromAnims(MxU32 p_animsLength, AnimInfo* p_anims, MxU32 p_ex
 	m_extraCharacterId = p_extraCharacterId;
 
 	for (MxS32 i = 0; i < m_unk0x0c; i++) {
-		m_unk0x10[i] = p_anims[i].m_unk0x22;
+		m_unk0x10[i] = p_anims[i].m_numPlayed;
 	}
 
 	for (MxS32 j = 0; j < m_locationsFlagsLength; j++) {
 		LegoLocation* location = LegoNavController::GetLocation(j);
 		if (location != NULL) {
-			m_locationsFlags[j] = location->m_unk0x5c;
+			m_locationsFlags[j] = location->m_animationPlayedAtLocation;
 		}
 	}
 }

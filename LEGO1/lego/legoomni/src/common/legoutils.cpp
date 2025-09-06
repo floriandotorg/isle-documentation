@@ -458,7 +458,7 @@ void ConvertHSVToRGB(float p_h, float p_s, float p_v, float* p_rOut, float* p_gO
 
 // FUNCTION: LEGO1 0x1003ecc0
 // FUNCTION: BETA10 0x100d4b38
-void PlayCamAnim(LegoPathActor* p_actor, MxBool p_unused, MxU32 p_location, MxBool p_bool)
+void PlayCamAnim(LegoPathActor* p_actor, MxBool p_unused, MxU32 p_location, MxBool p_skipMissingModelCheck)
 {
 	LegoWorld* world = CurrentWorld();
 	MxLong result = 0;
@@ -469,7 +469,7 @@ void PlayCamAnim(LegoPathActor* p_actor, MxBool p_unused, MxU32 p_location, MxBo
 	}
 
 	if (result == 0) {
-		AnimationManager()->CameraTriggerFire(p_actor, p_unused, p_location, p_bool);
+		AnimationManager()->CameraTriggerFire(p_actor, p_unused, p_location, p_skipMissingModelCheck);
 	}
 }
 
@@ -565,7 +565,7 @@ void EnableAnimations(MxBool p_enable)
 	}
 
 	AnimationManager()->SetUnknown0x400(p_enable);
-	AnimationManager()->SetAllUnkown29(p_enable);
+	AnimationManager()->SetAllActive(p_enable);
 	AnimationManager()->SetEnableAllCharacters(p_enable);
 }
 

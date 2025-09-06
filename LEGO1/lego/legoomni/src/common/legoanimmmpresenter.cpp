@@ -117,8 +117,7 @@ MxResult LegoAnimMMPresenter::StartAction(MxStreamController* p_controller, MxDS
 // FUNCTION: BETA10 0x1004c01a
 void LegoAnimMMPresenter::EndAction()
 {
-	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL &&
-		m_tranInfo->m_sound[1] != NULL) {
+	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL && m_tranInfo->m_sound[1] != NULL) {
 		m_tranInfo->m_sound[1]->Enable(FALSE);
 		m_tranInfo->m_sound[1]->Enable(TRUE);
 	}
@@ -145,8 +144,7 @@ void LegoAnimMMPresenter::ReadyTickle()
 {
 	ParseExtra();
 
-	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL &&
-		m_tranInfo->m_sound[0] != NULL) {
+	if (m_tranInfo != NULL && m_tranInfo->m_unk0x15 && m_tranInfo->m_sound != NULL && m_tranInfo->m_sound[0] != NULL) {
 		m_tranInfo->m_sound[0]->Enable(FALSE);
 		m_tranInfo->m_sound[0]->Enable(TRUE);
 	}
@@ -443,7 +441,7 @@ MxBool LegoAnimMMPresenter::FUN_1004b6d0(MxLong p_time)
 	LegoROI* viewROI = VideoManager()->GetViewROI();
 	LegoPathActor* actor = UserActor();
 
-	if (m_tranInfo != NULL && m_tranInfo->m_unk0x14 && m_tranInfo->m_location != -1 && actor != NULL) {
+	if (m_tranInfo != NULL && m_tranInfo->m_hasCameraAnimation && m_tranInfo->m_location != -1 && actor != NULL) {
 		if (m_world != NULL) {
 			undefined4 und = 1;
 
@@ -465,7 +463,7 @@ MxBool LegoAnimMMPresenter::FUN_1004b6d0(MxLong p_time)
 			}
 
 			if (und != 0) {
-				viewROI->WrappedSetLocal2WorldWithWorldDataUpdate(m_tranInfo->m_unk0x2c);
+				viewROI->WrappedSetLocal2WorldWithWorldDataUpdate(m_tranInfo->m_viewROIWorldMatrix);
 				VideoManager()->Get3DManager()->Moved(*viewROI);
 				m_world->PlaceActor(actor);
 			}

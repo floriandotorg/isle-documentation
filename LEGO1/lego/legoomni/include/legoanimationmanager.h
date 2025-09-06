@@ -34,17 +34,17 @@ struct ModelInfo {
 struct AnimInfo {
 	char* m_name;                 // 0x00
 	MxU32 m_objectId;             // 0x04
-	MxS16 m_location;             // 0x08
-	MxBool m_playMode;            // 0x0a
+	MxS16 m_locationIndex;        // 0x08
+	MxBool m_hasCameraAnimation;  // 0x0a
 	MxU8 m_unk0x0b;               // 0x0b
 	MxU8 m_actorMask;             // 0x0c
 	MxU8 m_unk0x0d;               // 0x0d
 	float m_positionAndRadius[4]; // 0x10
 	MxU8 m_modelCount;            // 0x20
-	MxU16 m_unk0x22;              // 0x22
+	MxU16 m_numPlayed;            // 0x22
 	ModelInfo* m_models;          // 0x24
 	MxS8 m_characterIndex;        // 0x28
-	MxBool m_unk0x29;             // 0x29
+	MxBool m_active;              // 0x29
 	MxS8 m_modelIndices[3];       // 0x2a
 };
 
@@ -168,8 +168,8 @@ public:
 	MxResult ReadModelInfo(LegoStorage* p_storage, ModelInfo* p_info);
 	void EnableCharacterForNames(const LegoChar* p_characterNames[], MxU32 p_numCharacterNames);
 	void SetEnableAllCharacters(MxBool p_enabled);
-	void SetUnkown29PerId(MxS32 p_objectIds[], MxU32 p_numObjectIds);
-	void SetAllUnkown29(MxBool p_unk0x29);
+	void SetActive(MxS32 p_objectIds[], MxU32 p_numObjectIds);
+	void SetAllActive(MxBool p_unk0x29);
 	void FUN_10060570(MxBool p_unk0x1a);
 	MxResult StartEntityAction(MxDSAction& p_dsAction, LegoEntity* p_entity);
 	MxResult FUN_10060dc0(
@@ -203,7 +203,7 @@ public:
 
 private:
 	void Init();
-	MxResult FUN_100605e0(
+	MxResult PlayAnimation(
 		MxU32 p_index,
 		MxBool p_unk0x0a,
 		MxMatrix* p_matrix,
@@ -217,7 +217,7 @@ private:
 	MxResult CreateTranInfo(MxU32 p_objectId, MxMatrix* p_matrix, MxBool p_und1, MxBool p_und2);
 	void DeleteAnimations();
 	void FUN_10061530();
-	MxResult DetermineIndicesForLocation(MxS32 p_location, MxU16& p_firstIndex, MxU16& p_lastIndex);
+	MxResult GetFirstAndLastAnimationIndexForLocation(MxS32 p_location, MxU16& p_firstIndex, MxU16& p_lastIndex);
 	MxU16 FUN_10062110(
 		LegoROI* p_roi,
 		Vector3& p_direction,
@@ -255,49 +255,49 @@ private:
 		MxS32 p_unk0x10,
 		float p_speed
 	);
-	void FUN_100648f0(LegoTranInfo* p_tranInfo, MxLong p_unk0x404);
+	void StartCameraAnimation(LegoTranInfo* p_tranInfo, MxLong p_unk0x404);
 	void FUN_10064b50(MxLong p_time);
 
-	LegoOmni::World m_worldId;          // 0x08
-	MxU16 m_animCount;                  // 0x0c
-	MxU16 m_firstIndex;                 // 0x0e
-	MxU16 m_lastIndex;                  // 0x10
-	AnimInfo* m_anims;                  // 0x14
-	undefined2 m_unk0x18;               // 0x18
-	MxBool m_unk0x1a;                   // 0x1a
-	MxU32 m_previousIndex;              // 0x1c
-	LegoTranInfoList* m_tranInfoList;   // 0x20
-	LegoTranInfoList* m_tranInfoList2;  // 0x24
-	MxPresenter* m_transitionSound[2];  // 0x28
-	MxLong m_transitionTime[2];         // 0x30
-	MxBool m_transitionSoundsFound;     // 0x38
-	MxBool m_animRunning;               // 0x39
-	MxBool m_enableCamAnims;            // 0x3a
-	Extra m_extras[40];                 // 0x3c
-	MxU32 m_lastExtraCharacterId;       // 0x3fc
-	MxBool m_unk0x400;                  // 0x400
-	MxBool m_unk0x401;                  // 0x401
-	MxBool m_unk0x402;                  // 0x402
-	MxLong m_lastActionTime;            // 0x404
-	MxLong m_unk0x408;                  // 0x408
-	MxLong m_FUN_10063d10_interval;     // 0x40c
-	MxLong m_unk0x410;                  // 0x410
-	MxU32 m_actorCount;                 // 0x414
-	MxU32 m_numAllowedExtras;           // 0x418
-	MxU32 m_maxAllowedExtras;           // 0x41c
-	AnimState* m_animState;             // 0x420
-	LegoROIList* m_actors;              // 0x424
-	MxBool m_suspendedEnableCamAnims;   // 0x428
-	MxBool m_unk0x400AfterResume;       // 0x429
-	MxBool m_unk0x42a;                  // 0x42a
-	MxBool m_suspended;                 // 0x42b
-	LegoTranInfo* m_unk0x42c;           // 0x42c
-	MxBool m_unk0x430;                  // 0x430
-	MxLong m_unkSomeStartTime;          // 0x434
-	MxLong m_unkSomeEndTime;            // 0x438
-	MxMatrix m_unk0x43c;                // 0x43c
-	MxMatrix m_unk0x484;                // 0x484
-	MxQuaternionTransformer m_unk0x4cc; // 0x4cc
+	LegoOmni::World m_worldId;                            // 0x08
+	MxU16 m_animCount;                                    // 0x0c
+	MxU16 m_firstIndex;                                   // 0x0e
+	MxU16 m_lastIndex;                                    // 0x10
+	AnimInfo* m_anims;                                    // 0x14
+	undefined2 m_unk0x18;                                 // 0x18
+	MxBool m_unk0x1a;                                     // 0x1a
+	MxU32 m_previousIndex;                                // 0x1c
+	LegoTranInfoList* m_tranInfoList;                     // 0x20
+	LegoTranInfoList* m_tranInfoList2;                    // 0x24
+	MxPresenter* m_transitionSound[2];                    // 0x28
+	MxLong m_transitionTime[2];                           // 0x30
+	MxBool m_transitionSoundsFound;                       // 0x38
+	MxBool m_animRunning;                                 // 0x39
+	MxBool m_enableCamAnims;                              // 0x3a
+	Extra m_extras[40];                                   // 0x3c
+	MxU32 m_lastExtraCharacterId;                         // 0x3fc
+	MxBool m_unk0x400;                                    // 0x400
+	MxBool m_unk0x401;                                    // 0x401
+	MxBool m_cameraAnimationEnabled;                      // 0x402
+	MxLong m_lastActionTime;                              // 0x404
+	MxLong m_unk0x408;                                    // 0x408
+	MxLong m_FUN_10063d10_interval;                       // 0x40c
+	MxLong m_unk0x410;                                    // 0x410
+	MxU32 m_actorCount;                                   // 0x414
+	MxU32 m_numAllowedExtras;                             // 0x418
+	MxU32 m_maxAllowedExtras;                             // 0x41c
+	AnimState* m_animState;                               // 0x420
+	LegoROIList* m_actors;                                // 0x424
+	MxBool m_suspendedEnableCamAnims;                     // 0x428
+	MxBool m_unk0x400AfterResume;                         // 0x429
+	MxBool m_unk0x42a;                                    // 0x42a
+	MxBool m_suspended;                                   // 0x42b
+	LegoTranInfo* m_currentTranInfo;                      // 0x42c
+	MxBool m_unk0x430;                                    // 0x430
+	MxLong m_cameraAnimationStartTime;                    // 0x434
+	MxLong m_cameraAnimationEndTime;                      // 0x438
+	MxMatrix m_cameraAnimationStart;                      // 0x43c
+	MxMatrix m_cameraAnimationEnd;                        // 0x484
+	MxQuaternionTransformer m_cameraAnimationTransformer; // 0x4cc
 };
 
 // TEMPLATE: LEGO1 0x10061750

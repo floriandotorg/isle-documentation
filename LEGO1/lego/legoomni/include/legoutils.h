@@ -54,7 +54,7 @@ Extra::ActionType MatchActionString(const char*);
 void InvokeAction(Extra::ActionType p_actionId, const MxAtomId& p_pAtom, MxS32 p_streamId, LegoEntity* p_sender);
 void SetCameraControllerFromIsle();
 void ConvertHSVToRGB(float p_h, float p_s, float p_v, float* p_rOut, float* p_gOut, float* p_bOut);
-void PlayCamAnim(LegoPathActor* p_actor, MxBool p_unused, MxU32 p_location, MxBool p_bool);
+void PlayCamAnim(LegoPathActor* p_actor, MxBool p_unused, MxU32 p_location, MxBool p_skipMissingModelCheck);
 void ResetViewVelocity();
 MxBool RemoveFromCurrentWorld(const MxAtomId& p_atomId, MxS32 p_id);
 void EnableAnimations(MxBool p_enable);
