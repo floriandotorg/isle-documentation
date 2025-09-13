@@ -52,7 +52,7 @@ LegoImage::LegoImage()
 {
 	m_width = 0;
 	m_height = 0;
-	m_count = 0;
+	m_num_palette_entries = 0;
 	m_bits = NULL;
 }
 
@@ -61,7 +61,7 @@ LegoImage::LegoImage(LegoU32 p_width, LegoU32 p_height)
 {
 	m_width = p_width;
 	m_height = p_height;
-	m_count = 0;
+	m_num_palette_entries = 0;
 	m_bits = new LegoU8[m_width * m_height];
 }
 
@@ -83,10 +83,10 @@ LegoResult LegoImage::Read(LegoStorage* p_storage, LegoU32 p_square)
 	if ((result = p_storage->Read(&m_height, sizeof(LegoU32))) != SUCCESS) {
 		return result;
 	}
-	if ((result = p_storage->Read(&m_count, sizeof(LegoU32))) != SUCCESS) {
+	if ((result = p_storage->Read(&m_num_palette_entries, sizeof(LegoU32))) != SUCCESS) {
 		return result;
 	}
-	for (LegoU32 i = 0; i < m_count; i++) {
+	for (LegoU32 i = 0; i < m_num_palette_entries; i++) {
 		if ((result = m_palette[i].Read(p_storage)) != SUCCESS) {
 			return result;
 		}
@@ -159,10 +159,10 @@ LegoResult LegoImage::Write(LegoStorage* p_storage)
 	if ((result = p_storage->Write(&m_height, sizeof(LegoU32))) != SUCCESS) {
 		return result;
 	}
-	if ((result = p_storage->Write(&m_count, sizeof(LegoU32))) != SUCCESS) {
+	if ((result = p_storage->Write(&m_num_palette_entries, sizeof(LegoU32))) != SUCCESS) {
 		return result;
 	}
-	for (LegoU32 i = 0; i < m_count; i++) {
+	for (LegoU32 i = 0; i < m_num_palette_entries; i++) {
 		if ((result = m_palette[i].Write(p_storage)) != SUCCESS) {
 			return result;
 		}

@@ -136,7 +136,7 @@ Pizza::Pizza()
 	m_mission = NULL;
 	m_skateBoard = NULL;
 	m_act1state = NULL;
-	m_speechAction = IsleScript::c_noneIsle;
+	m_helpSpeechAction = IsleScript::c_noneIsle;
 	m_playedLocationAnimation = FALSE;
 	m_startTime = INT_MIN;
 }
@@ -188,7 +188,7 @@ void Pizza::Start(IsleScript::Script p_objectId)
 	AnimationManager()->EnableCamAnims(FALSE);
 	AnimationManager()->SetUnknown0x400(FALSE);
 	PlayAction(p_objectId, FALSE);
-	m_speechAction = IsleScript::c_noneIsle;
+	m_helpSpeechAction = IsleScript::c_noneIsle;
 }
 
 // FUNCTION: LEGO1 0x100382b0
@@ -196,8 +196,8 @@ void Pizza::Start(IsleScript::Script p_objectId)
 void Pizza::Reset()
 {
 	if (m_state->m_state != PizzaMissionState::e_transitionToAct2) {
-		if (m_speechAction != IsleScript::c_noneIsle) {
-			InvokeAction(Extra::e_stop, *g_isleScript, m_speechAction, NULL);
+		if (m_helpSpeechAction != IsleScript::c_noneIsle) {
+			InvokeAction(Extra::e_stop, *g_isleScript, m_helpSpeechAction, NULL);
 		}
 
 		m_act1state->m_state = Act1State::e_none;
@@ -209,7 +209,7 @@ void Pizza::Reset()
 		m_mission->m_startTime = INT_MIN;
 		m_mission = NULL;
 		m_playedLocationAnimation = FALSE;
-		m_speechAction = IsleScript::c_noneIsle;
+		m_helpSpeechAction = IsleScript::c_noneIsle;
 		BackgroundAudioManager()->RaiseVolume();
 		TickleManager()->UnregisterClient(this);
 		m_startTime = INT_MIN;
@@ -395,29 +395,29 @@ MxResult Pizza::Tickle()
 				InvokeAction(Extra::e_start, *g_isleScript, IsleScript::c_Avo917In_PlayWav, NULL);
 				MxTrace("Pizza mission: timeout, stop\n");
 			}
-			else if (time >= m_mission->m_startTime + 35000 && m_speechAction == IsleScript::c_noneIsle) {
+			else if (time >= m_mission->m_startTime + 35000 && m_helpSpeechAction == IsleScript::c_noneIsle) {
 				switch (GameState()->GetActorId()) {
 				case LegoActor::c_pepper:
-					m_speechAction = IsleScript::c_Avo914In_PlayWav;
+					m_helpSpeechAction = IsleScript::c_Avo914In_PlayWav;
 					break;
 				case LegoActor::c_mama:
-					m_speechAction = IsleScript::c_Avo910In_PlayWav;
+					m_helpSpeechAction = IsleScript::c_Avo910In_PlayWav;
 					break;
 				case LegoActor::c_papa:
-					m_speechAction = IsleScript::c_Avo912In_PlayWav;
+					m_helpSpeechAction = IsleScript::c_Avo912In_PlayWav;
 					break;
 				case LegoActor::c_nick:
-					m_speechAction = IsleScript::c_Avo911In_PlayWav;
+					m_helpSpeechAction = IsleScript::c_Avo911In_PlayWav;
 					break;
 				case LegoActor::c_laura:
-					m_speechAction = IsleScript::c_Avo913In_PlayWav;
+					m_helpSpeechAction = IsleScript::c_Avo913In_PlayWav;
 					break;
 				}
 
 				BackgroundAudioManager()->LowerVolume();
 
-				if (m_speechAction != IsleScript::c_noneIsle) {
-					InvokeAction(Extra::e_start, *g_isleScript, m_speechAction, NULL);
+				if (m_helpSpeechAction != IsleScript::c_noneIsle) {
+					InvokeAction(Extra::e_start, *g_isleScript, m_helpSpeechAction, NULL);
 				}
 			}
 		}
@@ -431,7 +431,7 @@ MxResult Pizza::Tickle()
 				m_mission->UpdateScore(LegoState::e_grey);
 				m_state->m_state = PizzaMissionState::e_timeoutAcceptingQuest;
 				AnimationManager()->SetUnknown0x400(TRUE);
-				PlayAction(m_mission->GetUnknownFinishAction(), TRUE);
+				PlayAction(m_mission->GetTimeoutAction(), TRUE);
 				MxTrace("Pizza mission: timeout, declining\n");
 			}
 		}
@@ -447,7 +447,7 @@ MxLong Pizza::HandleEndAction(MxEndActionNotificationParam& p_param)
 	MxLong result = 0;
 	MxU32 objectId = p_param.GetAction()->GetObjectId();
 
-	if (m_speechAction == objectId) {
+	if (m_helpSpeechAction == objectId) {
 		BackgroundAudioManager()->RaiseVolume();
 		return 1;
 	}
@@ -582,12 +582,21 @@ void Pizza::PlayAction(MxU32 p_objectId, MxBool p_param7)
 {
 	m_state->SetPlayedAction(p_objectId);
 
-	if (m_speechAction != IsleScript::c_noneIsle) {
-		InvokeAction(Extra::e_stop, *g_isleScript, m_speechAction, NULL);
+	if (m_helpSpeechAction != IsleScript::c_noneIsle) {
+		InvokeAction(Extra::e_stop, *g_isleScript, m_helpSpeechAction, NULL);
 	}
 
-	AnimationManager()
-		->FUN_10060dc0(p_objectId, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, FALSE, p_param7, TRUE, TRUE);
+	AnimationManager()->FUN_10060dc0(
+		p_objectId,
+		NULL,
+		TRUE,
+		LegoAnimationManager::e_fromAnimation,
+		NULL,
+		FALSE,
+		p_param7,
+		TRUE,
+		TRUE
+	);
 }
 
 // FUNCTION: LEGO1 0x10039030

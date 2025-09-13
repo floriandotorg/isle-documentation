@@ -88,7 +88,7 @@ public:
 		IsleScript::Script* GetActions() { return m_actions; }
 
 		// FUNCTION: BETA10 0x100ef7b0
-		IsleScript::Script GetUnknownFinishAction() { return m_actions[m_numActions + 2]; }
+		IsleScript::Script GetTimeoutAction() { return m_actions[m_numActions + 2]; }
 
 		// FUNCTION: BETA10 0x100ef7e0
 		MxLong GetTimeoutTime() { return m_finishTimes[3]; }
@@ -214,7 +214,7 @@ private:
 	PizzaMissionState::Mission* m_mission; // 0x80
 	SkateBoard* m_skateBoard;              // 0x84
 	Act1State* m_act1state;                // 0x88
-	IsleScript::Script m_speechAction;     // 0x8c
+	IsleScript::Script m_helpSpeechAction; // 0x8c
 	MxLong m_startTime;                    // 0x90
 	MxLong m_duration;                     // 0x94
 	MxBool m_playedLocationAnimation;      // 0x98

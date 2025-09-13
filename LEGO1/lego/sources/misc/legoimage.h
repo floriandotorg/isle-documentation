@@ -35,8 +35,8 @@ public:
 	void SetWidth(LegoU32 p_width) { m_width = p_width; }
 	LegoU32 GetHeight() { return m_height; }
 	void SetHeight(LegoU32 p_height) { m_height = p_height; }
-	LegoU32 GetCount() { return m_count; }
-	void SetCount(LegoU32 p_count) { m_count = p_count; }
+	LegoU32 GetCount() { return m_num_palette_entries; }
+	void SetCount(LegoU32 p_count) { m_num_palette_entries = p_count; }
 	LegoPaletteEntry* GetPalette() { return m_palette; }
 	LegoPaletteEntry& GetPaletteEntry(LegoU32 p_i) { return m_palette[p_i]; }
 	void SetPaletteEntry(LegoU32 p_i, LegoPaletteEntry& p_paletteEntry) { m_palette[p_i] = p_paletteEntry; }
@@ -48,7 +48,7 @@ public:
 protected:
 	LegoU32 m_width;                 // 0x00
 	LegoU32 m_height;                // 0x04
-	LegoU32 m_count;                 // 0x08
+	LegoU32 m_num_palette_entries;   // 0x08
 	LegoPaletteEntry m_palette[256]; // 0x0c
 	LegoU8* m_bits;                  // 0x30c
 };
