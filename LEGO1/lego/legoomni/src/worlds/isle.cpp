@@ -797,7 +797,7 @@ void Isle::Enable(MxBool p_enable)
 		case Act1State::e_transitionToTowtrack:
 			m_act1state->m_state = Act1State::e_towtrack;
 
-			AnimationManager()->SetUnknown0x400(FALSE);
+			AnimationManager()->SetAllowExtras(FALSE);
 			AnimationManager()->EnableCamAnims(FALSE);
 
 			g_isleFlags &= ~c_playMusic;
@@ -806,7 +806,7 @@ void Isle::Enable(MxBool p_enable)
 		case Act1State::e_transitionToAmbulance:
 			m_act1state->m_state = Act1State::e_ambulance;
 
-			AnimationManager()->SetUnknown0x400(FALSE);
+			AnimationManager()->SetAllowExtras(FALSE);
 			AnimationManager()->EnableCamAnims(FALSE);
 
 			g_isleFlags &= ~c_playMusic;

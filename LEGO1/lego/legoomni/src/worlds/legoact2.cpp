@@ -206,7 +206,7 @@ MxResult LegoAct2::Tickle()
 		StartAction(Act2mainScript::c_tja009ni_RunAnim, TRUE, TRUE, NULL, NULL, NULL);
 
 		AnimationManager()->EnableCamAnims(TRUE);
-		AnimationManager()->SetUnknown0x400(TRUE);
+		AnimationManager()->SetAllowExtras(TRUE);
 		AnimationManager()->SetActive(g_animationsBricksterIsLoose, sizeOfArray(g_animationsBricksterIsLoose));
 		AnimationManager()->SetEnableAllCharacters(
 			g_charactersBricksterIsLoose,
@@ -416,7 +416,7 @@ MxLong LegoAct2::HandleEndAction(MxEndActionNotificationParam& p_param)
 			StartAction(Act2mainScript::c_tra045la_RunAnim, TRUE, TRUE, NULL, NULL, NULL);
 			((LegoPathActor*) m_pepper->GetEntity())->SetActorState(LegoPathActor::c_disabled);
 			AnimationManager()->EnableCamAnims(TRUE);
-			AnimationManager()->SetUnknown0x400(TRUE);
+			AnimationManager()->SetAllowExtras(TRUE);
 			AnimationManager()->SetActive(g_unk0x100f4428, sizeOfArray(g_unk0x100f4428));
 			AnimationManager()->SetEnableAllCharacters(g_unk0x100f4458, sizeOfArray(g_unk0x100f4458));
 			break;
@@ -719,7 +719,7 @@ void LegoAct2::FUN_10051900()
 		AnimationManager()->SetAllActive(FALSE);
 		AnimationManager()->SetEnableAllCharacters(FALSE);
 		AnimationManager()->EnableCamAnims(FALSE);
-		AnimationManager()->SetUnknown0x400(FALSE);
+		AnimationManager()->SetAllowExtras(FALSE);
 	}
 }
 

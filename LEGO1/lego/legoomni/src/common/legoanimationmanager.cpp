@@ -403,7 +403,7 @@ void LegoAnimationManager::Reset(MxBool p_und)
 
 	m_suspended = suspended;
 	m_suspendedEnableCamAnims = m_enableCamAnims;
-	m_unk0x400AfterResume = m_unk0x400;
+	m_allowExtrasAfterResume = m_allowExtras;
 	m_unk0x42a = m_cameraAnimationEnabled;
 }
 
@@ -423,7 +423,7 @@ void LegoAnimationManager::Suspend()
 	if (!m_suspended) {
 		m_suspended = TRUE;
 		m_suspendedEnableCamAnims = m_enableCamAnims;
-		m_unk0x400AfterResume = m_unk0x400;
+		m_allowExtrasAfterResume = m_allowExtras;
 		m_unk0x42a = m_cameraAnimationEnabled;
 		m_cameraAnimationEnabled = FALSE;
 
@@ -466,7 +466,7 @@ void LegoAnimationManager::Suspend()
 		m_unk0x18 = 0;
 		m_unk0x1a = FALSE;
 		m_enableCamAnims = FALSE;
-		m_unk0x400 = FALSE;
+		m_allowExtras = FALSE;
 		m_actorCount = 0;
 		m_unk0x401 = FALSE;
 
@@ -484,7 +484,7 @@ void LegoAnimationManager::Resume()
 		m_unk0x408 = m_FUN_10063d10_interval = m_lastActionTime = Timer()->GetTime();
 		m_unk0x410 = 5000;
 		m_enableCamAnims = m_suspendedEnableCamAnims;
-		m_unk0x400 = m_unk0x400AfterResume;
+		m_allowExtras = m_allowExtrasAfterResume;
 		m_cameraAnimationEnabled = m_unk0x42a;
 		m_suspended = FALSE;
 	}
@@ -521,7 +521,7 @@ void LegoAnimationManager::Init()
 	m_animRunning = FALSE;
 	m_enableCamAnims = TRUE;
 	m_lastExtraCharacterId = 0;
-	m_unk0x400 = FALSE;
+	m_allowExtras = FALSE;
 	m_actorCount = 0;
 	m_numAllowedExtras = 5;
 	m_firstIndex = 0;
@@ -553,15 +553,15 @@ void LegoAnimationManager::Init()
 
 // FUNCTION: LEGO1 0x1005f6d0
 // FUNCTION: BETA10 0x100401e7
-void LegoAnimationManager::SetUnknown0x400(MxBool p_unk0x400)
+void LegoAnimationManager::SetAllowExtras(MxBool p_allowExtras)
 {
 	if (m_suspended) {
-		m_unk0x400AfterResume = p_unk0x400;
+		m_allowExtrasAfterResume = p_allowExtras;
 	}
 	else {
-		m_unk0x400 = p_unk0x400;
+		m_allowExtras = p_allowExtras;
 
-		if (!p_unk0x400) {
+		if (!p_allowExtras) {
 			PurgeExtra(TRUE);
 		}
 	}
@@ -720,10 +720,10 @@ MxResult LegoAnimationManager::LoadWorldInfo(LegoOmni::World p_worldId)
 
 		if (m_suspended) {
 			m_suspendedEnableCamAnims = m_enableCamAnims;
-			m_unk0x400AfterResume = m_unk0x400;
+			m_allowExtrasAfterResume = m_allowExtras;
 			m_unk0x42a = TRUE;
 			m_enableCamAnims = FALSE;
-			m_unk0x400 = FALSE;
+			m_allowExtras = FALSE;
 			m_cameraAnimationEnabled = FALSE;
 		}
 
@@ -1929,7 +1929,7 @@ void LegoAnimationManager::AddExtra(MxS32 p_location, MxBool p_force)
 {
 	LegoLocation::Boundary* boundary = NULL;
 
-	if (p_force || (!m_animRunning && m_unk0x400)) {
+	if (p_force || (!m_animRunning && m_allowExtras)) {
 		LegoWorld* world = CurrentWorld();
 
 		if (world != NULL) {
@@ -2112,7 +2112,7 @@ MxBool LegoAnimationManager::FUN_10062e20(LegoROI* p_roi, LegoAnimPresenter* p_p
 {
 	LegoWorld* world = CurrentWorld();
 
-	if (world == NULL || m_suspended || !m_unk0x400) {
+	if (world == NULL || m_suspended || !m_allowExtras) {
 		return FALSE;
 	}
 

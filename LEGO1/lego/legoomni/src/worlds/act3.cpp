@@ -679,7 +679,7 @@ void Act3::ReadyWorld()
 {
 	PlantManager()->SetInitialCounters();
 	BuildingManager()->SetInitialCounters();
-	AnimationManager()->SetUnknown0x400(FALSE);
+	AnimationManager()->SetAllowExtras(FALSE);
 	VideoManager()->Get3DManager()->SetFrustrum(90.0f, 0.1f, 125.0f);
 
 	m_explanationAnimation = g_explanationAnimations[rand() % 3];

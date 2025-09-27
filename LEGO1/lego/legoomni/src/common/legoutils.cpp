@@ -564,7 +564,7 @@ void EnableAnimations(MxBool p_enable)
 		AnimationManager()->Resume();
 	}
 
-	AnimationManager()->SetUnknown0x400(p_enable);
+	AnimationManager()->SetAllowExtras(p_enable);
 	AnimationManager()->SetAllActive(p_enable);
 	AnimationManager()->SetEnableAllCharacters(p_enable);
 }

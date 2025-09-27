@@ -160,7 +160,7 @@ public:
 	void Reset(MxBool p_und);
 	void Suspend();
 	void Resume();
-	void SetUnknown0x400(MxBool p_unk0x400);
+	void SetAllowExtras(MxBool p_allowExtras);
 	void EnableCamAnims(MxBool p_enableCamAnims);
 	MxResult LoadWorldInfo(LegoOmni::World p_worldId);
 	MxBool FindVehicle(const char* p_name, MxU32& p_index);
@@ -275,7 +275,7 @@ private:
 	MxBool m_enableCamAnims;                              // 0x3a
 	Extra m_extras[40];                                   // 0x3c
 	MxU32 m_lastExtraCharacterId;                         // 0x3fc
-	MxBool m_unk0x400;                                    // 0x400
+	MxBool m_allowExtras;                                 // 0x400
 	MxBool m_unk0x401;                                    // 0x401
 	MxBool m_cameraAnimationEnabled;                      // 0x402
 	MxLong m_lastActionTime;                              // 0x404
@@ -288,8 +288,8 @@ private:
 	AnimState* m_animState;                               // 0x420
 	LegoROIList* m_actors;                                // 0x424
 	MxBool m_suspendedEnableCamAnims;                     // 0x428
-	MxBool m_unk0x400AfterResume;                         // 0x429
-	MxBool m_unk0x42a;                                    // 0x42a
+	MxBool m_allowExtrasAfterResume;                      // 0x429
+	MxBool m_cameraAnimationEnabled;                      // 0x42a
 	MxBool m_suspended;                                   // 0x42b
 	LegoTranInfo* m_currentTranInfo;                      // 0x42c
 	MxBool m_unk0x430;                                    // 0x430

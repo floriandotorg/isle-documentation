@@ -113,7 +113,7 @@ void Helicopter::Exit()
 	RemoveFromCurrentWorld(m_script, 0x1d);
 	RemoveFromCurrentWorld(m_script, 0x1e);
 	RemoveFromCurrentWorld(m_script, 0x1f);
-	AnimationManager()->SetUnknown0x400(TRUE);
+	AnimationManager()->SetAllowExtras(TRUE);
 	ControlManager()->Unregister(this);
 }
 
@@ -130,7 +130,7 @@ MxLong Helicopter::HandleClick()
 		assert(m_world);
 	}
 
-	AnimationManager()->SetUnknown0x400(FALSE);
+	AnimationManager()->SetAllowExtras(FALSE);
 
 	if (UserActor()) {
 		if (UserActor()->GetActorId() != GameState()->GetActorId()) {

@@ -186,7 +186,7 @@ void Pizza::Start(IsleScript::Script p_objectId)
 	m_mission->m_startTime = INT_MIN;
 	g_isleFlags &= ~Isle::c_playMusic;
 	AnimationManager()->EnableCamAnims(FALSE);
-	AnimationManager()->SetUnknown0x400(FALSE);
+	AnimationManager()->SetAllowExtras(FALSE);
 	PlayAction(p_objectId, FALSE);
 	m_helpSpeechAction = IsleScript::c_noneIsle;
 }
@@ -205,7 +205,7 @@ void Pizza::Reset()
 		UserActor()->SetActorState(LegoPathActor::c_initial);
 		g_isleFlags |= Isle::c_playMusic;
 		AnimationManager()->EnableCamAnims(TRUE);
-		AnimationManager()->SetUnknown0x400(TRUE);
+		AnimationManager()->SetAllowExtras(TRUE);
 		m_mission->m_startTime = INT_MIN;
 		m_mission = NULL;
 		m_playedLocationAnimation = FALSE;
@@ -430,7 +430,7 @@ MxResult Pizza::Tickle()
 				TickleManager()->UnregisterClient(this);
 				m_mission->UpdateScore(LegoState::e_grey);
 				m_state->m_state = PizzaMissionState::e_timeoutAcceptingQuest;
-				AnimationManager()->SetUnknown0x400(TRUE);
+				AnimationManager()->SetAllowExtras(TRUE);
 				PlayAction(m_mission->GetTimeoutAction(), TRUE);
 				MxTrace("Pizza mission: timeout, declining\n");
 			}
