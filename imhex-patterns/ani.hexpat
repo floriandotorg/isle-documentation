@@ -11,8 +11,8 @@ import legoisland.animation;
 
 struct Anim {
     type::Magic<"\x11\x00\x00\x00"> magic;
-    float unknown1;
-    Vector3f unknownVector;
+    float bounding_radius;
+    Vector3f bounding_position;
     s32 parse_scene;
     s32 val3;
     Animation<parse_scene != 0> animation;

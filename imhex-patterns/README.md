@@ -14,6 +14,7 @@ The patterns aren't automatically detected and need to manually imported.
 |------|------|-------------|
 | ani files | [`imhex-patterns/ani.hexpat`](ani.hexpat) | Animation file for Lego Island |
 | dta files | [`imhex-patterns/dta.hexpat`](dta.hexpat) | DTA file for Lego Island |
+| tex files | [`imhex-patterns/tex.hexpat`](tex.hexpat) | TEX files (textures) for Lego Island |
 | WORLD.WDB | [`imhex-patterns/worlddb.hexpat`](worlddb.hexpat) | World DB file for Lego Island |
 
 Other file types (WAVE, FLIC and Smacker) are supported by ImHex itself and don't need this directory.

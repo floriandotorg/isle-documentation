@@ -13,20 +13,7 @@ import type.color;
 import legoisland.common;
 import legoisland.animation;
 
-using Color = type::RGB8 [[hex::inline_visualize("color", r, g, b, 0xff)]];
-
-struct Gif {
-    u32 width;
-    u32 height;
-    u32 num_colors;
-    Color colors[num_colors];
-    u8 image[width * height];
-};
-
-struct NamedGif {
-    std::string::SizedString<u32> name;
-    Gif gif [[inline]];
-};
+import legoisland.textures;
 
 struct TextureInfoEntry {
     std::string::SizedString<u32> name;
@@ -81,17 +68,27 @@ struct Mesh {
     std::string::SizedString<u32> material_name;
 };
 
+bitfield LODFlags {
+    padding: 2;
+    ContainsOnlyFlags: 1;
+    IsExtraLOD: 1;
+    HasMesh: 1;
+    padding: 27;
+};
+
 struct LOD {
-    u32 unknown;
-    u32 num_meshes;
-    if (num_meshes > 0) {
-        u16 num_verts;
-        u16 double_num_normals;
-        u32 num_text_verts;
-        Vector3f vertices[num_verts];
-        Vector3f normals[double_num_normals >> 1];
-        Vector2f uvs[num_text_verts];
-        Mesh meshes[num_meshes];
+    LODFlags flags;
+    if (flags.ContainsOnlyFlags == 0) {
+        u32 num_meshes;
+        if (num_meshes > 0) {
+            u16 num_verts;
+            u16 double_num_normals;
+            u32 num_text_verts;
+            Vector3f vertices[num_verts];
+            Vector3f normals[double_num_normals >> 1];
+            Vector2f uvs[num_text_verts];
+            Mesh meshes[num_meshes];
+        }
     }
 };
 
@@ -199,8 +196,7 @@ struct WDB {
     u32 num_worlds;
     World worlds[num_worlds];
     u32 images_size;
-    u32 num_images;
-    NamedGif images[num_images];
+    Textures textures;
     u32 global_part_size;
     Part<false> global_part;
 };
