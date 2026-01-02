@@ -129,7 +129,7 @@ void CarRace::ReadyWorld()
 
 	m_introAnimation = g_introAnimations[rand() & 7];
 
-	AnimationManager()->FUN_10060dc0(
+	AnimationManager()->PlayAnimation(
 		m_introAnimation,
 		NULL,
 		TRUE,
@@ -172,7 +172,7 @@ MxLong CarRace::HandleEndAction(MxEndActionNotificationParam& p_param)
 			result = 1;
 		}
 		else if (m_firstFinishAnimation == objectId) {
-			AnimationManager()->FUN_10060dc0(
+			AnimationManager()->PlayAnimation(
 				m_secondFinishAnimation,
 				NULL,
 				TRUE,
@@ -277,7 +277,7 @@ MxLong CarRace::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 						raceState->m_score = score;
 					}
 
-					AnimationManager()->FUN_10060dc0(
+					AnimationManager()->PlayAnimation(
 						m_firstFinishAnimation,
 						NULL,
 						TRUE,

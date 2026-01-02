@@ -172,7 +172,7 @@ public:
 	void SetAllActive(MxBool p_unk0x29);
 	void FUN_10060570(MxBool p_unk0x1a);
 	MxResult StartEntityAction(MxDSAction& p_dsAction, LegoEntity* p_entity);
-	MxResult FUN_10060dc0(
+	MxResult PlayAnimation(
 		MxU32 p_objectId,
 		MxMatrix* p_matrix,
 		MxBool p_param3,

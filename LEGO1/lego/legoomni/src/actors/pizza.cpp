@@ -586,7 +586,7 @@ void Pizza::PlayAction(MxU32 p_objectId, MxBool p_param7)
 		InvokeAction(Extra::e_stop, *g_isleScript, m_helpSpeechAction, NULL);
 	}
 
-	AnimationManager()->FUN_10060dc0(
+	AnimationManager()->PlayAnimation(
 		p_objectId,
 		NULL,
 		TRUE,

@@ -815,7 +815,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 							// Add to animation object ID offset
 							g_nextAnimation += key - '0';
 							g_animationCalcStep = 0;
-							AnimationManager()->FUN_10060dc0(
+							AnimationManager()->PlayAnimation(
 								g_nextAnimation,
 								NULL,
 								TRUE,

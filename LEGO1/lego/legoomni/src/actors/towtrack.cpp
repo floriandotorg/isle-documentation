@@ -567,7 +567,7 @@ void TowTrack::Reset()
 void TowTrack::PlayFinalAnimation(IsleScript::Script p_objectId)
 {
 	AnimationManager()
-		->FUN_10060dc0(p_objectId, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, FALSE, FALSE, FALSE, TRUE);
+		->PlayAnimation(p_objectId, NULL, TRUE, LegoAnimationManager::e_fromAnimation, NULL, FALSE, FALSE, FALSE, TRUE);
 	m_lastAnimation = p_objectId;
 }
 
@@ -576,7 +576,7 @@ void TowTrack::PlayActorAnimation(IsleScript::Script p_objectId)
 {
 	AnimationManager()->SetAllowExtras(TRUE);
 	AnimationManager()
-		->FUN_10060dc0(p_objectId, NULL, TRUE, LegoAnimationManager::e_true, NULL, FALSE, TRUE, TRUE, TRUE);
+		->PlayAnimation(p_objectId, NULL, TRUE, LegoAnimationManager::e_true, NULL, FALSE, TRUE, TRUE, TRUE);
 	m_lastAnimation = p_objectId;
 }
 

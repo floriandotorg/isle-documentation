@@ -1165,7 +1165,7 @@ MxResult LegoAct2::StartAction(
 			MxResult result;
 
 			if (p_objectId == Act2mainScript::c_tja009ni_RunAnim) {
-				result = AnimationManager()->FUN_10060dc0(
+				result = AnimationManager()->PlayAnimation(
 					p_objectId,
 					pmatrix,
 					TRUE,
@@ -1178,7 +1178,7 @@ MxResult LegoAct2::StartAction(
 				);
 			}
 			else {
-				result = AnimationManager()->FUN_10060dc0(
+				result = AnimationManager()->PlayAnimation(
 					p_objectId,
 					pmatrix,
 					TRUE,

@@ -683,7 +683,7 @@ void Act3::ReadyWorld()
 	VideoManager()->Get3DManager()->SetFrustrum(90.0f, 0.1f, 125.0f);
 
 	m_explanationAnimation = g_explanationAnimations[rand() % 3];
-	AnimationManager()->FUN_10060dc0(
+	AnimationManager()->PlayAnimation(
 		m_explanationAnimation,
 		NULL,
 		TRUE,
