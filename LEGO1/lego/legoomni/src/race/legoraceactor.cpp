@@ -20,7 +20,7 @@ Mx3DPointFloat LegoRaceActor::g_unk0x10102b08 = Mx3DPointFloat(0.0, 2.0, 0.0);
 LegoRaceActor::LegoRaceActor()
 {
 	m_lastPathStruct = 0;
-	m_unk0x08 = 0;
+	m_scheduledTime = 0;
 }
 
 // FUNCTION: LEGO1 0x10014750
@@ -54,7 +54,7 @@ MxU32 LegoRaceActor::StepState(float p_time, Matrix4& p_transform)
 	case c_ready:
 		return TRUE;
 	case c_hit:
-		m_unk0x08 = p_time + 2000.0f;
+		m_scheduledTime = p_time + 2000.0f;
 		m_actorState = c_hitAnimation;
 		m_actorTime += (p_time - m_transformTime) * m_worldSpeed;
 		m_transformTime = p_time;
@@ -65,7 +65,7 @@ MxU32 LegoRaceActor::StepState(float p_time, Matrix4& p_transform)
 
 		p_transform = m_roi->GetLocal2World();
 
-		if (m_unk0x08 > p_time) {
+		if (m_scheduledTime > p_time) {
 			Mx3DPointFloat position;
 
 			position = positionRef;
@@ -81,7 +81,7 @@ MxU32 LegoRaceActor::StepState(float p_time, Matrix4& p_transform)
 		}
 		else {
 			m_actorState = c_initial;
-			m_unk0x08 = 0;
+			m_scheduledTime = 0;
 
 			positionRef -= g_unk0x10102b08;
 			m_roi->SetLocal2World(p_transform);

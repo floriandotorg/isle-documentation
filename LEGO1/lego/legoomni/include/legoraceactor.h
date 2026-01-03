@@ -47,7 +47,7 @@ public:
 	// LegoRaceActor::`scalar deleting destructor'
 
 private:
-	MxFloat m_unk0x08; // 0x08
+	MxFloat m_scheduledTime; // 0x08
 
 	static Mx3DPointFloat g_unk0x10102b08;
 };
