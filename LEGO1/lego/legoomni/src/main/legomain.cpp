@@ -640,7 +640,7 @@ MxResult LegoOmni::Start(MxDSAction* p_dsAction)
 	// As of this commit, the operator is not inlined automatically.
 	this->m_action.SetAtomId(p_dsAction->GetAtomId());
 	this->m_action.SetObjectId(p_dsAction->GetObjectId());
-	this->m_action.SetUnknown24(p_dsAction->GetUnknown24());
+	this->m_action.SetInstanceId(p_dsAction->GetInstanceId());
 #endif
 	return result;
 }

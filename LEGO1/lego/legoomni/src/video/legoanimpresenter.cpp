@@ -203,7 +203,7 @@ LegoChar* LegoAnimPresenter::GetActorName(const LegoChar* p_name)
 	}
 	else {
 		LegoChar buffer[32];
-		sprintf(buffer, "%d", m_action->GetUnknown24());
+		sprintf(buffer, "%d", m_action->GetInstanceId());
 		str = new LegoChar[strlen(p_name) + strlen(buffer) + strlen(GetActionObjectName()) + 1];
 
 		if (str != NULL) {

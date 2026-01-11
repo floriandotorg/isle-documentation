@@ -190,7 +190,7 @@ MxLong RegistrationBook::HandleKeyPress(MxU8 p_key)
 		m_name[0][m_newName.m_cursorPos] = m_alphabet[key - 'A']->Clone();
 
 		if (m_name[0][m_newName.m_cursorPos] != NULL) {
-			m_alphabet[key - 'A']->GetAction()->SetUnknown24(m_alphabet[key - 'A']->GetAction()->GetUnknown24() + 1);
+			m_alphabet[key - 'A']->GetAction()->SetInstanceId(m_alphabet[key - 'A']->GetAction()->GetInstanceId() + 1);
 			m_name[0][m_newName.m_cursorPos]->Enable(TRUE);
 			m_name[0][m_newName.m_cursorPos]->SetTickleState(MxPresenter::e_repeating);
 			m_name[0][m_newName.m_cursorPos]->SetPosition(m_newName.m_cursorPos * 23 + 343, 121);

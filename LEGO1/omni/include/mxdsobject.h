@@ -43,6 +43,12 @@ public:
 		e_objectAction,
 	};
 
+	enum InstanceId {
+		c_toBeAssigned = -1,
+		c_matchAll = -2,
+		c_unknown = -3
+	};
+
 	MxDSObject();
 	~MxDSObject() override;
 
@@ -88,7 +94,7 @@ public:
 	// FUNCTION: BETA10 0x10017940
 	const MxAtomId& GetAtomId() { return m_atomId; }
 
-	MxS16 GetUnknown24() { return m_unk0x24; }
+	MxS16 GetInstanceId() { return m_instanceId; }
 	MxPresenter* GetUnknown28() { return m_unk0x28; }
 
 	void SetType(Type p_type) { m_type = p_type; }
@@ -97,7 +103,7 @@ public:
 	void SetObjectId(MxU32 p_objectId) { m_objectId = p_objectId; }
 
 	// FUNCTION: BETA10 0x10039570
-	void SetUnknown24(MxS16 p_unk0x24) { m_unk0x24 = p_unk0x24; }
+	void SetInstanceId(MxS16 p_instanceId) { m_instanceId = p_instanceId; }
 
 	void SetUnknown28(MxPresenter* p_unk0x28) { m_unk0x28 = p_unk0x28; }
 
@@ -115,7 +121,7 @@ protected:
 	char* m_objectName;     // 0x18
 	MxU32 m_objectId;       // 0x1c
 	MxAtomId m_atomId;      // 0x20
-	MxS16 m_unk0x24;        // 0x24
+	MxS16 m_instanceId;     // 0x24
 	MxPresenter* m_unk0x28; // 0x28
 };
 

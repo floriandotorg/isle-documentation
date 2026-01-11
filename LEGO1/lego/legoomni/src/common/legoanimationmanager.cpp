@@ -1012,7 +1012,7 @@ MxResult LegoAnimationManager::PlayAnimation(
 
 		action.SetAtomId(*Lego()->GetWorldAtom(m_worldId));
 		action.SetObjectId(animInfo.m_objectId);
-		action.SetUnknown24(-1);
+		action.SetInstanceId(MxDSObject::c_toBeAssigned);
 		action.AppendExtra(strlen(buf) + 1, buf);
 
 		if (StartActionIfInitialized(action) == SUCCESS) {
@@ -1079,7 +1079,7 @@ MxResult LegoAnimationManager::CreateTranInfo(MxU32 p_objectId, MxMatrix* p_matr
 
 	action.SetAtomId(*Lego()->GetWorldAtom(m_worldId));
 	action.SetObjectId(p_objectId);
-	action.SetUnknown24(-1);
+	action.SetInstanceId(MxDSObject::c_toBeAssigned);
 	action.AppendExtra(strlen(buf) + 1, buf);
 
 	if (StartActionIfInitialized(action) == SUCCESS) {

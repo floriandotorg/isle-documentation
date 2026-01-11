@@ -584,7 +584,7 @@ void LegoAct2::Enable(MxBool p_enable)
 		if (m_infomanDirecting != (Act2mainScript::Script) 0) {
 			MxDSAction action;
 			action.SetAtomId(m_atomId);
-			action.SetUnknown24(-2);
+			action.SetInstanceId(MxDSObject::c_matchAll);
 			action.SetObjectId(m_infomanDirecting);
 			DeleteObject(action);
 			m_infomanDirecting = (Act2mainScript::Script) 0;
