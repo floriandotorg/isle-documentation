@@ -34,11 +34,11 @@ MxDSStreamingAction::MxDSStreamingAction(MxDSStreamingAction& p_dsStreamingActio
 // FUNCTION: BETA10 0x1015f41d
 MxDSStreamingAction::~MxDSStreamingAction()
 {
-	if (m_unk0xa0) {
-		delete m_unk0xa0;
+	if (m_unkBuffer1) {
+		delete m_unkBuffer1;
 	}
-	if (m_unk0xa4) {
-		delete m_unk0xa4;
+	if (m_unkBuffer2) {
+		delete m_unkBuffer2;
 	}
 	if (m_internalAction) {
 		delete m_internalAction;
@@ -52,9 +52,9 @@ void MxDSStreamingAction::Init()
 	m_unk0x94 = 0;
 	m_bufferOffset = 0;
 	m_unk0x9c = 0;
-	m_unk0xa0 = NULL;
-	m_unk0xa4 = NULL;
-	m_unk0xa8 = 0;
+	m_unkBuffer1 = NULL;
+	m_unkBuffer2 = NULL;
+	m_elapsedTime = 0;
 	m_unk0xac = 2;
 	m_internalAction = NULL;
 }
@@ -67,10 +67,10 @@ MxDSStreamingAction* MxDSStreamingAction::CopyFrom(MxDSStreamingAction& p_dsStre
 	m_unk0x94 = p_dsStreamingAction.m_unk0x94;
 	m_bufferOffset = p_dsStreamingAction.m_bufferOffset;
 	m_unk0x9c = p_dsStreamingAction.m_unk0x9c;
-	m_unk0xa0 = NULL;
-	m_unk0xa4 = NULL;
+	m_unkBuffer1 = NULL;
+	m_unkBuffer2 = NULL;
 	m_unk0xac = p_dsStreamingAction.m_unk0xac;
-	m_unk0xa8 = p_dsStreamingAction.m_unk0xa8;
+	m_elapsedTime = p_dsStreamingAction.m_elapsedTime;
 	SetInternalAction(p_dsStreamingAction.m_internalAction ? p_dsStreamingAction.m_internalAction->Clone() : NULL);
 
 	return this;
@@ -87,7 +87,7 @@ void MxDSStreamingAction::SetInternalAction(MxDSAction* p_dsAction)
 }
 
 // FUNCTION: LEGO1 0x100cd2d0
-void MxDSStreamingAction::FUN_100cd2d0()
+void MxDSStreamingAction::AdvanceLoop()
 {
 	if (m_duration == -1) {
 		return;
@@ -97,5 +97,5 @@ void MxDSStreamingAction::FUN_100cd2d0()
 	m_loopCount--;
 
 	m_duration -= duration;
-	m_unk0xa8 += duration;
+	m_elapsedTime += duration;
 }

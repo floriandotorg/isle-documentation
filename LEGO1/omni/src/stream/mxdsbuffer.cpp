@@ -115,7 +115,7 @@ MxResult MxDSBuffer::FUN_100c67b0(
 
 	while ((data = (MxU8*) SkipToData())) {
 		if (*p_streamingAction != NULL) {
-			MxDSBuffer* buffer = (*p_streamingAction)->GetUnknowna0();
+			MxDSBuffer* buffer = (*p_streamingAction)->GetBuffer1();
 
 			if (buffer->CalcBytesRemaining(data)) {
 				goto done;
@@ -129,7 +129,7 @@ MxResult MxDSBuffer::FUN_100c67b0(
 					if (buffer->HasRef()) {
 						// Note: *p_streamingAction is always null in MxRamStreamProvider
 						((MxDiskStreamController*) p_controller)->InsertToList74(buffer);
-						(*p_streamingAction)->ClearUnknowna0();
+						(*p_streamingAction)->ClearBuffer1();
 					}
 
 					((MxDiskStreamController*) p_controller)->ReleaseActionBuffer(*p_streamingAction);
@@ -247,12 +247,12 @@ MxResult MxDSBuffer::ParseChunk(
 {
 	MxResult result = SUCCESS;
 
-	if (m_unk0x30->GetFlags() & MxDSAction::c_bit3 && m_unk0x30->GetUnknowna8() && p_header->GetTime() < 0) {
+	if (m_unk0x30->GetFlags() & MxDSAction::c_bit3 && m_unk0x30->GetElapsedTime() && p_header->GetTime() < 0) {
 		delete p_header;
 		return SUCCESS;
 	}
 
-	p_header->SetTime(p_header->GetTime() + m_unk0x30->GetUnknowna8());
+	p_header->SetTime(p_header->GetTime() + m_unk0x30->GetElapsedTime());
 
 	if (p_header->GetChunkFlags() & DS_CHUNK_SPLIT) {
 		MxU32 length = p_header->GetLength() + MxDSChunk::GetHeaderSize() + 8;
@@ -270,7 +270,7 @@ MxResult MxDSBuffer::ParseChunk(
 		*flags = p_header->GetChunkFlags() & ~DS_CHUNK_SPLIT;
 
 		delete p_header;
-		(*p_streamingAction)->SetUnknowna0(buffer);
+		(*p_streamingAction)->SetUnkBuffer1(buffer);
 	}
 	else {
 		if (p_header->GetChunkFlags() & DS_CHUNK_END_OF_STREAM) {
@@ -291,7 +291,7 @@ MxResult MxDSBuffer::ParseChunk(
 							data->SetData(m_unk0x30->GetBufferOffset());
 						}
 
-						m_unk0x30->FUN_100cd2d0();
+						m_unk0x30->AdvanceLoop();
 					}
 
 					delete p_header;

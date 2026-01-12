@@ -84,10 +84,10 @@ private:
 	MxBool FUN_1004b6d0(MxLong p_time);
 
 	LegoAnimPresenter* m_presenter; // 0x4c
-	MxLong m_lastTickleTime;               // 0x50
+	MxLong m_lastTickleTime;        // 0x50
 	undefined4 m_unk0x54;           // 0x54
-	MxU8 m_state;                 // 0x58
-	MxU8 m_tanInfo_unk0x10;                 // 0x59
+	MxU8 m_state;                   // 0x58
+	MxU8 m_tanInfo_unk0x10;         // 0x59
 	MxU32 m_animmanId;              // 0x5c
 	LegoTranInfo* m_tranInfo;       // 0x60
 	LegoWorld* m_world;             // 0x64

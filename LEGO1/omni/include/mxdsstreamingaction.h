@@ -20,7 +20,7 @@ public:
 
 	void Init();
 	void SetInternalAction(MxDSAction* p_dsAction);
-	void FUN_100cd2d0();
+	void AdvanceLoop();
 
 	// FUNCTION: BETA10 0x10156530
 	MxU32 GetUnknown94() { return m_unk0x94; }
@@ -29,13 +29,13 @@ public:
 	MxS32 GetUnknown9c() { return m_unk0x9c; }
 
 	// FUNCTION: BETA10 0x10156630
-	MxDSBuffer* GetUnknowna0() { return m_unk0xa0; }
+	MxDSBuffer* GetBuffer1() { return m_unkBuffer1; }
 
 	// FUNCTION: BETA10 0x101563d0
-	MxDSBuffer* GetUnknowna4() { return m_unk0xa4; }
+	MxDSBuffer* GetUnkBuffer2() { return m_unkBuffer2; }
 
 	// FUNCTION: BETA10 0x10159190
-	MxLong GetUnknowna8() { return m_unk0xa8; }
+	MxLong GetElapsedTime() { return m_elapsedTime; }
 
 	MxDSAction* GetInternalAction() { return m_internalAction; }
 
@@ -49,16 +49,16 @@ public:
 	void SetUnknown9c(MxS32 p_unk0x9c) { m_unk0x9c = p_unk0x9c; }
 
 	// FUNCTION: BETA10 0x10156470
-	void SetUnknowna0(MxDSBuffer* p_unk0xa0) { m_unk0xa0 = p_unk0xa0; }
+	void SetUnkBuffer1(MxDSBuffer* p_unk0xa0) { m_unkBuffer1 = p_unk0xa0; }
 
 	// FUNCTION: BETA10 0x101563f0
-	void SetUnknowna4(MxDSBuffer* p_unk0xa4) { m_unk0xa4 = p_unk0xa4; }
+	void SetUnkBuffer2(MxDSBuffer* p_unk0xa4) { m_unkBuffer2 = p_unk0xa4; }
 
 	// FUNCTION: BETA10 0x10151150
 	void SetBufferOffset(MxU32 p_bufferOffset) { m_bufferOffset = p_bufferOffset; }
 
 	// FUNCTION: BETA10 0x10156650
-	void ClearUnknowna0() { m_unk0xa0 = NULL; }
+	void ClearBuffer1() { m_unkBuffer1 = NULL; }
 
 	// SYNTHETIC: LEGO1 0x100cd0b0
 	// SYNTHETIC: BETA10 0x101565f0
@@ -68,9 +68,9 @@ private:
 	MxU32 m_unk0x94;              // 0x94
 	MxU32 m_bufferOffset;         // 0x98
 	MxS32 m_unk0x9c;              // 0x9c
-	MxDSBuffer* m_unk0xa0;        // 0xa0
-	MxDSBuffer* m_unk0xa4;        // 0xa4
-	MxLong m_unk0xa8;             // 0xa8
+	MxDSBuffer* m_unkBuffer1;     // 0xa0
+	MxDSBuffer* m_unkBuffer2;     // 0xa4
+	MxLong m_elapsedTime;         // 0xa8
 	undefined2 m_unk0xac;         // 0xac
 	MxDSAction* m_internalAction; // 0xb0
 };

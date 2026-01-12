@@ -159,7 +159,7 @@ void MxDiskStreamController::FUN_100c7980()
 				return;
 			}
 
-			action->SetUnknowna0(buffer);
+			action->SetUnkBuffer1(buffer);
 			m_unk0x8c++;
 		}
 	}
@@ -228,10 +228,10 @@ MxResult MxDiskStreamController::VTable0x30(MxDSAction* p_action)
 // FUNCTION: LEGO1 0x100c7cb0
 void MxDiskStreamController::ReleaseActionBuffer(MxDSStreamingAction* p_action)
 {
-	if (p_action->GetUnknowna0()) {
-		ReleaseBuffer(p_action->GetUnknowna0());
+	if (p_action->GetBuffer1()) {
+		ReleaseBuffer(p_action->GetBuffer1());
 	}
-	p_action->SetUnknowna0(NULL);
+	p_action->SetUnkBuffer1(NULL);
 	delete p_action;
 }
 
@@ -318,7 +318,7 @@ MxResult MxDiskStreamController::VTable0x20(MxDSAction* p_action)
 		action->SetUnknown28(entry->GetUnknown28());
 		action->SetNotificationObject(entry->GetNotificationObject());
 		action->SetOrigin(entry->GetOrigin());
-		action->SetUnknowna0(entry->GetUnknowna4());
+		action->SetUnkBuffer1(entry->GetUnkBuffer2());
 
 		FUN_100c7f40(action);
 
@@ -392,18 +392,18 @@ MxResult MxDiskStreamController::VTable0x24(MxDSAction* p_action)
 MxResult MxDiskStreamController::FUN_100c8360(MxDSStreamingAction* p_action)
 {
 	AUTOLOCK(m_criticalSection);
-	MxDSBuffer* buffer = p_action->GetUnknowna0();
+	MxDSBuffer* buffer = p_action->GetBuffer1();
 	MxDSStreamingAction* action2 = (MxDSStreamingAction*) m_list0x90.FindAndErase(p_action);
 	buffer->FUN_100c6f80(p_action->GetUnknown94() - p_action->GetBufferOffset());
 	buffer->FUN_100c67b0(this, p_action, &action2);
 
 	if (buffer->GetRefCount()) {
-		p_action->SetUnknowna0(NULL);
+		p_action->SetUnkBuffer1(NULL);
 		InsertToList74(buffer);
 	}
 
 	if (action2) {
-		if (action2->GetUnknowna0() == NULL) {
+		if (action2->GetBuffer1() == NULL) {
 			ReleaseActionBuffer(action2);
 		}
 		else {
