@@ -148,7 +148,7 @@ LegoS32 LegoWEGEdge::LinkEdgesAndFaces()
 		}
 
 		if (edge->GetFaceA() != NULL && edge->GetFaceB() != NULL) {
-			edge->SetFlags(LegoOrientedEdge::c_bit1 | LegoOrientedEdge::c_bit2);
+			edge->SetFlags(LegoOrientedEdge::c_traversableFromAToB | LegoOrientedEdge::c_traversableFromBToA);
 		}
 	}
 

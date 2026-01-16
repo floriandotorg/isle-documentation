@@ -354,7 +354,7 @@ MxResult Act3Cop::Hit()
 				newPosition,
 				newDirection,
 				boundary,
-				LegoOrientedEdge::c_bit1,
+				LegoOrientedEdge::c_traversableToA,
 				&local34
 			) != SUCCESS) {
 			delete grec;
@@ -392,7 +392,7 @@ MxResult Act3Cop::Hit()
 						local88,
 						localec,
 						donut->GetBoundary(),
-						LegoOrientedEdge::c_bit1,
+						LegoOrientedEdge::c_traversableToA,
 						&distance
 					) == SUCCESS &&
 					(grec == NULL || distance < minDistance)) {
@@ -432,7 +432,7 @@ MxResult Act3Cop::Hit()
 						newPosition,
 						newDirection,
 						boundary,
-						LegoOrientedEdge::c_bit1,
+						LegoOrientedEdge::c_traversableToA,
 						&local100
 					) != SUCCESS) {
 					local14c = local150 = grec;
@@ -832,7 +832,7 @@ MxResult Act3Brickster::Hit()
 							local88,
 							localec,
 							pizza->GetBoundary(),
-							LegoOrientedEdge::c_bit1,
+							LegoOrientedEdge::c_traversableToA,
 							&distance
 						) == SUCCESS &&
 						(grec == NULL || distance < minDistance)) {
@@ -916,7 +916,7 @@ MxResult Act3Brickster::Hit()
 					local108,
 					local138,
 					localf4,
-					LegoOrientedEdge::c_bit1,
+					LegoOrientedEdge::c_traversableToA,
 					&local13c
 				) != SUCCESS) {
 				local1bc = local1c0 = grec;
@@ -1059,7 +1059,7 @@ MxS32 Act3Brickster::FUN_10042300()
 		LegoOrientedEdge* maxE = NULL;
 		boundaries[0] = m_boundary;
 
-		if (m_destEdge->FUN_10048c40(pos)) {
+		if (m_destEdge->IsOn(pos)) {
 			boundaries[1] = (LegoPathBoundary*) m_destEdge->OtherFace(m_boundary);
 		}
 		else {
@@ -1072,7 +1072,7 @@ MxS32 Act3Brickster::FUN_10042300()
 				for (MxS32 j = 0; j < boundaries[i]->GetNumEdges(); j++) {
 					LegoOrientedEdge* e = boundaries[i]->GetEdges()[j];
 
-					if (e->GetMask0x03()) {
+					if (e->IsTraversable()) {
 						Mx3DPointFloat midPoint(*e->GetPointA());
 						midPoint += *e->GetPointB();
 						midPoint /= 2.0f;

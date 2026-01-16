@@ -92,7 +92,7 @@ void LegoPathBoundary::SwitchBoundary(
 {
 	LegoOrientedEdge* e = p_edge;
 
-	if (p_edge->BETA_100b53b0(*p_boundary)) {
+	if (p_edge->TraversableFromFace(*p_boundary)) {
 		LegoPathBoundary* newBoundary = (LegoPathBoundary*) p_edge->OtherFace(p_boundary);
 
 		if (newBoundary == NULL) {
@@ -102,7 +102,7 @@ void LegoPathBoundary::SwitchBoundary(
 		MxS32 availableEdgeCount = 0;
 		MxU8 userNavFlag;
 
-		if (e->BETA_1004a830(*newBoundary, 1)) {
+		if (e->TraversableToFaceWithMask(*newBoundary, 1)) {
 			userNavFlag = p_actor->GetUserNavFlag();
 		}
 		else {
@@ -113,7 +113,7 @@ void LegoPathBoundary::SwitchBoundary(
 			p_edge = (LegoOrientedEdge*) p_edge->GetCounterclockwiseEdge(*newBoundary);
 			LegoPathBoundary* otherBoundary = (LegoPathBoundary*) p_edge->OtherFace(newBoundary);
 
-			if (p_edge->GetMask0x03() && (userNavFlag || p_edge->BETA_1004a830(*otherBoundary, 1))) {
+			if (p_edge->IsTraversable() && (userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, 1))) {
 				availableEdgeCount++;
 			}
 		} while (p_edge != e);
@@ -141,7 +141,7 @@ void LegoPathBoundary::SwitchBoundary(
 
 			LegoPathBoundary* otherBoundary = (LegoPathBoundary*) p_edge->OtherFace(newBoundary);
 
-			if (p_edge->GetMask0x03() && (userNavFlag || p_edge->BETA_1004a830(*otherBoundary, 1))) {
+			if (p_edge->IsTraversable() && (userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, 1))) {
 				selectedEdgeIndex--;
 			}
 		}
@@ -164,7 +164,7 @@ void LegoPathBoundary::SwitchBoundary(
 		do {
 			p_edge = (LegoOrientedEdge*) p_edge->GetCounterclockwiseEdge(*p_boundary);
 
-			if (p_edge->GetMask0x03()) {
+			if (p_edge->IsTraversable()) {
 				break;
 			}
 		} while (p_edge != e);
@@ -304,7 +304,7 @@ MxU32 LegoPathBoundary::Intersect(
 		}
 
 		if (projection <= 0.0f) {
-			if (!e->GetMask0x03()) {
+			if (!e->IsTraversable()) {
 				p_edge = (LegoOrientedEdge*) e->GetClockwiseEdge(*this);
 			}
 			else {
@@ -324,7 +324,7 @@ MxU32 LegoPathBoundary::Intersect(
 		else {
 			p_intersectionPoint = *e->CCWVertex(*this);
 
-			if (!e->GetMask0x03()) {
+			if (!e->IsTraversable()) {
 				p_edge = (LegoOrientedEdge*) e->GetCounterclockwiseEdge(*this);
 			}
 			else {

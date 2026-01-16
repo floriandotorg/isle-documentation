@@ -292,7 +292,7 @@ MxResult LegoPathController::PlaceActor(
 	for (MxS32 j = 0; j < boundary->GetNumEdges(); j++) {
 		LegoOrientedEdge* edge = (LegoOrientedEdge*) boundary->GetEdges()[j];
 
-		if (edge->GetMask0x03()) {
+		if (edge->IsTraversable()) {
 			Mx3DPointFloat vec;
 
 			if (((LegoOrientedEdge*) edge->GetClockwiseEdge(*boundary))->GetFaceNormal(*boundary, vec) == SUCCESS &&
@@ -300,7 +300,7 @@ MxResult LegoPathController::PlaceActor(
 				edge = (LegoOrientedEdge*) edge->GetCounterclockwiseEdge(*boundary)->GetCounterclockwiseEdge(*boundary);
 			}
 
-			if (!edge->GetMask0x03()) {
+			if (!edge->IsTraversable()) {
 				return FAILURE;
 			}
 
@@ -802,10 +802,10 @@ MxResult LegoPathController::FindPath(
 	for (MxS32 i = 0; i < p_oldBoundary->GetNumEdges(); i++) {
 		LegoPathCtrlEdge* edge = (LegoPathCtrlEdge*) p_oldBoundary->GetEdges()[i];
 
-		if (edge->GetMask0x03()) {
+		if (edge->IsTraversable()) {
 			LegoPathBoundary* otherFace = (LegoPathBoundary*) edge->OtherFace(p_oldBoundary);
 
-			if (otherFace != NULL && edge->BETA_1004a830(*otherFace, p_mask)) {
+			if (otherFace != NULL && edge->TraversableToFaceWithMask(*otherFace, p_mask)) {
 				if (p_newBoundary == otherFace) {
 					float dist;
 					if ((dist = edge->DistanceToMidpoint(p_oldPosition) + edge->DistanceToMidpoint(p_newPosition)) <
@@ -849,7 +849,7 @@ MxResult LegoPathController::FindPath(
 				LegoPathBoundary* bOther = (LegoPathBoundary*) e->OtherFace(b);
 				assert(bOther);
 
-				if (!e->BETA_1004a830(*bOther, p_mask)) {
+				if (!e->TraversableToFaceWithMask(*bOther, p_mask)) {
 					// This branch is empty, but present in the BETA - probably had comments only
 				}
 				else {
@@ -882,7 +882,7 @@ MxResult LegoPathController::FindPath(
 						for (MxS32 i = 0; i < bOther->GetNumEdges(); i++) {
 							LegoPathCtrlEdge* edge = (LegoPathCtrlEdge*) bOther->GetEdges()[i];
 
-							if (edge->GetMask0x03()) {
+							if (edge->IsTraversable()) {
 								if (pathCtrlEdgeSet.find(edge) != pathCtrlEdgeSet.end()) {
 									shouldRemove = FALSE;
 
@@ -926,7 +926,7 @@ MxResult LegoPathController::FindPath(
 		if (p_grec->size() > 0) {
 			LegoPathCtrlEdge* edge = p_grec->front().m_edge;
 
-			if (edge->FUN_10048c40(p_oldPosition)) {
+			if (edge->IsOn(p_oldPosition)) {
 				p_grec->pop_front();
 			}
 		}
@@ -934,7 +934,7 @@ MxResult LegoPathController::FindPath(
 		if (p_grec->size() > 0) {
 			LegoPathCtrlEdge* edge = p_grec->back().m_edge;
 
-			if (edge->FUN_10048c40(p_newPosition)) {
+			if (edge->IsOn(p_newPosition)) {
 				if (edge->OtherFace(p_grec->back().m_boundary) != NULL &&
 					edge->OtherFace(p_grec->back().m_boundary)->IsEqual(p_newBoundary)) {
 					p_grec->m_boundary = p_grec->back().m_boundary;

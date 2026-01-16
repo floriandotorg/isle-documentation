@@ -2594,7 +2594,7 @@ MxBool LegoAnimationManager::FUN_10064120(LegoLocation::Boundary* p_boundary, Mx
 	e = local50;
 	do {
 		e = (LegoOrientedEdge*) e->GetCounterclockwiseEdge(*boundary);
-		if (e->GetMask0x03()) {
+		if (e->IsTraversable()) {
 			break;
 		}
 	} while (e != local50);
@@ -2608,7 +2608,8 @@ MxBool LegoAnimationManager::FUN_10064120(LegoLocation::Boundary* p_boundary, Mx
 
 	while (local2c--) {
 		if (local34 != NULL) {
-			if (local34->BETA_1004a830(*boundary, LegoWEGEdge::c_bit1) && PointOnEdgeVisible(boundary, local34, destScale) &&
+			if (local34->TraversableToFaceWithMask(*boundary, LegoWEGEdge::c_bit1) &&
+				PointOnEdgeVisible(boundary, local34, destScale) &&
 				(!p_bool2 || PointOnEdgeVisible(boundary, local8, destScale))) {
 				p_boundary->m_srcScale = p_boundary->m_destScale = destScale;
 				p_boundary->m_name = boundary->GetName();
@@ -2639,7 +2640,7 @@ MxBool LegoAnimationManager::FUN_10064120(LegoLocation::Boundary* p_boundary, Mx
 				else {
 					local34 = (LegoOrientedEdge*) local34->GetClockwiseEdge(*boundary);
 				}
-			} while (!local34->GetMask0x03() && local34 != local50);
+			} while (!local34->IsTraversable() && local34 != local50);
 
 			if (local34 == local50) {
 				return FALSE;

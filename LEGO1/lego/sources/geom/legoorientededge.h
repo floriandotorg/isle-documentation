@@ -13,8 +13,8 @@
 struct LegoOrientedEdge : public LegoEdge {
 public:
 	enum {
-		c_bit1 = 0x01,
-		c_bit2 = 0x02,
+		c_traversableFromAToB = 0x01,
+		c_traversableFromBToA = 0x02,
 		c_hasFaceA = 0x04,
 		c_hasFaceB = 0x08
 	};
@@ -41,20 +41,23 @@ public:
 	}
 
 	// FUNCTION: BETA10 0x1004a830
-	LegoU32 BETA_1004a830(LegoWEGEdge& p_face, LegoU8 p_mask)
+	LegoU32 TraversableToFaceWithMask(LegoWEGEdge& p_other, LegoU8 p_mask)
 	{
-		assert(p_face.IsEqual(m_faceA) || p_face.IsEqual(m_faceB));
-		return (p_face.IsEqual(m_faceB) && (m_flags & c_bit1) && (p_face.GetMask0x03() & p_mask) == p_mask) ||
-			   (p_face.IsEqual(m_faceA) && (m_flags & c_bit2) && (p_face.GetMask0x03() & p_mask) == p_mask);
+		assert(p_other.IsEqual(m_faceA) || p_other.IsEqual(m_faceB));
+		return (p_other.IsEqual(m_faceB) && (m_flags & c_traversableFromAToB) &&
+				(p_other.GetMask0x03() & p_mask) == p_mask) ||
+			   (p_other.IsEqual(m_faceA) && (m_flags & c_traversableFromBToA) &&
+				(p_other.GetMask0x03() & p_mask) == p_mask);
 	}
 
 	// FUNCTION: BETA10 0x100b53b0
-	LegoU32 BETA_100b53b0(LegoWEGEdge& p_face)
+	LegoU32 TraversableFromFace(LegoWEGEdge& p_other)
 	{
 		// clang-format off
-		assert(p_face.IsEqual( m_faceA ) || p_face.IsEqual( m_faceB ));
+		assert(p_other.IsEqual( m_faceA ) || p_other.IsEqual( m_faceB ));
 		// clang-format on
-		return (p_face.IsEqual(m_faceA) && (m_flags & c_bit1)) || (p_face.IsEqual(m_faceB) && (m_flags & c_bit2));
+		return (p_other.IsEqual(m_faceA) && (m_flags & c_traversableFromAToB)) ||
+			   (p_other.IsEqual(m_faceB) && (m_flags & c_traversableFromBToA));
 	}
 
 	// FUNCTION: BETA10 0x1001cbe0
@@ -92,12 +95,12 @@ public:
 	}
 
 	// FUNCTION: BETA10 0x1001cc60
-	LegoU32 GetMask0x03() { return m_flags & (c_bit1 | c_bit2); }
+	LegoU32 IsTraversable() { return m_flags & (c_traversableFromAToB | c_traversableFromBToA); }
 
 	// FUNCTION: BETA10 0x101841b0
 	void SetFlags(LegoU16 p_flags) { m_flags = p_flags; }
 
-	inline LegoU32 FUN_10048c40(const Vector3& p_position);
+	inline LegoU32 IsOn(const Vector3& p_position);
 
 	// SYNTHETIC: LEGO1 0x1009a6c0
 	// SYNTHETIC: BETA10 0x101840f0
@@ -113,15 +116,15 @@ public:
 
 // FUNCTION: LEGO1 0x10048c40
 // FUNCTION: BETA10 0x1001cc90
-inline LegoU32 LegoOrientedEdge::FUN_10048c40(const Vector3& p_position)
+inline LegoU32 LegoOrientedEdge::IsOn(const Vector3& p_position)
 {
-	LegoFloat localc, local10;
+	LegoFloat dirRatioLast, dirRatioCurrent;
 	LegoU32 result = FALSE;
 
 	if (m_dir[0] > 0.001 || m_dir[0] < -0.001) {
-		localc = (p_position[0] - (*m_pointA)[0]) / m_dir[0];
+		dirRatioLast = (p_position[0] - (*m_pointA)[0]) / m_dir[0];
 
-		if (localc < 0 || localc > 1) {
+		if (dirRatioLast < 0 || dirRatioLast > 1) {
 			return FALSE;
 		}
 
@@ -134,16 +137,16 @@ inline LegoU32 LegoOrientedEdge::FUN_10048c40(const Vector3& p_position)
 	}
 
 	if (m_dir[1] > 0.001 || m_dir[1] < -0.001) {
-		local10 = (p_position[1] - (*m_pointA)[1]) / m_dir[1];
+		dirRatioCurrent = (p_position[1] - (*m_pointA)[1]) / m_dir[1];
 
 		if (result) {
-			if (localc > local10 + 0.001 || localc < local10 - 0.001) {
+			if (dirRatioLast > dirRatioCurrent + 0.001 || dirRatioLast < dirRatioCurrent - 0.001) {
 				return FALSE;
 			}
 		}
 		else {
 			result = TRUE;
-			localc = local10;
+			dirRatioLast = dirRatioCurrent;
 		}
 	}
 	else {
@@ -153,10 +156,10 @@ inline LegoU32 LegoOrientedEdge::FUN_10048c40(const Vector3& p_position)
 	}
 
 	if (m_dir[2] > 0.001 || m_dir[2] < -0.001) {
-		local10 = (p_position[2] - (*m_pointA)[2]) / m_dir[2];
+		dirRatioCurrent = (p_position[2] - (*m_pointA)[2]) / m_dir[2];
 
 		if (result) {
-			if (localc > local10 + 0.001 || localc < local10 - 0.001) {
+			if (dirRatioLast > dirRatioCurrent + 0.001 || dirRatioLast < dirRatioCurrent - 0.001) {
 				return FALSE;
 			}
 		}
