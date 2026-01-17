@@ -2608,7 +2608,7 @@ MxBool LegoAnimationManager::FUN_10064120(LegoLocation::Boundary* p_boundary, Mx
 
 	while (local2c--) {
 		if (local34 != NULL) {
-			if (local34->TraversableToFaceWithMask(*boundary, LegoWEGEdge::c_bit1) &&
+			if (local34->TraversableToFaceWithMask(*boundary, LegoWEGEdge::c_WEGbit1) &&
 				PointOnEdgeVisible(boundary, local34, destScale) &&
 				(!p_bool2 || PointOnEdgeVisible(boundary, local8, destScale))) {
 				p_boundary->m_srcScale = p_boundary->m_destScale = destScale;

@@ -418,7 +418,7 @@ void Act2Actor::FindPath(MxU32 p_location)
 		newPosition,
 		newDirection,
 		newBoundary,
-		LegoOrientedEdge::c_traversableToA,
+		LegoWEGEdge::c_WEGbit1,
 		NULL
 	);
 

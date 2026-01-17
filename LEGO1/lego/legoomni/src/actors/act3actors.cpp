@@ -354,7 +354,7 @@ MxResult Act3Cop::Hit()
 				newPosition,
 				newDirection,
 				boundary,
-				LegoOrientedEdge::c_traversableToA,
+				LegoWEGEdge::c_WEGbit1,
 				&local34
 			) != SUCCESS) {
 			delete grec;
@@ -392,7 +392,7 @@ MxResult Act3Cop::Hit()
 						local88,
 						localec,
 						donut->GetBoundary(),
-						LegoOrientedEdge::c_traversableToA,
+						LegoWEGEdge::c_WEGbit1,
 						&distance
 					) == SUCCESS &&
 					(grec == NULL || distance < minDistance)) {
@@ -432,7 +432,7 @@ MxResult Act3Cop::Hit()
 						newPosition,
 						newDirection,
 						boundary,
-						LegoOrientedEdge::c_traversableToA,
+						LegoWEGEdge::c_WEGbit1,
 						&local100
 					) != SUCCESS) {
 					local14c = local150 = grec;
@@ -832,7 +832,7 @@ MxResult Act3Brickster::Hit()
 							local88,
 							localec,
 							pizza->GetBoundary(),
-							LegoOrientedEdge::c_traversableToA,
+							LegoWEGEdge::c_WEGbit1,
 							&distance
 						) == SUCCESS &&
 						(grec == NULL || distance < minDistance)) {
@@ -916,7 +916,7 @@ MxResult Act3Brickster::Hit()
 					local108,
 					local138,
 					localf4,
-					LegoOrientedEdge::c_traversableToA,
+					LegoWEGEdge::c_WEGbit1,
 					&local13c
 				) != SUCCESS) {
 				local1bc = local1c0 = grec;

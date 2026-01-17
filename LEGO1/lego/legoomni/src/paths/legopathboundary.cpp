@@ -102,7 +102,7 @@ void LegoPathBoundary::SwitchBoundary(
 		MxS32 availableEdgeCount = 0;
 		MxU8 userNavFlag;
 
-		if (e->TraversableToFaceWithMask(*newBoundary, 1)) {
+		if (e->TraversableToFaceWithMask(*newBoundary, LegoWEGEdge::c_WEGbit1)) {
 			userNavFlag = p_actor->GetUserNavFlag();
 		}
 		else {
@@ -113,7 +113,8 @@ void LegoPathBoundary::SwitchBoundary(
 			p_edge = (LegoOrientedEdge*) p_edge->GetCounterclockwiseEdge(*newBoundary);
 			LegoPathBoundary* otherBoundary = (LegoPathBoundary*) p_edge->OtherFace(newBoundary);
 
-			if (p_edge->IsTraversable() && (userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, 1))) {
+			if (p_edge->IsTraversable() &&
+				(userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, LegoWEGEdge::c_WEGbit1))) {
 				availableEdgeCount++;
 			}
 		} while (p_edge != e);
@@ -141,7 +142,8 @@ void LegoPathBoundary::SwitchBoundary(
 
 			LegoPathBoundary* otherBoundary = (LegoPathBoundary*) p_edge->OtherFace(newBoundary);
 
-			if (p_edge->IsTraversable() && (userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, 1))) {
+			if (p_edge->IsTraversable() &&
+				(userNavFlag || p_edge->TraversableToFaceWithMask(*otherBoundary, LegoWEGEdge::c_WEGbit1))) {
 				selectedEdgeIndex--;
 			}
 		}

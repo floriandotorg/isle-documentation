@@ -353,7 +353,7 @@ MxResult LegoPathController::RemoveActor(LegoPathActor* p_actor)
 void LegoPathController::AddPresenterIfInRange(LegoAnimPresenter* p_presenter)
 {
 	for (MxS32 i = 0; i < m_numBoundaries; i++) {
-		if (!(m_boundaries[i].m_flags & LegoWEGEdge::c_bit3)) {
+		if (!(m_boundaries[i].m_flags & LegoWEGEdge::c_inAir)) {
 			m_boundaries[i].AddPresenterIfInRange(p_presenter);
 		}
 	}
@@ -1001,7 +1001,7 @@ MxResult LegoPathController::FindIntersectionBoundary(
 	MxU32 solutionNotFound = TRUE;
 
 	for (MxS32 i = 0; i < m_numBoundaries; i++) {
-		if (m_boundaries[i].m_flags & LegoPathBoundary::c_bit3) {
+		if (m_boundaries[i].m_flags & LegoPathBoundary::c_inAir) {
 			continue;
 		}
 

@@ -34,9 +34,9 @@ struct PathWithTrigger {
 class LegoWEGEdge : public LegoWEEdge {
 public:
 	enum {
-		c_bit1 = 0x01,
-		c_bit2 = 0x02,
-		c_bit3 = 0x04,
+		c_WEGbit1 = 0x01,
+		c_WEGbit2 = 0x02,
+		c_inAir = 0x04,
 		c_visible = 0x10
 	};
 
@@ -78,7 +78,7 @@ public:
 	}
 
 	// FUNCTION: BETA10 0x1004a980
-	LegoU8 GetMask0x03() { return m_flags & (c_bit1 | c_bit2); }
+	LegoU8 GetMask0x03() { return m_flags & (c_WEGbit1 | c_WEGbit2); }
 
 	// SYNTHETIC: LEGO1 0x1009a7e0
 	// SYNTHETIC: BETA10 0x10184130
