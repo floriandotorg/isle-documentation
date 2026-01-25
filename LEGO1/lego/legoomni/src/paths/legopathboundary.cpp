@@ -358,7 +358,7 @@ MxU32 LegoPathBoundary::AddPresenterIfInRange(LegoAnimPresenter* p_presenter)
 
 	// TODO: This only seems to match if the type is not the same as the type of the
 	// key value of the set. Figure out which type the set (or parameter) actually uses.
-	// Also see call to .find in LegoPathController::FUN_10046050
+	// Also see call to .find in LegoPathController::PlaceActor
 	m_presenters.insert(static_cast<LegoLocomotionAnimPresenter*>(p_presenter));
 	return 1;
 }
@@ -370,7 +370,7 @@ MxU32 LegoPathBoundary::RemovePresenter(LegoAnimPresenter* p_presenter)
 	if (p_presenter != NULL) {
 		// TODO: This only seems to match if the type is not the same as the type of the
 		// key value of the set. Figure out which type the set (or parameter) actually uses.
-		// Also see call to .find in LegoPathController::FUN_10046050
+		// Also see call to .find in LegoPathController::PlaceActor
 		if (m_presenters.find(static_cast<LegoLocomotionAnimPresenter*>(p_presenter)) != m_presenters.end()) {
 			m_presenters.erase(static_cast<LegoLocomotionAnimPresenter*>(p_presenter));
 			return 1;
