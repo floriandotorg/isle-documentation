@@ -140,7 +140,7 @@ public:
 
 	// FUNCTION: LEGO1 0x10002dd0
 	// FUNCTION: BETA10 0x1000f6a0
-	virtual void VTable0xc4() {} // vtable+0xc4
+	virtual void FreezeMamaAndPapa() {} // vtable+0xc4
 
 	// FUNCTION: LEGO1 0x10002de0
 	virtual void SetCanRotate(MxU8 p_canRotate) { m_canRotate = p_canRotate; } // vtable+0xc8

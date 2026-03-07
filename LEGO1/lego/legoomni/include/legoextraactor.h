@@ -53,7 +53,7 @@ public:
 	MxResult HitActor(LegoPathActor* p_actor, MxBool p_bool) override;                             // vtable+0x94
 	MxResult CalculateSpline() override;                                                           // vtable+0x9c
 	void GetWalkingBehavior(MxBool& p_countCounterclockWise, MxS32& p_selectedEdgeIndex) override; // vtable+0xa4
-	void VTable0xc4() override;                                                                    // vtable+0xc4
+	void FreezeMamaAndPapa() override;                                                             // vtable+0xc4
 
 	virtual MxResult SwitchDirection();
 

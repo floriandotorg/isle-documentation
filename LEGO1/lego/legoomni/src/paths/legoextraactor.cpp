@@ -237,7 +237,7 @@ MxResult LegoExtraActor::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 				SoundManager()->GetCacheSoundManager()->Play("crash5", m_roi->GetName(), FALSE);
 				m_scheduledTime = Timer()->GetTime() + m_disAnim->GetDuration();
 				m_prevWorldSpeed = GetWorldSpeed();
-				VTable0xc4();
+				FreezeMamaAndPapa();
 				SetWorldSpeed(0);
 				m_reassemblyAnimation = e_disassemble;
 				SetActorState(c_ready | c_noCollide);
@@ -248,7 +248,7 @@ MxResult LegoExtraActor::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 			LegoROI* roi = GetROI();
 			assert(roi);
 			SoundManager()->GetCacheSoundManager()->Play("crash5", m_roi->GetName(), FALSE);
-			VTable0xc4();
+			FreezeMamaAndPapa();
 			SetActorState(c_hit | c_noCollide);
 			Mx3DPointFloat dir = p_actor->GetWorldDirection();
 			MxMatrix matrix3 = MxMatrix(roi->GetLocal2World());
@@ -390,14 +390,14 @@ void LegoExtraActor::ApplyTransform(Matrix4& p_transform)
 void LegoExtraActor::SetWorldSpeed(MxFloat p_worldSpeed)
 {
 	if (m_curAnim == 0 && p_worldSpeed > 0) {
-		VTable0xc4();
+		FreezeMamaAndPapa();
 	}
 
 	LegoAnimActor::SetWorldSpeed(p_worldSpeed);
 }
 
 // FUNCTION: LEGO1 0x1002b630
-void LegoExtraActor::VTable0xc4()
+void LegoExtraActor::FreezeMamaAndPapa()
 {
 	if (m_curAnim != 0) {
 		return;
@@ -405,9 +405,9 @@ void LegoExtraActor::VTable0xc4()
 
 	if (m_worldSpeed > -0.001 || m_worldSpeed < 0.001) {
 		MxU16 name = *((MxU16*) m_roi->GetName());
-		MxBool b = name == TWOCC('m', 'a') || name == TWOCC('p', 'a');
+		MxBool maOrPa = name == TWOCC('m', 'a') || name == TWOCC('p', 'a');
 
-		if (b) {
+		if (maOrPa) {
 			float duration = m_animMaps[m_curAnim]->GetDuration();
 			MxMatrix matrix(m_local2World);
 			LegoAnimActor::AnimateWithTransform(duration, matrix);
