@@ -83,7 +83,7 @@ private:
 	undefined4 m_unused;                // 0x3c
 	MxBool m_initializing;              // 0x40
 	MxFloat m_resetWorldSpeedAt;        // 0x44
-	MxS8 m_visitedLocations;            // 0x48
+	MxS8 m_clearedLocations;            // 0x48
 	LegoEntity* m_nextEntity;           // 0x4c
 };
 

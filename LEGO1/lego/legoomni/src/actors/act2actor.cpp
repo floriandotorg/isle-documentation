@@ -123,7 +123,7 @@ Act2Actor::Act2Actor()
 	m_shootAnim = NULL;
 	m_resetWorldSpeedAt = 0;
 	m_initializing = TRUE;
-	m_visitedLocations = 0;
+	m_clearedLocations = 0;
 	m_nextEntity = NULL;
 	m_cachedShootSound = NULL;
 	m_unused = 0;
@@ -313,25 +313,25 @@ void Act2Actor::Animate(float p_time)
 			MxU32 inFrustum = vm->IsBoundingBoxInFrustum(m_roi->GetWorldBoundingBox());
 
 			if (inFrustum) {
-				Mx3DPointFloat local18(roiPepper->GetWorldDirection());
-				Mx3DPointFloat local30(m_roi->GetWorldPosition());
-				Mx3DPointFloat local60(roiPepper->GetWorldPosition());
-				local30 -= local60;
-				local30.Unitize();
+				Mx3DPointFloat pepperDirection(roiPepper->GetWorldDirection());
+				Mx3DPointFloat pepperToActor(m_roi->GetWorldPosition());
+				Mx3DPointFloat pepperPosition(roiPepper->GetWorldPosition());
+				pepperToActor -= pepperPosition;
+				pepperToActor.Unitize();
 
-				MxFloat dotproduct = local18.Dot(local30, local18);
+				MxFloat dotproduct = pepperDirection.Dot(pepperToActor, pepperDirection);
 
 				if (dotproduct >= 0.0) {
 					const MxFloat* pepperWorldPosition = roiPepper->GetWorldPosition();
 					const MxFloat* worldPosition = m_roi->GetWorldPosition();
 
-					MxFloat distanceToAmbulance = DISTSQRD3(pepperWorldPosition, worldPosition);
+					MxFloat squaredDistanceToAmbulance = DISTSQRD3(pepperWorldPosition, worldPosition);
 
-					if (distanceToAmbulance < 75.0f) {
+					if (squaredDistanceToAmbulance < 75.0f) {
 						if (!m_skipAnimation) {
 							m_skipAnimation = TRUE;
 
-							if (!m_state) {
+							if (m_state == e_readyToShoot) {
 								PlayNextVoiceOver(VoiceOver::e_interrupt);
 								m_state = e_endShot;
 							}
@@ -457,7 +457,7 @@ MxS32 Act2Actor::NextTargetLocation()
 	CurrentWorld();
 	MxU16 randomVal = rand() / (RAND_MAX / 2) + 1;
 
-	if (m_visitedLocations == 8 && m_targetLocation != 8) {
+	if (m_clearedLocations == 8 && m_targetLocation != 8) {
 		newLocation = 8;
 	}
 	else {
@@ -538,7 +538,7 @@ MxS32 Act2Actor::NextTargetLocation()
 
 	MxU32 firstChoice = newLocation;
 
-	if (m_visitedLocations < 7 || g_brickstrLocations[m_targetLocation].m_cleared) {
+	if (m_clearedLocations < 7 || g_brickstrLocations[m_targetLocation].m_cleared) {
 		while (g_brickstrLocations[newLocation].m_cleared || m_targetLocation == newLocation) {
 			if (newLocation == 7) {
 				newLocation = 0;
@@ -872,7 +872,7 @@ LegoEntity* Act2Actor::GetNextEntity(MxBool* p_isBuilding)
 
 	if (!result && !g_brickstrLocations[m_targetLocation].m_cleared) {
 		g_brickstrLocations[m_targetLocation].m_cleared = TRUE;
-		m_visitedLocations++;
+		m_clearedLocations++;
 	}
 
 	return result;
