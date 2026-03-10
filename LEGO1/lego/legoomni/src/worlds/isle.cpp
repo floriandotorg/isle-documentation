@@ -812,7 +812,7 @@ void Isle::Enable(MxBool p_enable)
 			g_isleFlags &= ~c_playMusic;
 			m_ambulance->Init();
 			break;
-		case 11:
+		case Act1State::e_jukebox:
 			m_act1state->m_state = Act1State::e_none;
 			((IslePathActor*) UserActor())
 				->SpawnPlayer(
