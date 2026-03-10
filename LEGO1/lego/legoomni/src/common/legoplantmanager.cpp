@@ -136,8 +136,8 @@ MxResult LegoPlantManager::DetermineBoundaries()
 	}
 
 	for (MxS32 i = 0; i < sizeOfArray(g_plantInfo); i++) {
-		if (g_plantInfo[i].m_entity != NULL && g_plantInfo[i].m_name != NULL) {
-			g_plantInfo[i].m_boundary = world->FindPathBoundary(g_plantInfo[i].m_name);
+		if (g_plantInfo[i].m_entity != NULL && g_plantInfo[i].m_boundaryName != NULL) {
+			g_plantInfo[i].m_boundary = world->FindPathBoundary(g_plantInfo[i].m_boundaryName);
 
 			if (g_plantInfo[i].m_boundary != NULL) {
 				Mx3DPointFloat position(g_plantInfo[i].m_x, g_plantInfo[i].m_y, g_plantInfo[i].m_z);
@@ -161,15 +161,15 @@ MxResult LegoPlantManager::DetermineBoundaries()
 				}
 
 				if (g_plantInfo[i].m_boundary != NULL) {
-					Mx4DPointFloat& unk0x14 = *g_plantInfo[i].m_boundary->GetUp();
+					Mx4DPointFloat& up = *g_plantInfo[i].m_boundary->GetUp();
 
-					if (position.Dot(position, unk0x14) + unk0x14.index_operator(3) > 0.001 ||
-						position.Dot(position, unk0x14) + unk0x14.index_operator(3) < -0.001) {
+					if (position.Dot(position, up) + up.index_operator(3) > 0.001 ||
+						position.Dot(position, up) + up.index_operator(3) < -0.001) {
 
 						g_plantInfo[i].m_y =
-							-((position[0] * unk0x14.index_operator(0) + unk0x14.index_operator(3) +
-							   position[2] * unk0x14.index_operator(2)) /
-							  unk0x14.index_operator(1));
+							-((position[0] * up.index_operator(0) + up.index_operator(3) +
+							   position[2] * up.index_operator(2)) /
+							  up.index_operator(1));
 
 						MxTrace(
 							"Plant %d shot location (%g, %g, %g) is not on plane of boundary %s...adjusting to (%g, "
@@ -188,7 +188,7 @@ MxResult LegoPlantManager::DetermineBoundaries()
 				}
 			}
 			else {
-				MxTrace("Plant %d is in boundary %s that does not exist.\n", i, g_plantInfo[i].m_name);
+				MxTrace("Plant %d is in boundary %s that does not exist.\n", i, g_plantInfo[i].m_boundaryName);
 			}
 		}
 	}
@@ -622,7 +622,7 @@ void LegoPlantManager::ScheduleAnimation(LegoEntity* p_entity, MxLong p_length)
 
 	MxLong time = Timer()->GetTime();
 	time += p_length;
-	entry->m_time = time + 1000;
+	entry->m_finishTime = time + 1000;
 
 	AdjustCounter(p_entity, -1);
 }
@@ -649,28 +649,28 @@ MxResult LegoPlantManager::Tickle()
 				break;
 			}
 
-			if (entry->m_time - time > 1000) {
+			if (entry->m_finishTime - time > 1000) {
 				break;
 			}
 
-			MxMatrix local90;
-			MxMatrix local48;
+			MxMatrix unused1;
+			MxMatrix unused2;
 
-			MxMatrix locald8(entry->m_roi->GetLocal2World());
-			Mx3DPointFloat localec(locald8[3]);
+			MxMatrix transform(entry->m_roi->GetLocal2World());
+			Mx3DPointFloat position(transform[3]);
 
-			ZEROVEC3(locald8[3]);
+			ZEROVEC3(transform[3]);
 
-			locald8[1][0] = sin(((entry->m_time - time) * 2) * 0.0062832f) * 0.2;
-			locald8[1][2] = sin(((entry->m_time - time) * 4) * 0.0062832f) * 0.2;
-			locald8.Scale(1.03f, 0.95f, 1.03f);
+			transform[1][0] = sin(((entry->m_finishTime - time) * 2) * 0.0062832f) * 0.2;
+			transform[1][2] = sin(((entry->m_finishTime - time) * 4) * 0.0062832f) * 0.2;
+			transform.Scale(1.03f, 0.95f, 1.03f);
 
-			SET3(locald8[3], localec);
+			SET3(transform[3], position);
 
-			entry->m_roi->SetLocal2World(locald8);
+			entry->m_roi->SetLocal2World(transform);
 			entry->m_roi->WrappedUpdateWorldData();
 
-			if (entry->m_time < time) {
+			if (entry->m_finishTime < time) {
 				LegoPlantInfo* info = GetInfo(entry->m_entity);
 
 				if (info->m_counter == 0) {

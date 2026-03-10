@@ -43,7 +43,7 @@ struct LegoPlantInfo {
 	MxU8 m_color;                 // 0x15 - see enum for possible values
 	MxS8 m_counter;               // 0x16
 	MxS8 m_initialCounter;        // 0x17 - initial value loaded to m_counter
-	const char* m_name;           // 0x18
+	const char* m_boundaryName;   // 0x18
 	undefined4 m_unk0x1c;         // 0x1c
 	float m_x;                    // 0x20
 	float m_y;                    // 0x24
