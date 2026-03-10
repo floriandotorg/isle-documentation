@@ -226,7 +226,7 @@ void LegoRaceCar::InitSoundIndices()
 void LegoRaceCar::SetWorldSpeed(MxFloat p_worldSpeed)
 {
 	if (!m_userNavFlag) {
-		if (!LegoCarRaceActor::m_animState) {
+		if (LegoCarRaceActor::m_animState == 0) {
 			m_maxLinearVel = p_worldSpeed;
 		}
 		LegoAnimActor::SetWorldSpeed(p_worldSpeed);
@@ -579,7 +579,7 @@ void LegoJetski::InitSoundIndices()
 void LegoJetski::SetWorldSpeed(MxFloat p_worldSpeed)
 {
 	if (!m_userNavFlag) {
-		if (!LegoCarRaceActor::m_animState) {
+		if (LegoCarRaceActor::m_animState == 0) {
 			m_maxLinearVel = p_worldSpeed;
 		}
 		LegoAnimActor::SetWorldSpeed(p_worldSpeed);
