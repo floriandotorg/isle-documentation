@@ -695,7 +695,7 @@ void LegoBuildingManager::ScheduleAnimation(
 
 	MxLong time = Timer()->GetTime();
 	time += p_length;
-	entry->m_time = time + 1000;
+	entry->m_finishTime = time + 1000;
 
 	entry->m_y = entry->m_roi->GetWorldPosition()[1];
 	entry->m_muted = p_haveSound == FALSE;
@@ -724,7 +724,7 @@ MxResult LegoBuildingManager::Tickle()
 				break;
 			}
 
-			if (entry->m_time - time > 1000) {
+			if (entry->m_finishTime - time > 1000) {
 				break;
 			}
 
@@ -733,24 +733,24 @@ MxResult LegoBuildingManager::Tickle()
 				SoundManager()->GetCacheSoundManager()->Play(m_sound, entry->m_roi->GetName(), FALSE);
 			}
 
-			MxMatrix local48;
-			MxMatrix locald8;
+			MxMatrix unusedTransformationMatrix;
+			MxMatrix unused;
 
 			MxMatrix transformationMatrix(entry->m_roi->GetLocal2World());
 			Mx3DPointFloat position(transformationMatrix[3]);
 
 			ZEROVEC3(transformationMatrix[3]);
 
-			locald8.SetIdentity();
-			local48 = transformationMatrix;
+			unused.SetIdentity();
+			unusedTransformationMatrix = transformationMatrix;
 
-			position[1] = sin(((entry->m_time - time) * 10) * 0.0062831999f) * 0.4 + (entry->m_y -= 0.05);
+			position[1] = sin(((entry->m_finishTime - time) * 10) * 0.0062831999f) * 0.4 + (entry->m_y -= 0.05);
 			SET3(transformationMatrix[3], position);
 
 			entry->m_roi->UpdateTransformationRelativeToParent(transformationMatrix);
 			VideoManager()->Get3DManager()->Moved(*entry->m_roi);
 
-			if (entry->m_time < time) {
+			if (entry->m_finishTime < time) {
 				LegoBuildingInfo* info = GetInfo(entry->m_entity);
 
 				if (info->m_counter && !m_hideAfterAnimation) {
@@ -839,15 +839,15 @@ MxResult LegoBuildingManager::DetermineBoundaries()
 				}
 
 				if (g_buildingInfo[i].m_boundary != NULL) {
-					Mx4DPointFloat& unk0x14 = *g_buildingInfo[i].m_boundary->GetUp();
+					Mx4DPointFloat& up = *g_buildingInfo[i].m_boundary->GetUp();
 
-					if (position.Dot(position, unk0x14) + unk0x14.index_operator(3) > 0.001 ||
-						position.Dot(position, unk0x14) + unk0x14.index_operator(3) < -0.001) {
+					if (position.Dot(position, up) + up.index_operator(3) > 0.001 ||
+						position.Dot(position, up) + up.index_operator(3) < -0.001) {
 
 						g_buildingInfo[i].m_y =
-							-((position[0] * unk0x14.index_operator(0) + unk0x14.index_operator(3) +
-							   position[2] * unk0x14.index_operator(2)) /
-							  unk0x14.index_operator(1));
+							-((position[0] * up.index_operator(0) + up.index_operator(3) +
+							   position[2] * up.index_operator(2)) /
+							  up.index_operator(1));
 
 						MxTrace(
 							"Building %d shot location (%g, %g, %g) is not on plane of boundary %s...adjusting to (%g, "

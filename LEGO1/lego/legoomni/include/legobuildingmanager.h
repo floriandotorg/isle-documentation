@@ -45,7 +45,7 @@ public:
 	struct AnimEntry {
 		LegoEntity* m_entity; // 0x00
 		LegoROI* m_roi;       // 0x04
-		MxLong m_time;        // 0x08
+		MxLong m_finishTime;  // 0x08
 		float m_y;            // 0x0c
 		MxBool m_muted;       // 0x10
 	};
