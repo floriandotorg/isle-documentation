@@ -1,22 +1,11 @@
 import type.magic;
 
+import legoisland.common;
+
 struct Struct {
     std::string::SizedString<u8> name;
     u32 flags;
-};
-
-struct Vec3 {
-    float x;
-    float y;
-    float z;
-};
-
-struct Vec4 {
-    float x;
-    float y;
-    float z;
-    float w;
-};
+} [[format("format_named")]];
 
 struct CtrlEdge {
     u16 flags;
@@ -36,7 +25,7 @@ struct CtrlEdge {
         u16 cw_b_idx;
     }
     
-    Vec3 unknown1;
+    Vector3f unknown1;
     float unknown2;
 };
 
@@ -52,16 +41,16 @@ struct Boundary {
     u8 flags;
     u8 unknown1;
     std::string::SizedString<u8> name;
-    Vec4 unknown2;
-    Vec4 normals[num_edges];
-    Vec3 unknown3;
+    Vector4f unknown2;
+    Vector4f normals[num_edges];
+    Vector3f unknown3;
     float unknown4;
     u8 num_triggers;
     if (num_triggers > 0) {
         BoundaryTrigger triggers[num_triggers];
-        Vec3 unknown5;
+        Vector3f unknown5;
     }
-};
+} [[format("format_named")]];
 
 struct Start {
     u16 num_struct;
@@ -69,7 +58,7 @@ struct Start {
     u16 num_ctrl_edges;
     u16 num_boundaries;
     Struct structs[num_struct];
-    Vec3 nodes[num_nodes];
+    Vector3f nodes[num_nodes];
     CtrlEdge ctrl_edges[num_ctrl_edges];
     Boundary boundaries[num_boundaries];
 };

@@ -22,3 +22,14 @@ struct Vector3f {
     float y;
     float z;
 } [[static, format("format_vector3f")]];
+
+fn format_vector4f(auto vector) {
+    return std::format("x={:.2f}, y={:.2f}, z={:.2f}, w={:.2f}", vector.x, vector.y, vector.z, vector.w);
+};
+
+struct Vector4f {
+    float x;
+    float y;
+    float z;
+    float w;
+} [[static, format("format_vector4f")]];
