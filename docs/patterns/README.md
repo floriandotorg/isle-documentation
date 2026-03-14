@@ -4,7 +4,7 @@ ImHex is a hex editor which also supports custom made patterns to more easily de
 
 ## Usage
 
-As some patterns import other patterns in this directory it is advised to add this directory to ImHex. To do that open the [settings](https://docs.werwolv.net/imhex/misc/settings#categories) and simply add this directory.
+As some patterns import other patterns in this directory it is advised to add this directory to ImHex. To do that open the [settings](https://docs.werwolv.net/imhex/misc/settings#categories) and simply add this directory. To work correctly this directory needs the subdirectory `patterns` with the subdirectory `legoisland`.
 
 The patterns aren't automatically detected and need to manually imported.
 
@@ -12,12 +12,12 @@ The patterns aren't automatically detected and need to manually imported.
 
 | Name | Path | Description |
 |------|------|-------------|
-| ani files | [`imhex-patterns/ani.hexpat`](ani.hexpat) | Animation file for Lego Island |
-| dta files | [`imhex-patterns/dta.hexpat`](dta.hexpat) | DTA file for Lego Island |
-| gph files | [`imhex-patterns/path.hexpat`](path.hexpat) | GPH file/Path definition for Lego Island |
-| mod files | [`imhex-patterns/mod.hexpat`](mod.hexpat) | Model file for Lego Island |
-| tex files | [`imhex-patterns/tex.hexpat`](tex.hexpat) | TEX files (textures) for Lego Island |
-| WORLD.WDB | [`imhex-patterns/worlddb.hexpat`](worlddb.hexpat) | World DB file for Lego Island |
+| ani files | [`patterns/legoisland/ani.hexpat`](ani.hexpat) | Animation file for Lego Island |
+| dta files | [`patterns/legoisland/dta.hexpat`](dta.hexpat) | DTA file for Lego Island |
+| gph files | [`patterns/legoisland/path.hexpat`](path.hexpat) | GPH file/Path definition for Lego Island |
+| mod files | [`patterns/legoisland/mod.hexpat`](mod.hexpat) | Model file for Lego Island |
+| tex files | [`patterns/legoisland/tex.hexpat`](tex.hexpat) | TEX files (textures) for Lego Island |
+| WORLD.WDB | [`patterns/legoisland/worlddb.hexpat`](worlddb.hexpat) | World DB file for Lego Island |
 
 Other file types (WAVE, FLIC and Smacker) are supported by ImHex itself and don't need this directory.
 

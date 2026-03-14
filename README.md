@@ -3,7 +3,7 @@
 > **Note:** This is a fork of the [original LEGO Island decompilation project](https://github.com/isledecomp/isle) that adds type information and Doxygen documentation.
 >
 > ## [Documentation Available Here](https://floriandotorg.github.io/isle-documentation/) 📚
-> ## [ImHex Patterns](/imhex-patterns/README.md) 🔍
+> ## [ImHex Patterns](/docs/patterns/README.md) 🔍
 
 ---
 
