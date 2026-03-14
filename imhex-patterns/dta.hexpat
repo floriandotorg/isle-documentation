@@ -7,10 +7,6 @@ import std.string;
 
 import legoisland.common;
 
-fn format_name(auto block) {
-    return std::format("{}", block.name);
-};
-
 struct ModelInfo {
     std::string::SizedString<u8> name;
     u8 unknown1;
@@ -18,7 +14,7 @@ struct ModelInfo {
     Vector3f direction;
     Vector3f up;
     u8 unknown2;
-} [[format("format_name")]];
+} [[format("format_named")]];
 
 bitfield ActorMask {
     Pepper: 1;
@@ -41,7 +37,7 @@ struct Animation {
     float unknown_radius;
     u8 model_count;
     ModelInfo model_info[model_count];
-} [[format("format_name")]];
+} [[format("format_named")]];
 
 u32 version @ 0x00;
 u16 num_animations @ $;

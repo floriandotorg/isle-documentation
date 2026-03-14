@@ -1,3 +1,9 @@
+#pragma once
+
+fn format_named(auto named) {
+    return named.name;
+};
+
 fn format_vector2f(auto vector) {
     return std::format("x={:.2f}, y={:.2f}", vector.x, vector.y);
 };

@@ -49,6 +49,10 @@ struct AnimationNode {
     MorphKey morphs[num_morphs];
     u32 num_children;
     AnimationNode children[num_children];
+} [[format("format_animation_node")]];
+
+fn format_animation_node(auto node) {
+    return std::format("{} (T: {}, R: {}, S: {}, M:{})", node.name, node.num_translations, node.num_rotations, node.num_scales, node.num_morphs);
 };
 
 struct Actor {
@@ -56,7 +60,7 @@ struct Actor {
     if (name.size > 0) {
         u32 actor_type;
     }
-};
+} [[format("format_named")]];
 
 struct Scene {
     u16 num_translations1;
