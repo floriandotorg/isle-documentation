@@ -2,6 +2,8 @@
 #pragma description Animation types used in ani and wdb files
 #pragma endian little
 
+#pragma once
+
 import std.string;
 
 import legoisland.common;

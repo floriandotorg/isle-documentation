@@ -15,6 +15,7 @@ The patterns aren't automatically detected and need to manually imported.
 | ani files | [`imhex-patterns/ani.hexpat`](ani.hexpat) | Animation file for Lego Island |
 | dta files | [`imhex-patterns/dta.hexpat`](dta.hexpat) | DTA file for Lego Island |
 | gph files | [`imhex-patterns/path.hexpat`](path.hexpat) | GPH file/Path definition for Lego Island |
+| mod files | [`imhex-patterns/mod.hexpat`](mod.hexpat) | Model file for Lego Island |
 | tex files | [`imhex-patterns/tex.hexpat`](tex.hexpat) | TEX files (textures) for Lego Island |
 | WORLD.WDB | [`imhex-patterns/worlddb.hexpat`](worlddb.hexpat) | World DB file for Lego Island |
 

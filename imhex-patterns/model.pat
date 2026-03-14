@@ -1,0 +1,138 @@
+#pragma author xZise
+#pragma description Model types used in wdb and mod files
+#pragma endian little
+
+import std.string;
+import std.mem;
+import std.io;
+import std.core;
+import std.sys;
+import std.ptr;
+import type.color;
+
+import legoisland.common;
+import legoisland.animation;
+
+import legoisland.textures;
+
+struct TextureInfoEntry {
+    std::string::SizedString<u32> name;
+    Gif image1;
+    if (std::string::at(name, 0) == '^') {
+        Gif image2;
+    }
+} [[format("format_named")]];
+
+struct ModelTextureInfo {
+    u32 num_textures;
+    u32 skip_textures;
+    TextureInfoEntry textures[num_textures];
+};
+
+struct PartTextureInfo {
+    u32 num_textures;
+    TextureInfoEntry textures[num_textures];
+};
+
+bitfield PackedVertexIndex {
+    new_vertex: 1;
+    if (new_vertex == 0) {
+        padding: 15;
+    } else {
+        normal_index: 15;
+    }
+    padding: 1;
+    vertex_index: 15;
+} [[bitfield_order(std::core::BitfieldOrder::MostToLeastSignificant, 32)]];
+
+enum Shading: u8 {
+    Flat = 0,
+    Gouraud = 1,
+    WireFrame = 2,
+};
+
+struct Mesh {
+    u16 num_polys;
+    u16 num_mesh_verts;
+    PackedVertexIndex vertex_indices_packed[num_polys * 3];
+    u32 num_texture_indices;
+    if (num_texture_indices > 0) {
+        u32 texture_indices[num_polys * 3];
+    }
+    Color color;
+    float transparency;
+    Shading shading;
+    padding[2];
+    bool use_color_alias;
+    std::string::SizedString<u32> texture_name;
+    std::string::SizedString<u32> material_name;
+};
+
+bitfield LODFlags {
+    padding: 2;
+    ContainsOnlyFlags: 1;
+    IsExtraLOD: 1;
+    HasMesh: 1;
+    padding: 27;
+};
+
+struct LOD {
+    LODFlags flags;
+    if (flags.ContainsOnlyFlags == 0) {
+        u32 num_meshes;
+        if (num_meshes > 0) {
+            u16 num_verts;
+            u16 double_num_normals;
+            u32 num_text_verts;
+            Vector3f vertices[num_verts];
+            Vector3f normals[double_num_normals >> 1];
+            Vector2f uvs[num_text_verts];
+            Mesh meshes[num_meshes];
+        }
+    }
+};
+
+fn format_roi(auto roi) {
+    return std::format("{0} (Children: {1})", roi.name, roi.num_children);
+};
+
+struct ModelROI<auto Offset, auto Lods> {
+    std::string::SizedString<u32> name;
+    Vector3f boundingSpherePosition;
+    float boundingSphereRadius;
+    Vector3f boundingBoxMin;
+    Vector3f boundingBoxMax;
+    std::string::SizedString<u32> texture_name;
+    bool defined_elsewhere;
+    if (!defined_elsewhere) {
+        u32 num_lods;
+        if (num_lods > 0) {
+            u32 end_component_offset;
+            if (Lods) {
+                LOD lod[num_lods];
+            } else {
+                u8 lod[end_component_offset - ($ - Offset)];
+            }
+            std::assert(end_component_offset + Offset == $, "End component offset does not match");
+        }
+    }
+    u32 num_children;
+    ModelROI<Offset, Lods> children[num_children];
+} [[format("format_roi")]];
+
+// workaround as long as std::ptr::relative_to_parent does not return the actual parent but the same value.
+fn relative_to_parent(u32 offset) {
+    return addressof(parent.parent);
+};
+
+fn format_model(auto model) {
+    return std::format("{0}", model.roi.name);
+};
+
+struct Model<auto Lods> {
+    u32 version;
+    ModelTextureInfo *texture_info_offset : u32 [[pointer_base("relative_to_parent")]];
+    u32 num_rois;
+    Animation<false> animation;
+    ModelROI<addressof(this), Lods> roi;
+} [[format("format_model")]];
